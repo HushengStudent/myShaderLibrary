@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
+//高斯模糊
 public class GaussianBlur : MonoBehaviour
 {
     [Range(0, 4)]
