@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
+//边缘检测;
 public class EdgeDetection : MonoBehaviour
 {
     [Range(0.0f, 1.0f)]
