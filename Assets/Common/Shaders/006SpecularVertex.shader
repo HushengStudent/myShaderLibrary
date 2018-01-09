@@ -1,4 +1,4 @@
-﻿Shader "myShaderLibrary/006SpecularVertex" {
+﻿Shader "myShaderLibrary/Common/006SpecularVertex" {
 	Properties{
 		_Diffuse("Diffuse Color",Color) = (1,1,1,1)
 		_Specular("Specular Color",Color)=(1,1,1,1)

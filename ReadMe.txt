@@ -5,7 +5,7 @@ software：Unity5.3.8/visual studio2013/ShaderlabVS.
 
 progress：
 
-Common：
+Common:
 	1、顶点与片段着色器
 	2、表面着色器
 	3、顶点漫反射着色器
@@ -19,3 +19,6 @@ Common：
 	11、高斯模糊
 	12、边缘检测
 	13、运动模糊
+
+UI:
+	1、texture合并alpha通道

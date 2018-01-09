@@ -2,7 +2,7 @@
 VS2015对Shader有部分支持（只有关键字高亮）
 VS插件：ShaderLabVS
 */
-Shader "myShaderLibrary/003SubShader" { //Shader的路径名称
+Shader "myShaderLibrary/Common/003SubShader" { //Shader的路径名称
     //资源属性代码块
 	Properties {   
 		_MainTex ("Base (RGB)", 2D) = "white" {}

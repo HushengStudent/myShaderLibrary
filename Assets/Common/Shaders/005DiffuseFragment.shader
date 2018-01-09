@@ -1,4 +1,4 @@
-﻿Shader "myShaderLibrary/005DiffuseFragment" {
+﻿Shader "myShaderLibrary/Common/005DiffuseFragment" {
 	Properties{
 		_Diffuse("Diffuse Color",Color) = (1,1,1,1)
 	}

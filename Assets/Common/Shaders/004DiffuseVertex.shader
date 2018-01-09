@@ -1,4 +1,4 @@
-﻿Shader "myShaderLibrary/004DiffuseVertex" {
+﻿Shader "myShaderLibrary/Common/004DiffuseVertex" {
 	Properties{
 		_Diffuse("Diffuse Color",Color) = (1,1,1,1)//材质漫反射颜色
 	}

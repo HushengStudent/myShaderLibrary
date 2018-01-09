@@ -1,5 +1,5 @@
 ﻿//高斯模糊
-Shader "myShaderLibrary/015GaussianBlur" 
+Shader "myShaderLibrary/Common/015GaussianBlur" 
 {
 	Properties
 	{

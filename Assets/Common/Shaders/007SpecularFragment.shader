@@ -1,4 +1,4 @@
-﻿Shader "myShaderLibrary/007SpecularFragment" {
+﻿Shader "myShaderLibrary/Common/007SpecularFragment" {
 	Properties{
 		_Diffuse("Diffuse Color",Color) = (1,1,1,1)
 		_Specular("Specular Color",Color)=(1,1,1,1)

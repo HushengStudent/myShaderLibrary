@@ -1,5 +1,5 @@
 ﻿//边缘检测
-Shader "myShaderLibrary/016EdgeDetection" 
+Shader "myShaderLibrary/Common/016EdgeDetection" 
 {
 	Properties
 	{

@@ -1,5 +1,5 @@
 ﻿//顶点动画
-Shader "myShaderLibrary/014VertexAnima" 
+Shader "myShaderLibrary/Common/014VertexAnima" 
 {
 	Properties
 	{

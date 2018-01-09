@@ -1,5 +1,5 @@
 ﻿//序列帧动画
-Shader "myShaderLibrary/013FrameAnima" 
+Shader "myShaderLibrary/Common/013FrameAnima" 
 {
 	Properties
 	{

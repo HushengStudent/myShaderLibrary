@@ -1,6 +1,6 @@
 ﻿
 //AlphaBlend
-Shader "myShaderLibrary/011AlphaBlend" {
+Shader "myShaderLibrary/Common/011AlphaBlend" {
 
 	Properties 
     {

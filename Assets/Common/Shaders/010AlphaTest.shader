@@ -1,4 +1,4 @@
-﻿Shader "myShaderLibrary/010AlphaTest" {
+﻿Shader "myShaderLibrary/Common/010AlphaTest" {
 	Properties 
     {
         _MainTex ("Base (RGB)", 2D) = "white" {}

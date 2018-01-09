@@ -1,4 +1,4 @@
-﻿Shader "myShaderLibrary/009NormalMap" 
+﻿Shader "myShaderLibrary/Common/009NormalMap" 
 {
     Properties 
     {

@@ -1,5 +1,5 @@
 ﻿//运动模糊
-Shader "myShaderLibrary/017MotionBlur" 
+Shader "myShaderLibrary/Common/017MotionBlur" 
 {
 	Properties
 	{

@@ -1,4 +1,4 @@
-﻿Shader "myShaderLibrary/002Vertex&FragmentShader" {
+﻿Shader "myShaderLibrary/Common/002Vertex&FragmentShader" {
 	SubShader {
 		Pass{
 			CGPROGRAM
