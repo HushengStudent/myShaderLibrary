@@ -1,9 +1,7 @@
 # myShaderLibrary
 Common Unity Shader Library.
 
-software：Unity5.3.8/visual studio2013/ShaderlabVS.
-
-progress：
+software：Unity5.5.4/visual studio2017.
 
 Common:
 	1、顶点与片段着色器

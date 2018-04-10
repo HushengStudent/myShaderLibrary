@@ -1,4 +1,6 @@
-﻿Shader "myShaderLibrary/Common/004DiffuseVertex" {
+﻿// Upgrade NOTE: replaced '_World2Object' with 'unity_WorldToObject'
+
+Shader "myShaderLibrary/Common/004DiffuseVertex" {
 	Properties{
 		_Diffuse("Diffuse Color",Color) = (1,1,1,1)//材质漫反射颜色
 	}
@@ -36,7 +38,7 @@
 				//in the same direction as the original vector 
 				//but with a Euclidean length of one
 				//法线的变换与顶点的变换是有区别的（非等比例缩放）
-				fixed3 normalDir = normalize( mul( v.normal, (float3x3) _World2Object) );
+				fixed3 normalDir = normalize( mul( v.normal, (float3x3) unity_WorldToObject) );
 				//_WorldSpaceLightPos0是Unity为我们赋值的一个表示场景中第一个平行光的位置
 				fixed3 lightDir =  normalize( _WorldSpaceLightPos0.xyz);
 				fixed3 diffuse = _LightColor0.rgb * max(dot(normalDir, lightDir), 0) *_Diffuse.rgb;  

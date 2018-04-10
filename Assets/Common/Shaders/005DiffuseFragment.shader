@@ -1,4 +1,6 @@
-﻿Shader "myShaderLibrary/Common/005DiffuseFragment" {
+﻿// Upgrade NOTE: replaced '_World2Object' with 'unity_WorldToObject'
+
+Shader "myShaderLibrary/Common/005DiffuseFragment" {
 	Properties{
 		_Diffuse("Diffuse Color",Color) = (1,1,1,1)
 	}
@@ -29,7 +31,7 @@
 			v2f vert(a2v v) { 
 				v2f f;
 				f.position = mul(UNITY_MATRIX_MVP,v.vertex);
-				f.worldNormalDir = mul(v.normal, (float3x3) _World2Object);
+				f.worldNormalDir = mul(v.normal, (float3x3) unity_WorldToObject);
 				return f;
 			}
 

@@ -1,4 +1,4 @@
-﻿Shader "myShaderLibrary/UI/MergeAlphaChannel"
+Shader "myShaderLibrary/UI/MergeAlphaChannel"
 {
 	Properties
 	{

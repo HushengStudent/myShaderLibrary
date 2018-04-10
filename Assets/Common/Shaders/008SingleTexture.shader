@@ -1,4 +1,6 @@
-﻿Shader "myShaderLibrary/Common/008SingleTexture" {
+﻿// Upgrade NOTE: replaced '_World2Object' with 'unity_WorldToObject'
+
+Shader "myShaderLibrary/Common/008SingleTexture" {
 	Properties{
 		_Color("Color",Color)=(1,1,1,1)
 		_Specular("Specular Color",Color)=(1,1,1,1)
@@ -41,8 +43,8 @@
 			{ 
 				v2f f;
 				f.position = mul(UNITY_MATRIX_MVP,v.vertex);
-				f.worldNormal = mul(v.normal, (float3x3) _World2Object);
-				f.worldVertex = mul(v.vertex, _World2Object);
+				f.worldNormal = mul(v.normal, (float3x3) unity_WorldToObject);
+				f.worldVertex = mul(v.vertex, unity_WorldToObject);
 				//对顶点纹理坐标进行变换，得到最终的纹理坐标
 				f.uv = v.texcoord.xy * _MainTex_ST.xy  + _MainTex_ST.zw;
 				return f;
