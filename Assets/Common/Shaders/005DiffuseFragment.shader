@@ -1,4 +1,4 @@
-﻿// Upgrade NOTE: replaced '_World2Object' with 'unity_WorldToObject'
+// Upgrade NOTE: replaced '_World2Object' with 'unity_WorldToObject'
 
 Shader "myShaderLibrary/Common/005DiffuseFragment" {
 	Properties{
