@@ -3,7 +3,7 @@ Common Unity Shader Library.
 
 software：Unity5.5.4/visual studio2017.
 --------------------------------------------------------------
-Common:
+Base:
 	(1)顶点与片段着色器
 	(2)表面着色器
 	(3)顶点漫反射着色器
@@ -19,4 +19,13 @@ Common:
 	(13)运动模糊
 
 UI:
-	(1)texture合并alpha通道
+	(1)Tex Combine Alpha
+
+Effect:
+	(1)
+	
+Asset:
+	(1)
+	
+3D:
+	(1)
