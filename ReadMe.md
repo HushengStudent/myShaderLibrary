@@ -1,7 +1,7 @@
 ### myShaderLibrary
 #### Common Unity Shader Library.
 
-software：Unity5.5.4/visual studio2017.
+software：Unity2017.4.16/visual studio2017.
 
 #### 基础:
     (1)顶点与片段着色器
@@ -18,12 +18,12 @@ software：Unity5.5.4/visual studio2017.
     (12)边缘检测
     (13)运动模糊
 	
-#### UI处理:
-    (1)Tex Combine Alpha
+#### UI:
+    (1)
 
-#### 特效处理:
+#### 特效:
 
-#### 后处理效果:
+#### 后处理:
 
 #### 插件使用:
 

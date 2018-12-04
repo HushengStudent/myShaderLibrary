@@ -1,4 +1,6 @@
-﻿//序列帧动画
+﻿// Upgrade NOTE: replaced 'mul(UNITY_MATRIX_MVP,*)' with 'UnityObjectToClipPos(*)'
+
+//序列帧动画
 Shader "myShaderLibrary/Common/013FrameAnima" 
 {
 	Properties
@@ -46,7 +48,7 @@ Shader "myShaderLibrary/Common/013FrameAnima"
 			v2f vert (a2v v) 
 			{  
 				v2f o;  
-				o.pos = mul(UNITY_MATRIX_MVP, v.vertex);  
+				o.pos = UnityObjectToClipPos(v.vertex);  
 				//TRANSFORM_TEX定义在UnityCG.cginc里:
 				//Transforms 2D UV by scale/bias property
 				//#define TRANSFORM_TEX(tex,name)(tex.xy*name##_ST.xy + name##_ST.zw)

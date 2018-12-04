@@ -1,4 +1,6 @@
-﻿Shader "myShaderLibrary/Common/002Vertex&FragmentShader" {
+﻿// Upgrade NOTE: replaced 'mul(UNITY_MATRIX_MVP,*)' with 'UnityObjectToClipPos(*)'
+
+Shader "myShaderLibrary/Common/002Vertex&FragmentShader" {
 	SubShader {
 		Pass{
 			CGPROGRAM
@@ -13,7 +15,7 @@
 			//POSITION:顶点坐标
 			//SV_POSITION:返回值是剪裁空间下的顶点坐标
 			//UNITY_MATRIX_MVP:Unity内置矩阵：模型观察投影矩阵
-			return mul(UNITY_MATRIX_MVP,v);
+			return UnityObjectToClipPos(v);
 			}
 			//SV_Target：将输出的颜色输出到默认的帧缓冲
 			fixed4 frag() :SV_Target 

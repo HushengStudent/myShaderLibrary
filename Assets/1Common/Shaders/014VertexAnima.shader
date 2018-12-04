@@ -1,4 +1,6 @@
-﻿//顶点动画
+﻿// Upgrade NOTE: replaced 'mul(UNITY_MATRIX_MVP,*)' with 'UnityObjectToClipPos(*)'
+
+//顶点动画
 Shader "myShaderLibrary/Common/014VertexAnima" 
 {
 	Properties
@@ -46,7 +48,7 @@ Shader "myShaderLibrary/Common/014VertexAnima"
 				float4 offset;
 				offset.yzw = float3(0.0, 0.0, 0.0);
 				offset.x = sin(_Time.y + v.vertex.x * _WaveLength + v.vertex.y * _WaveLength + v.vertex.z * _WaveLength);
-				o.pos = mul(UNITY_MATRIX_MVP, v.vertex + offset);
+				o.pos = UnityObjectToClipPos(v.vertex + offset);
 				o.uv = TRANSFORM_TEX(v.texcoord, _MainTex);
 				o.uv +=  float2(0.0, _Time.y * _Speed);
 				return o;

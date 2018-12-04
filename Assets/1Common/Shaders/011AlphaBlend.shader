@@ -1,4 +1,6 @@
-﻿
+﻿// Upgrade NOTE: replaced 'mul(UNITY_MATRIX_MVP,*)' with 'UnityObjectToClipPos(*)'
+
+
 //AlphaBlend
 Shader "myShaderLibrary/Common/011AlphaBlend" {
 
@@ -47,7 +49,7 @@ Shader "myShaderLibrary/Common/011AlphaBlend" {
             VertexOutput vert(appdata_tan v)
             {
                 VertexOutput o;
-                o.pos = mul(UNITY_MATRIX_MVP,v.vertex);
+                o.pos = UnityObjectToClipPos(v.vertex);
                 o.uv = v.texcoord.xy;
 				//得到Object2TangentMatrix矩阵
 				//这四行代码可以使用Unity定义的一个宏TANGENT_SPACE_ROTATION来代替

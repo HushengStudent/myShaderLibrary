@@ -1,3 +1,5 @@
+// Upgrade NOTE: replaced 'mul(UNITY_MATRIX_MVP,*)' with 'UnityObjectToClipPos(*)'
+
 // Upgrade NOTE: replaced '_World2Object' with 'unity_WorldToObject'
 
 Shader "myShaderLibrary/Common/006SpecularVertex" {
@@ -36,7 +38,7 @@ Shader "myShaderLibrary/Common/006SpecularVertex" {
 				
 			v2f vert(a2v v) { 
 				v2f f;
-				f.position = mul(UNITY_MATRIX_MVP,v.vertex);
+				f.position = UnityObjectToClipPos(v.vertex);
 				fixed3 ambient = UNITY_LIGHTMODEL_AMBIENT.rgb;
 				fixed3 normalDir = normalize( mul( v.normal, (float3x3) unity_WorldToObject) );
 				fixed3 lightDir =  normalize( _WorldSpaceLightPos0.xyz);

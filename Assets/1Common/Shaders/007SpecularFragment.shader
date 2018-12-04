@@ -1,3 +1,5 @@
+// Upgrade NOTE: replaced 'mul(UNITY_MATRIX_MVP,*)' with 'UnityObjectToClipPos(*)'
+
 // Upgrade NOTE: replaced '_World2Object' with 'unity_WorldToObject'
 
 Shader "myShaderLibrary/Common/007SpecularFragment" {
@@ -36,7 +38,7 @@ Shader "myShaderLibrary/Common/007SpecularFragment" {
 				
 			v2f vert(a2v v) { 
 				v2f f;
-				f.position = mul(UNITY_MATRIX_MVP,v.vertex);
+				f.position = UnityObjectToClipPos(v.vertex);
 				f.worldNormal = mul(v.normal, (float3x3) unity_WorldToObject);
 				f.worldVertex = mul(unity_WorldToObject,v.vertex).xyz;
 				return f;

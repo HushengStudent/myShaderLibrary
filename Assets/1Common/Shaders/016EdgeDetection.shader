@@ -1,4 +1,6 @@
-﻿//边缘检测
+﻿// Upgrade NOTE: replaced 'mul(UNITY_MATRIX_MVP,*)' with 'UnityObjectToClipPos(*)'
+
+//边缘检测
 Shader "myShaderLibrary/Common/016EdgeDetection" 
 {
 	Properties
@@ -33,7 +35,7 @@ Shader "myShaderLibrary/Common/016EdgeDetection"
 			v2f vert(appdata_img v)
 			{
 				v2f o;
-				o.pos = mul(UNITY_MATRIX_MVP, v.vertex);
+				o.pos = UnityObjectToClipPos(v.vertex);
 				half2 uv = v.texcoord;
 				o.uv[0] = uv + _MainTex_TexelSize.xy * half2(-1, -1);
 				o.uv[1] = uv + _MainTex_TexelSize.xy * half2(0, -1);

@@ -1,3 +1,5 @@
+// Upgrade NOTE: replaced 'mul(UNITY_MATRIX_MVP,*)' with 'UnityObjectToClipPos(*)'
+
 // Upgrade NOTE: replaced '_World2Object' with 'unity_WorldToObject'
 
 Shader "myShaderLibrary/Common/004DiffuseVertex" {
@@ -30,7 +32,7 @@ Shader "myShaderLibrary/Common/004DiffuseVertex" {
 				
 			v2f vert(a2v v) { 
 				v2f f;
-				f.position = mul(UNITY_MATRIX_MVP,v.vertex);
+				f.position = UnityObjectToClipPos(v.vertex);
 
 				fixed3 ambient = UNITY_LIGHTMODEL_AMBIENT.rgb;
 				//nvidia：
