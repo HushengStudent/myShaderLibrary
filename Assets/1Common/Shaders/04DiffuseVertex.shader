@@ -2,7 +2,7 @@
 
 // Upgrade NOTE: replaced '_World2Object' with 'unity_WorldToObject'
 
-Shader "myShaderLibrary/Common/004DiffuseVertex" {
+Shader "myShaderLibrary/Common/04DiffuseVertex" {
 	Properties{
 		_Diffuse("Diffuse Color",Color) = (1,1,1,1)//材质漫反射颜色
 	}

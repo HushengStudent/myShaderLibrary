@@ -1,6 +1,6 @@
 ﻿// Upgrade NOTE: replaced 'mul(UNITY_MATRIX_MVP,*)' with 'UnityObjectToClipPos(*)'
 
-Shader "myShaderLibrary/Common/010AlphaTest" {
+Shader "myShaderLibrary/Common/10AlphaTest" {
 	Properties 
     {
         _MainTex ("Base (RGB)", 2D) = "white" {}

@@ -1,6 +1,6 @@
 ﻿// Upgrade NOTE: replaced 'mul(UNITY_MATRIX_MVP,*)' with 'UnityObjectToClipPos(*)'
 
-Shader "myShaderLibrary/Common/002Vertex&FragmentShader" {
+Shader "myShaderLibrary/Common/02Vertex&FragmentShader" {
 	SubShader {
 		Pass{
 			CGPROGRAM

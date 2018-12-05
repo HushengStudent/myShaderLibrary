@@ -1,6 +1,6 @@
 ﻿// Upgrade NOTE: replaced 'mul(UNITY_MATRIX_MVP,*)' with 'UnityObjectToClipPos(*)'
 
-Shader "myShaderLibrary/Common/012AlphaBlendZWrite" {
+Shader "myShaderLibrary/Common/12AlphaBlendZWrite" {
 	Properties 
     {
         _MainTex ("Base (RGB)", 2D) = "white" {}

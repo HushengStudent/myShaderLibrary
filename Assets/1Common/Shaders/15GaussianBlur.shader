@@ -1,7 +1,7 @@
 ﻿// Upgrade NOTE: replaced 'mul(UNITY_MATRIX_MVP,*)' with 'UnityObjectToClipPos(*)'
 
 //高斯模糊
-Shader "myShaderLibrary/Common/015GaussianBlur" 
+Shader "myShaderLibrary/Common/15GaussianBlur" 
 {
 	Properties
 	{

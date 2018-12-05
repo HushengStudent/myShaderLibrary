@@ -1,19 +1,30 @@
 ﻿// Upgrade NOTE: replaced 'mul(UNITY_MATRIX_MVP,*)' with 'UnityObjectToClipPos(*)'
 
-Shader "myShaderLibrary/Common/009NormalMap" 
-{
-    Properties 
+
+//AlphaBlend
+Shader "myShaderLibrary/Common/11AlphaBlend" {
+
+	Properties 
     {
         _MainTex ("Base (RGB)", 2D) = "white" {}
         _NormalMap("NormalMap",2D) = "Bump"{}
         _SpecColor("SpecularColor",Color) = (1,1,1,1)
         _Shininess("Shininess",Float) = 10
+
+		_AlphaScale ("Alpha Scale", Range(0, 1)) = 1
+
     }
     SubShader 
     {
+		Tags {"Queue"="AlphaTest" "IgnoreProjector"="True" "RenderType"="TransparentCutout"}
+
         Pass
         {
             Tags { "LightMode"="ForwardBase" }
+
+			ZWrite Off
+			Blend SrcAlpha OneMinusSrcAlpha
+			//float4 result = fragment_output.aaaa * fragment_output + (float4(1.0, 1.0, 1.0, 1.0) - fragment_output.aaaa) * pixel_color
             CGPROGRAM
             #pragma vertex vert
             #pragma fragment frag
@@ -23,11 +34,9 @@ Shader "myShaderLibrary/Common/009NormalMap"
             uniform float4 _SpecColor;
 			//控制凸起程度
             uniform float _Shininess;
-
-			//我们定义了一个新的_LightColor0来接收存储光照的颜色,我们并没有在Properties中定义也没有通过外部脚本来传值,那它
-			//是做什么用的呢？其实由于我们上边在Tags中添加的新标签,所以_LightColor0会被Unity自动赋值为场景中第一个平行光的
-			//颜色(这也不一定,其实和光源的RenderMode属性有关,但如果你不做修改的话,那就是用第一个光源)
             uniform float4 _LightColor0;
+
+			fixed _AlphaScale;
 
             struct VertexOutput 
             {
@@ -64,6 +73,9 @@ Shader "myShaderLibrary/Common/009NormalMap"
 				//保证normal为正
                 normal.z = sqrt(1 - dot(normal,normal));
                 float4 texColor = tex2D(_MainTex,input.uv);
+				
+				//clip (texColor.a -_Cutoff*0.2);
+
                 float3 ambient = texColor.rgb * UNITY_LIGHTMODEL_AMBIENT.rgb;
                 float3 diffuseReflection = texColor.rgb * _LightColor0.rgb * max(0,dot(normal,lightDir));
                 float facing;
@@ -77,7 +89,7 @@ Shader "myShaderLibrary/Common/009NormalMap"
                 }
                 float3 specularRelection = 
 				_SpecColor.rgb * _LightColor0.rgb * facing * pow(max(0,dot(reflect(-lightDir,normal),viewDir)),_Shininess);
-                return float4(ambient + diffuseReflection + specularRelection,1);
+                return float4(ambient + diffuseReflection + specularRelection,min(1,texColor.a*_AlphaScale*50));
             }
             ENDCG
         }

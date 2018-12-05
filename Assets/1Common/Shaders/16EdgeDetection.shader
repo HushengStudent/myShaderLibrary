@@ -1,7 +1,7 @@
 ﻿// Upgrade NOTE: replaced 'mul(UNITY_MATRIX_MVP,*)' with 'UnityObjectToClipPos(*)'
 
 //边缘检测
-Shader "myShaderLibrary/Common/016EdgeDetection" 
+Shader "myShaderLibrary/Common/16EdgeDetection" 
 {
 	Properties
 	{

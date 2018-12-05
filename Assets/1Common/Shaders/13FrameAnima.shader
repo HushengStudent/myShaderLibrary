@@ -1,7 +1,7 @@
 ﻿// Upgrade NOTE: replaced 'mul(UNITY_MATRIX_MVP,*)' with 'UnityObjectToClipPos(*)'
 
 //序列帧动画
-Shader "myShaderLibrary/Common/013FrameAnima" 
+Shader "myShaderLibrary/Common/13FrameAnima" 
 {
 	Properties
 	{

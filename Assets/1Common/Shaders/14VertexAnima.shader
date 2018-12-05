@@ -1,7 +1,7 @@
 ﻿// Upgrade NOTE: replaced 'mul(UNITY_MATRIX_MVP,*)' with 'UnityObjectToClipPos(*)'
 
 //顶点动画
-Shader "myShaderLibrary/Common/014VertexAnima" 
+Shader "myShaderLibrary/Common/14VertexAnima" 
 {
 	Properties
 	{

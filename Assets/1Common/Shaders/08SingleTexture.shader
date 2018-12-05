@@ -2,7 +2,7 @@
 
 // Upgrade NOTE: replaced '_World2Object' with 'unity_WorldToObject'
 
-Shader "myShaderLibrary/Common/008SingleTexture" {
+Shader "myShaderLibrary/Common/08SingleTexture" {
 	Properties{
 		_Color("Color",Color)=(1,1,1,1)
 		_Specular("Specular Color",Color)=(1,1,1,1)

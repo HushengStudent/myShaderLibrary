@@ -1,7 +1,7 @@
 ﻿// Upgrade NOTE: replaced 'mul(UNITY_MATRIX_MVP,*)' with 'UnityObjectToClipPos(*)'
 
 //运动模糊
-Shader "myShaderLibrary/Common/017MotionBlur" 
+Shader "myShaderLibrary/Common/17MotionBlur" 
 {
 	Properties
 	{
