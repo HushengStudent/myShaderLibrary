@@ -1,7 +1,7 @@
 ### myShaderLibrary
 #### Common Unity Shader Library.
 
-software：Unity2017.4.16/visual studio2017.
+software：Unity2018.4.8/visual studio2017.
 
 #### 基础：
     (1)顶点与片段着色器
@@ -21,15 +21,16 @@ software：Unity2017.4.16/visual studio2017.
 #### UI：
     (1)ZTest
     (2)StencilTest
-
+    (3)UIGrayScale(Support RectMask2D)
+	
 #### 特效相关：
     (1)
 	
 #### 后处理：
-    (1)
+    (1)PostProcessing
 	
 #### 插件：
-    (1)
+    (1)PostProcessing
 	
 #### 3D相关：
     (1)
