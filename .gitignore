@@ -9,3 +9,7 @@
 /myShaderLibrary.csproj
 /.vs
 /obj
+Unity.Postprocessing.Editor.Tests.csproj
+Unity.Postprocessing.Runtime.csproj
+Unity.Postprocessing.Runtime.Tests.csproj
+Unity.Postprocessing.Editor.csproj
