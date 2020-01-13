@@ -17,17 +17,22 @@ software：Unity2018.4.12/visual studio2017.
     (11)高斯模糊
     (12)边缘检测
     (13)运动模糊
+	
 #### UI：
     (1)ZTest
     (2)StencilTest
     (3)UIGrayScale(Support RectMask2D)
+	
 #### 特效：
     (1)
+	
 #### 后处理：
     (1)PostProcessing
     (2)CommandBuffer
+	
 #### 插件：
     (1)PostProcessing
+	
 #### 3D：
     (1)
 	

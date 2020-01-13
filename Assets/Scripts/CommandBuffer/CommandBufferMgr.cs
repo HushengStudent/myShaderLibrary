@@ -40,8 +40,7 @@ namespace Framework
 
         private RenderTexture DrawRenderer(GameObject go, Camera camera, Material mat = null)
         {
-            CommandBufferRenderer commandBufferRenderer;
-            if (_cbDict.TryGetValue(go, out commandBufferRenderer))
+            if (_cbDict.TryGetValue(go, out CommandBufferRenderer commandBufferRenderer))
             {
                 _cbDict.Remove(go);
             }
