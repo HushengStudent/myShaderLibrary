@@ -30,9 +30,11 @@ software：Unity2018.4.12/visual studio2017.
     (1)PostProcessing
     (2)CommandBuffer
 	
-#### 插件：
-    (1)PostProcessing
-	
-#### 3D：
+#### 模型：
     (1)
 	
+#### 场景：
+    (1)
+		
+#### PBR：
+    (1)
