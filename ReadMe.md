@@ -1,5 +1,5 @@
 ### myShaderLibrary
-#### Common Unity Shader Library.
+#### My Unity Shader Library.
 
 software：Unity2018.4.12/visual studio2017.
 
