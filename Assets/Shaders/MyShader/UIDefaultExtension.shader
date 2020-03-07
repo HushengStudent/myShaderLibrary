@@ -1,4 +1,4 @@
-﻿Shader "myShaderLibrary/MyShader/MyUIShader"
+﻿Shader "myShaderLibrary/UI/UIDefaultExtension"
 {
     Properties
     {
@@ -14,10 +14,6 @@
         _ColorMask ("Color Mask", Float) = 15
 
         [Toggle(UNITY_UI_ALPHACLIP)] _UseUIAlphaClip ("Use Alpha Clip", Float) = 0
-
-		_HandDrawnAmount("Hand Drawn Amount", Range(2, 20)) = 10 //88
-		_HandDrawnSpeed("Hand Drawn Speed", Range(1, 15)) = 5 //89
-
     }
 
     SubShader
@@ -57,11 +53,12 @@
 
             #include "UnityCG.cginc"
             #include "UnityUI.cginc"
+            #include "Assets/Shaders/CGIncludes/Common.cginc"
 
             #pragma multi_compile __ UNITY_UI_CLIP_RECT
             #pragma multi_compile __ UNITY_UI_ALPHACLIP
 
-			#pragma shader_feature DOODLE_ON
+            #pragma shader_feature GREYSCALE_ON
 
             struct appdata_t
             {
@@ -117,5 +114,5 @@
         ENDCG
         }
     }
-	CustomEditor "MyUIShaderGUI"
+	CustomEditor "UIDefaultExtensionShaderGUI"
 }

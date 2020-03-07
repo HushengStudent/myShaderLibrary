@@ -1,5 +1,5 @@
-#ifndef MY_SHADER_LIBRARY
-#define MY_SHADER_LIBRARY
+#ifndef MY_SHADER_LIBRARY_COMMON
+#define MY_SHADER_LIBRARY_COMMON
 
 #include "UnityCG.cginc"
 

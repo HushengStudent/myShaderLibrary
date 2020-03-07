@@ -2,7 +2,7 @@
 using UnityEditor;
 using UnityEngine;
 
-public class MyUIShaderGUI : ShaderGUI
+public class UIDefaultExtensionShaderGUI : ShaderGUI
 {
     public override void OnGUI(MaterialEditor materialEditor, MaterialProperty[] properties)
     {
@@ -20,15 +20,15 @@ public class MyUIShaderGUI : ShaderGUI
         materialEditor.DoubleSidedGIField();
 
         {
-            bool toggle = Array.IndexOf(targetMat.shaderKeywords, "DOODLE_ON") != -1;
-            toggle = EditorGUILayout.BeginToggleGroup("DOODLE_ON", toggle);
+            bool toggle = Array.IndexOf(targetMat.shaderKeywords, "GREYSCALE_ON") != -1;
+            toggle = EditorGUILayout.BeginToggleGroup("GREYSCALE_ON", toggle);
             if (toggle)
             {
-                targetMat.EnableKeyword("DOODLE_ON");
+                targetMat.EnableKeyword("GREYSCALE_ON");
                 EditorGUILayout.BeginVertical();
                 {
                     GUILayout.Space(10);
-                    EditorGUILayout.HelpBox("DOODLE_ON", MessageType.Info);
+                    EditorGUILayout.HelpBox("GREYSCALE_ON", MessageType.Info);
                     ShaderProperty(materialEditor, properties, "_HandDrawnAmount");
                     ShaderProperty(materialEditor, properties, "_HandDrawnSpeed");
                 }
@@ -36,7 +36,7 @@ public class MyUIShaderGUI : ShaderGUI
             }
             else
             {
-                targetMat.DisableKeyword("DOODLE_ON");
+                targetMat.DisableKeyword("GREYSCALE_ON");
             }
         }
     }
