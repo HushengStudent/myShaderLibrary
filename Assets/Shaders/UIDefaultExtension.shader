@@ -14,6 +14,8 @@
         _ColorMask ("Color Mask", Float) = 15
 
         [Toggle(UNITY_UI_ALPHACLIP)] _UseUIAlphaClip ("Use Alpha Clip", Float) = 0
+
+        _GrayScale ("Gray Scale", Range(0,1)) = 0.2
     }
 
     SubShader
@@ -83,6 +85,11 @@
             float4 _ClipRect;
             float4 _MainTex_ST;
 
+
+            #ifdef GREYSCALE_ON
+            float _GrayScale;
+            #endif
+
             v2f vert(appdata_t v)
             {
                 v2f OUT;
@@ -100,6 +107,10 @@
             fixed4 frag(v2f IN) : SV_Target
             {
                 half4 color = (tex2D(_MainTex, IN.texcoord) + _TextureSampleAdd) * IN.color;
+
+                #ifdef GREYSCALE_ON
+                color.r = color.g = color.b = saturate((color.r + color.g + color.b) * _GrayScale);
+                #endif
 
                 #ifdef UNITY_UI_CLIP_RECT
                 color.a *= UnityGet2DClipping(IN.worldPosition.xy, _ClipRect);
