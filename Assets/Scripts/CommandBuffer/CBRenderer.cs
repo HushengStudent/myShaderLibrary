@@ -10,12 +10,12 @@ using UnityEngine.Rendering;
 
 namespace Framework
 {
-    public class CBRenderer
+    public class CBRenderer : IPool
     {
         private List<Renderer> _rendererList;
         private CommandBuffer CommandBuffer { get; set; }
 
-        public bool Deprecated { get; private set; }
+        public bool Deprecated { get; set; }
         public Camera Camera { get; private set; }
         public RenderTexture RenderTexture { get; private set; }
 
@@ -27,11 +27,12 @@ namespace Framework
                 return;
             }
             Camera = camera;
-            _rendererList = new List<Renderer>();
+            _rendererList = PoolMgr.singleton.GetCsharpList<Renderer>();
             _rendererList.Add(go.GetComponent<Renderer>());
             _rendererList.AddRange(go.GetComponentsInChildren<Renderer>(true));
             if (_rendererList.Count < 1)
             {
+                PoolMgr.singleton.ReleaseCsharpList(_rendererList);
                 return;
             }
             RenderTexture = RenderTexture.GetTemporary(512, 512, 16, RenderTextureFormat.ARGB32, RenderTextureReadWrite.Default, 4);
@@ -70,7 +71,7 @@ namespace Framework
             Camera = null;
             if (_rendererList != null)
             {
-                _rendererList.Clear();
+                PoolMgr.singleton.ReleaseCsharpList(_rendererList);
             }
             if (CommandBuffer != null)
             {

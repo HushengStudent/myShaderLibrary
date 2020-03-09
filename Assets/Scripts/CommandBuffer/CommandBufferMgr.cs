@@ -25,11 +25,12 @@ namespace Framework
         {
             base.OnInitialize();
             _cbDict = new Dictionary<GameObject, CommandBufferRenderer>();
-            _deprecatedList = new List<GameObject>();
+            _deprecatedList = PoolMgr.singleton.GetCsharpList<GameObject>();
         }
 
         public void DrawRenderer(GameObject go, Camera camera, RawImage rawImage, Material mat = null)
         {
+
             rawImage.texture = DrawRenderer(go, camera, mat);
         }
 
@@ -38,27 +39,36 @@ namespace Framework
             renderer.sharedMaterial.mainTexture = DrawRenderer(go, camera, mat);
         }
 
+        public void ReleaseRenderer(GameObject go)
+        {
+            CommandBufferRenderer commandBufferRenderer;
+            if (_cbDict.TryGetValue(go, out commandBufferRenderer))
+            {
+                commandBufferRenderer.CBRenderer.Deprecated = true;
+            }
+        }
+
         private RenderTexture DrawRenderer(GameObject go, Camera camera, Material mat = null)
         {
-            if (_cbDict.TryGetValue(go, out CommandBufferRenderer commandBufferRenderer))
+            CommandBufferRenderer commandBufferRenderer;
+            if (_cbDict.TryGetValue(go, out commandBufferRenderer))
             {
+                PoolMgr.singleton.ReleaseCsharpObject(commandBufferRenderer.CBRenderer);
                 _cbDict.Remove(go);
             }
             commandBufferRenderer = new CommandBufferRenderer()
             {
-                CBRenderer = new CBRenderer(),
+                CBRenderer = PoolMgr.singleton.GetCsharpObject<CBRenderer>(),
                 Camera = camera
             };
             commandBufferRenderer.CBRenderer.Initialize(go, camera, mat);
             if (commandBufferRenderer.CBRenderer.Deprecated)
             {
+                PoolMgr.singleton.ReleaseCsharpObject(commandBufferRenderer.CBRenderer);
                 return null;
             }
             _cbDict[go] = commandBufferRenderer;
-            if (!camera.gameObject.GetComponent<CameraCBExecutor>())
-            {
-                camera.gameObject.AddComponent<CameraCBExecutor>();
-            }
+            camera.gameObject.AddOrGetComponent<CameraCBExecutor>();
             return commandBufferRenderer.CBRenderer.RenderTexture;
         }
 
@@ -72,7 +82,12 @@ namespace Framework
             {
                 foreach (var temp in _cbDict)
                 {
+                    var go = temp.Key;
                     var cb = temp.Value.CBRenderer;
+                    if (!go)
+                    {
+                        cb.Deprecated = true;
+                    }
                     if (cb.Deprecated)
                     {
                         _deprecatedList.Add(temp.Key);
@@ -93,6 +108,7 @@ namespace Framework
                 {
                     var go = _deprecatedList[i];
                     var commandBufferRenderer = _cbDict[go];
+                    PoolMgr.singleton.ReleaseCsharpObject(commandBufferRenderer.CBRenderer);
                     _cbDict.Remove(go);
                 }
                 _deprecatedList.Clear();
