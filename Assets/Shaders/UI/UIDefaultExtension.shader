@@ -13,7 +13,7 @@
 
         _ColorMask ("Color Mask", Float) = 15
 
-        [Toggle(UNITY_UI_ALPHACLIP)] _UseUIAlphaClip ("Use Alpha Clip", Float) = 0
+        //[Toggle(UNITY_UI_ALPHACLIP)] _UseUIAlphaClip ("Use Alpha Clip", Float) = 0
 
         _GrayScale ("Gray Scale", Range(0,1)) = 0.2
     }
@@ -57,8 +57,10 @@
             #include "UnityUI.cginc"
             #include "Assets/Shaders/CGIncludes/Common.cginc"
 
-            #pragma multi_compile __ UNITY_UI_CLIP_RECT
-            #pragma multi_compile __ UNITY_UI_ALPHACLIP
+            #pragma shader_feature UI_CLIP_RECT_ON
+
+            //#pragma multi_compile __ UNITY_UI_CLIP_RECT
+            //#pragma multi_compile __ UNITY_UI_ALPHACLIP
 
             #pragma shader_feature GREYSCALE_ON
 
@@ -112,13 +114,15 @@
                 color.r = color.g = color.b = saturate((color.r + color.g + color.b) * _GrayScale);
                 #endif
 
-                #ifdef UNITY_UI_CLIP_RECT
+                #ifdef UI_CLIP_RECT_ON
                 color.a *= UnityGet2DClipping(IN.worldPosition.xy, _ClipRect);
                 #endif
 
+                /*
                 #ifdef UNITY_UI_ALPHACLIP
                 clip (color.a - 0.001);
                 #endif
+                */
 
                 return color;
             }

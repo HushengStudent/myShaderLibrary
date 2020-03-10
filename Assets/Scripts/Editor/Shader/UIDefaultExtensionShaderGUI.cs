@@ -21,7 +21,8 @@ public class UIDefaultExtensionShaderGUI : ShaderGUI
         ShaderProperty("_StencilWriteMask");
         ShaderProperty("_StencilReadMask");
         ShaderProperty("_ColorMask");
-        ShaderProperty("_UseUIAlphaClip");
+        //ShaderProperty("_UseUIAlphaClip");
+        SerializeShaderFeature("UI_CLIP_RECT_ON", "UI_CLIP_RECT_ON", "支持RectMask2D", new string[] { });
         _matEditor.RenderQueueField();
         _matEditor.DoubleSidedGIField();
 
