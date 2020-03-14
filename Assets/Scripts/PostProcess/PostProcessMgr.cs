@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace Framework
 {
-    public class PostProcessingMgr : MonoSingleton<PostProcessingMgr>
+    public class PostProcessMgr : MonoSingleton<PostProcessMgr>
     {
 
     }
