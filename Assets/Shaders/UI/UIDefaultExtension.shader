@@ -66,6 +66,8 @@ Shader "myShaderLibrary/UI/UIDefaultExtension"
             
             //置灰
             #pragma shader_feature GREYSCALE_ON
+            //模糊
+            #pragma shader_feature BLUR_ON
 
             struct appdata_t
             {

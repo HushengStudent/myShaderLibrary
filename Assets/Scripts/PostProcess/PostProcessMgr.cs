@@ -6,6 +6,8 @@ namespace Framework
 {
     public class PostProcessMgr : MonoSingleton<PostProcessMgr>
     {
+        private List<AbsPostProcess> _postProcessList;
+
 
     }
 }
