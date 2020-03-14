@@ -1,4 +1,6 @@
-﻿Shader "myShaderLibrary/UI/UIDefaultExtension"
+﻿// Unity built-in shader source. Copyright (c) 2016 Unity Technologies. MIT license (see license.txt)
+
+Shader "myShaderLibrary/UI/UIDefaultExtension"
 {
     Properties
     {
@@ -15,7 +17,7 @@
 
         //[Toggle(UNITY_UI_ALPHACLIP)] _UseUIAlphaClip ("Use Alpha Clip", Float) = 0
 
-        _GrayScale ("Gray Scale", Range(0,1)) = 0.2
+        _GrayScaleLuminosity ("_Gray Scale Luminosity", Range(0,1)) = 0.2
     }
 
     SubShader
@@ -61,7 +63,8 @@
 
             //#pragma multi_compile __ UNITY_UI_CLIP_RECT
             //#pragma multi_compile __ UNITY_UI_ALPHACLIP
-
+            
+            //置灰
             #pragma shader_feature GREYSCALE_ON
 
             struct appdata_t
@@ -89,7 +92,7 @@
 
 
             #ifdef GREYSCALE_ON
-            float _GrayScale;
+            float _GrayScaleLuminosity;
             #endif
 
             v2f vert(appdata_t v)
@@ -110,10 +113,6 @@
             {
                 half4 color = (tex2D(_MainTex, IN.texcoord) + _TextureSampleAdd) * IN.color;
 
-                #ifdef GREYSCALE_ON
-                color.r = color.g = color.b = saturate((color.r + color.g + color.b) * _GrayScale);
-                #endif
-
                 #ifdef UI_CLIP_RECT_ON
                 color.a *= UnityGet2DClipping(IN.worldPosition.xy, _ClipRect);
                 #endif
@@ -123,6 +122,10 @@
                 clip (color.a - 0.001);
                 #endif
                 */
+                
+                #ifdef GREYSCALE_ON
+                color.rgb = saturate((color.r + color.g + color.b) * _GrayScaleLuminosity);
+                #endif
 
                 return color;
             }
