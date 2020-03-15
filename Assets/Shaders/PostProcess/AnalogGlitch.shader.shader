@@ -1,4 +1,4 @@
-Shader "myShaderLibrary/PostProcessing/AnalogGlitch"
+Shader "myShaderLibrary/PostProcess/AnalogGlitch"
 {
     Properties
     {

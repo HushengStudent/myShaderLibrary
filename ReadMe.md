@@ -19,9 +19,9 @@ software：Unity2018.4.19/visual studio2017.
     (13)运动模糊.
 	
 #### UI：
-    (1)ZTestMask(深度测试遮罩).
-    (2)StencilTestMask(模板测试遮罩).
-    (3)GrayScale(UI置灰).
+    (1)深度遮罩.(ZTestMask)
+    (2)模板遮罩.(StencilTestMask)
+    (3)UI置灰.(GrayScale)
 	
 #### 特效：
     (1)

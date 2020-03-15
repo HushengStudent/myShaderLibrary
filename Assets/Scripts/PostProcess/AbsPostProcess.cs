@@ -11,6 +11,6 @@ namespace Framework
 
         protected abstract CameraEvent CameraEvent { get; }
 
-        public abstract void Render();
+        public abstract void OnRendering();
     }
 }
