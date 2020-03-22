@@ -17,7 +17,9 @@ Shader "myShaderLibrary/UI/UIDefaultExtension"
 
         //[Toggle(UNITY_UI_ALPHACLIP)] _UseUIAlphaClip ("Use Alpha Clip", Float) = 0
 
-        _GrayScaleLuminosity ("_Gray Scale Luminosity", Range(0,1)) = 0.2
+        _GrayScaleLuminosity ("Gray Scale Luminosity", Range(0,1)) = 0.2
+
+        _BlurStrength ("Blur Strength", Range(0,10)) = 3
     }
 
     SubShader
@@ -97,6 +99,10 @@ Shader "myShaderLibrary/UI/UIDefaultExtension"
             float _GrayScaleLuminosity;
             #endif
 
+            #ifdef BLUR_ON
+            float _BlurStrength;
+            #endif
+
             v2f vert(appdata_t v)
             {
                 v2f OUT;
@@ -125,6 +131,10 @@ Shader "myShaderLibrary/UI/UIDefaultExtension"
                 #endif
                 */
                 
+                #ifdef BLUR_ON
+                color = Blur(IN.texcoord, _MainTex, _BlurStrength);
+                #endif
+
                 #ifdef GREYSCALE_ON
                 color.rgb = saturate((color.r + color.g + color.b) * _GrayScaleLuminosity);
                 #endif
