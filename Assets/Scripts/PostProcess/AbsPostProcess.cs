@@ -36,7 +36,7 @@ namespace Framework
             MatPath = matPath;
             MatLoaded = false;
             var request = Resources.LoadAsync<Material>(matPath);
-            request.completed += (operation) =>
+            request.completed += (async) =>
             {
                 _mat = request.asset as Material;
                 if (_mat)
@@ -51,8 +51,6 @@ namespace Framework
             if (_cameraTargetTexture)
             {
                 _commandBuffer = new CommandBuffer { name = MatPath };
-                _commandBuffer.Clear();
-                _commandBuffer.ClearRenderTarget(true, true, Color.black);
                 _camera.AddCommandBuffer(CameraEvent, _commandBuffer);
 
                 var tex = _cameraTargetTexture.CameraRT;
