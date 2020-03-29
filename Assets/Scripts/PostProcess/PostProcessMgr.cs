@@ -5,7 +5,7 @@ namespace Framework
 {
     public enum PostProcessType : int
     {
-        Blur = 1,
+        Common = 0,
     }
 
     public class PostProcessMgr : MonoSingleton<PostProcessMgr>
@@ -45,6 +45,58 @@ namespace Framework
             _mainCamera = go.GetComponent<Camera>();
             _mainCameraTargetTexture = go.GetComponent<MainCameraTargetTexture>();
             _postProcessList = new List<AbsPostProcess>();
+        }
+
+        protected override void UpdateEx(float interval)
+        {
+            base.UpdateEx(interval);
+            for (int i = 0; i < _postProcessList.Count; i++)
+            {
+                var target = _postProcessList[i];
+                if (target.MatLoaded)
+                {
+                    target.Render(interval);
+                }
+            }
+        }
+
+        public void AddPostProcess(string path, PostProcessType type = PostProcessType.Common)
+        {
+            if (string.IsNullOrWhiteSpace(path))
+            {
+                return;
+            }
+            for (int i = 0; i < _postProcessList.Count; i++)
+            {
+                if (_postProcessList[i].MatPath == path)
+                {
+                    return;
+                }
+            }
+            AbsPostProcess post = null;
+            switch (type)
+            {
+                case PostProcessType.Common:
+                    post = new PostProcessCommon();
+                    post.OnInitialize(_mainCamera, path);
+                    _postProcessList.Add(post);
+                    break;
+                default:
+                    break;
+            }
+        }
+
+        public void ReleasePostProcess(string path)
+        {
+            for (int i = 0; i < _postProcessList.Count; i++)
+            {
+                var post = _postProcessList[i];
+                if (post.MatPath == path)
+                {
+                    post.Release();
+                    _postProcessList.Remove(post);
+                }
+            }
         }
     }
 }

@@ -4,60 +4,83 @@ using UnityEngine.UI;
 public class MainCameraTargetTexture : MonoBehaviour
 {
     private Camera _camera;
+    private int _pixelWidth;
+    private int _pixelHeight;
+    private RawImage _rawImage;
 
-    public RenderTexture RenderTexture { get; private set; }
+    public RenderTexture CameraRT { get; private set; }
 
     private void Awake()
     {
         _camera = GetComponent<Camera>();
         if (_camera)
         {
-            int w = _camera.pixelWidth;
-            int h = _camera.pixelHeight;
-            RenderTexture = RenderTexture.GetTemporary(w, h, 24, RenderTextureFormat.ARGB32, RenderTextureReadWrite.Default, 4);
+            _pixelWidth = _camera.pixelWidth;
+            _pixelHeight = _camera.pixelHeight;
         }
+        GetTemporary();
     }
 
     private void OnPreRender()
     {
-        if (_camera)
-        {
-            _camera.targetTexture = RenderTexture;
-        }
+        //GetTemporary();
     }
+
     private void OnPostRender()
     {
-        if (_camera)
-        {
-            _camera.targetTexture = null;
-        }
+        //ReleaseTemporary();   
     }
 
     private void OnDisable()
     {
-        if (_camera)
-        {
-            _camera.targetTexture = null;
-        }
+        ReleaseTemporary();
     }
 
     private void OnDestroy()
     {
-        if (_camera)
-        {
-            _camera.targetTexture = null;
-        }
-        if (RenderTexture)
-        {
-            RenderTexture.ReleaseTemporary(RenderTexture);
-        }
+        ReleaseTemporary();
     }
 
     public void SetRawImage(RawImage rawImage)
     {
         if (rawImage)
         {
-            rawImage.texture = RenderTexture;
+            _rawImage = rawImage;
+            _rawImage.texture = CameraRT;
+        }
+    }
+
+    public void GetTemporary()
+    {
+        ReleaseTemporary();
+
+        CameraRT = RenderTexture.GetTemporary(_pixelWidth, _pixelHeight, 24, RenderTextureFormat.ARGB32, RenderTextureReadWrite.Default, 4);
+        CameraRT.name = "MainCameraTargetTexture";
+        if (_rawImage)
+        {
+            _rawImage.texture = CameraRT;
+        }
+        if (_camera)
+        {
+            _camera.targetTexture = CameraRT;
+        }
+    }
+
+    private void ReleaseTemporary()
+    {
+        if (_camera)
+        {
+            _camera.targetTexture = null;
+        }
+        if (_rawImage)
+        {
+            _rawImage.texture = null;
+        }
+        if (CameraRT)
+        {
+            CameraRT.DiscardContents();
+            RenderTexture.ReleaseTemporary(CameraRT);
+            CameraRT = null;
         }
     }
 }

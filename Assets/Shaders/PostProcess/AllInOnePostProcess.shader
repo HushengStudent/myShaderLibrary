@@ -3,6 +3,10 @@
     Properties
     {
         _MainTex ("Texture", 2D) = "white" {}
+
+        _GrayScaleLuminosity ("Gray Scale Luminosity", Range(0,1)) = 0.2
+
+        _BlurStrength ("Blur Strength", Range(0,10)) = 3
     }
     SubShader
     {
@@ -15,9 +19,15 @@
             #pragma vertex vert
             #pragma fragment frag
             // make fog work
-            #pragma multi_compile_fog
+            //#pragma multi_compile_fog
 
             #include "UnityCG.cginc"
+            #include "Assets/Shaders/CGIncludes/Common.cginc"
+
+            //置灰
+            #pragma shader_feature GREYSCALE_ON
+            //模糊
+            #pragma shader_feature BLUR_ON
 
             struct appdata
             {
@@ -28,19 +38,27 @@
             struct v2f
             {
                 float2 uv : TEXCOORD0;
-                UNITY_FOG_COORDS(1)
+                //UNITY_FOG_COORDS(1)
                 float4 vertex : SV_POSITION;
             };
 
             sampler2D _MainTex;
             float4 _MainTex_ST;
 
+            #ifdef GREYSCALE_ON
+            float _GrayScaleLuminosity;
+            #endif
+
+            #ifdef BLUR_ON
+            float _BlurStrength;
+            #endif
+
             v2f vert (appdata v)
             {
                 v2f o;
                 o.vertex = UnityObjectToClipPos(v.vertex);
                 o.uv = TRANSFORM_TEX(v.uv, _MainTex);
-                UNITY_TRANSFER_FOG(o,o.vertex);
+                //UNITY_TRANSFER_FOG(o,o.vertex);
                 return o;
             }
 
@@ -49,10 +67,20 @@
                 // sample the texture
                 fixed4 col = tex2D(_MainTex, i.uv);
                 // apply fog
-                UNITY_APPLY_FOG(i.fogCoord, col);
+                //UNITY_APPLY_FOG(i.fogCoord, col);
+
+                #ifdef BLUR_ON
+                col = Blur(i.uv, _MainTex, _BlurStrength);
+                #endif
+
+                #ifdef GREYSCALE_ON
+                col.rgb = saturate((col.r + col.g + col.b) * _GrayScaleLuminosity);
+                #endif
+
                 return col;
             }
             ENDCG
         }
     }
+    CustomEditor "AllInOnePostProcessShaderGUI"
 }
