@@ -6,7 +6,6 @@ namespace Framework
     public abstract class AbsPostProcess
     {
         protected Camera _camera;
-        protected MainCameraTargetTexture _cameraTargetTexture;
         protected CommandBuffer _commandBuffer;
         protected Material _mat;
 
@@ -18,7 +17,6 @@ namespace Framework
 
         public void Render(float interval)
         {
-            if (_commandBuffer != null && _cameraTargetTexture)
             {
                 //var tex = _cameraTargetTexture.CameraRT;
                 //_commandBuffer.SetGlobalTexture(ShaderIDs.MainTex, new RenderTargetIdentifier(tex));
@@ -32,7 +30,6 @@ namespace Framework
         public void OnInitialize(Camera camera, string matPath)
         {
             _camera = camera;
-            _cameraTargetTexture = camera.GetComponent<MainCameraTargetTexture>();
             MatPath = matPath;
             MatLoaded = false;
             var request = Resources.LoadAsync<Material>(matPath);
@@ -48,19 +45,15 @@ namespace Framework
 
         private void MatLoadFinish()
         {
-            if (_cameraTargetTexture)
-            {
-                _commandBuffer = new CommandBuffer { name = MatPath };
-                _camera.AddCommandBuffer(CameraEvent, _commandBuffer);
+            _commandBuffer = new CommandBuffer { name = MatPath };
+            _camera.AddCommandBuffer(CameraEvent, _commandBuffer);
 
-                var tex = _cameraTargetTexture.CameraRT;
 
-                //var renderTargetIdentifier = new RenderTargetIdentifier(tex);
-                //_commandBuffer.SetGlobalTexture(ShaderIDs.MainTex, renderTargetIdentifier);
+            //var renderTargetIdentifier = new RenderTargetIdentifier(tex);
+            //_commandBuffer.SetGlobalTexture(ShaderIDs.MainTex, renderTargetIdentifier);
 
-                _commandBuffer.Blit(tex, BuiltinRenderTextureType.CameraTarget, _mat);
-                MatLoaded = true;
-            }
+            _commandBuffer.Blit(BuiltinRenderTextureType.CameraTarget, ShaderIDs.MainTex, _mat);
+            MatLoaded = true;
         }
 
         public void Release()
@@ -68,7 +61,6 @@ namespace Framework
             _camera.RemoveCommandBuffer(CameraEvent, _commandBuffer);
             _commandBuffer.Release();
             _camera = null;
-            _cameraTargetTexture = null;
             MatPath = null;
             MatLoaded = false;
             Resources.UnloadAsset(_mat);

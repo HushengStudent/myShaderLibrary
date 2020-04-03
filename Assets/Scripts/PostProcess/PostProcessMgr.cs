@@ -12,7 +12,6 @@ namespace Framework
     {
         private readonly string _mainCameraTag = "MainCamera";
         private Camera _mainCamera;
-        private MainCameraTargetTexture _mainCameraTargetTexture;
         private List<AbsPostProcess> _postProcessList;
 
         private Mesh _fullscreenTriangle;
@@ -43,7 +42,6 @@ namespace Framework
             base.OnInitialize();
             var go = GameObject.FindWithTag(_mainCameraTag);
             _mainCamera = go.GetComponent<Camera>();
-            _mainCameraTargetTexture = go.GetComponent<MainCameraTargetTexture>();
             _postProcessList = new List<AbsPostProcess>();
         }
 

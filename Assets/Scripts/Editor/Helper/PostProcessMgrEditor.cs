@@ -2,8 +2,8 @@
 using UnityEditor;
 using UnityEngine;
 
-[CustomEditor(typeof(MainCameraTargetTexture))]
-public class MainCameraTargetTextureEditor : Editor
+[CustomEditor(typeof(PostProcessMgr))]
+public class PostProcessMgrEditor : Editor
 {
     public override void OnInspectorGUI()
     {
