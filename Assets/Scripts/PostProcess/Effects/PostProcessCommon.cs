@@ -1,10 +1,10 @@
 ﻿namespace Framework
 {
-    public class PostProcessCommon : AbsPostProcess
+    public class PostProcessCommon : AbsPostProcessBase
     {
-        protected override PostProcessType PostProcessType => PostProcessType.Common;
+        protected override PostProcessType _postProcessType => PostProcessType.Common;
 
-        public override void OnRendering(float interval)
+        public override void OnPreRender(float interval)
         {
         }
     }

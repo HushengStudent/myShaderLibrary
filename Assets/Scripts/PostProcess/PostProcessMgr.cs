@@ -10,10 +10,7 @@ namespace Framework
 
     public class PostProcessMgr : MonoSingleton<PostProcessMgr>
     {
-        private readonly string _mainCameraTag = "MainCamera";
-        private Camera _mainCamera;
-        private List<AbsPostProcess> _postProcessList;
-
+        private List<PostProcessCamera> _postProcessCameraList;
         private Mesh _fullscreenTriangle;
 
         public Mesh FullscreenTriangle
@@ -40,59 +37,71 @@ namespace Framework
         protected override void OnInitialize()
         {
             base.OnInitialize();
-            var go = GameObject.FindWithTag(_mainCameraTag);
-            _mainCamera = go.GetComponent<Camera>();
-            _postProcessList = new List<AbsPostProcess>();
+            _postProcessCameraList = new List<PostProcessCamera>();
         }
 
         protected override void UpdateEx(float interval)
         {
             base.UpdateEx(interval);
-            for (int i = 0; i < _postProcessList.Count; i++)
+            for (int i = 0; i < _postProcessCameraList.Count; i++)
             {
-                var target = _postProcessList[i];
-                if (target.MatLoaded)
+                var target = _postProcessCameraList[i];
+                if (target)
                 {
-                    target.Render(interval);
+                    target.OnUpdate(interval);
                 }
             }
         }
 
-        public void AddPostProcess(string path, PostProcessType type = PostProcessType.Common)
+        public void AddPostProcess(Camera camera, string matPath, PostProcessType type = PostProcessType.Common)
         {
-            if (string.IsNullOrWhiteSpace(path))
+            if (string.IsNullOrWhiteSpace(matPath) || !camera)
             {
                 return;
             }
-            for (int i = 0; i < _postProcessList.Count; i++)
+            PostProcessCamera postProcessCamera = null;
+            for (int i = 0; i < _postProcessCameraList.Count; i++)
             {
-                if (_postProcessList[i].MatPath == path)
+                var target = _postProcessCameraList[i];
+                if (target.Camera == camera)
                 {
-                    return;
+                    postProcessCamera = target;
+                    break;
                 }
             }
-            AbsPostProcess post = null;
-            switch (type)
+            if (!postProcessCamera)
             {
-                case PostProcessType.Common:
-                    post = new PostProcessCommon();
-                    post.OnInitialize(_mainCamera, path);
-                    _postProcessList.Add(post);
-                    break;
-                default:
-                    break;
+                postProcessCamera = camera.gameObject.AddComponent<PostProcessCamera>();
+                _postProcessCameraList.Add(postProcessCamera);
+            }
+            if (!postProcessCamera.IsContains(matPath))
+            {
+                AbsPostProcessBase target = null;
+                switch (type)
+                {
+                    case PostProcessType.Common:
+                        target = new PostProcessCommon();
+                        break;
+                    default:
+                        break;
+                }
+                if (target != null)
+                {
+                    target.OnInitialize(postProcessCamera, matPath);
+                    postProcessCamera.AddPostProcess(target);
+                }
             }
         }
 
-        public void ReleasePostProcess(string path)
+        public void ReleasePostProcess(Camera camera, string matPath)
         {
-            for (int i = 0; i < _postProcessList.Count; i++)
+            for (int i = 0; i < _postProcessCameraList.Count; i++)
             {
-                var post = _postProcessList[i];
-                if (post.MatPath == path)
+                var target = _postProcessCameraList[i];
+                if (target.Camera == camera)
                 {
-                    post.Release();
-                    _postProcessList.Remove(post);
+                    target.RemovePostProcess(matPath);
+                    return;
                 }
             }
         }
