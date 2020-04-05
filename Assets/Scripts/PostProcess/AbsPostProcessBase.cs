@@ -1,10 +1,13 @@
-﻿using UnityEngine;
+﻿using System.Collections.Generic;
+using UnityEngine;
 using UnityEngine.Rendering;
 
 namespace Framework
 {
     public abstract class AbsPostProcessBase
     {
+        private readonly HashSet<int> _rtHashSet = new HashSet<int>();
+
         protected PostProcessCamera _postProcessCamera;
         protected CommandBuffer _commandBuffer;
         protected Material _mat;
@@ -75,6 +78,10 @@ namespace Framework
             if (_commandBuffer != null)
             {
                 _postProcessCamera.Camera.RemoveCommandBuffer(_cameraEvent, _commandBuffer);
+                foreach (var nameID in _rtHashSet)
+                {
+                    _commandBuffer.ReleaseTemporaryRT(nameID);
+                }
                 _commandBuffer.Release();
             }
             _postProcessCamera = null;
@@ -99,6 +106,7 @@ namespace Framework
             int w = (int)(camera.pixelWidth * scale);
             int h = (int)(camera.pixelHeight * scale);
             _commandBuffer.GetTemporaryRT(nameID, w, h);
+            _rtHashSet.Add(nameID);
         }
 
         protected void ReleaseTemporaryRT(int nameID)
@@ -108,6 +116,7 @@ namespace Framework
                 return;
             }
             _commandBuffer.ReleaseTemporaryRT(nameID);
+            _rtHashSet.Remove(nameID);
         }
     }
 }

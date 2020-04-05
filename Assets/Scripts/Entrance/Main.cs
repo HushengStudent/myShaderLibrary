@@ -5,9 +5,11 @@ public class Main : MonoBehaviour
 {
     private readonly string _blur = "PostProcess/Blur";
     private readonly string _greyScale = "PostProcess/GreyScale";
+    private readonly string _glitch = "PostProcess/Glitch";
 
     private bool _isBlur = false;
     private bool _isGreyScale = false;
+    private bool _isGlitch = false;
 
     private void Awake()
     {
@@ -49,6 +51,19 @@ public class Main : MonoBehaviour
                 PostProcessMgr.singleton.AddMainCameraPostProcess(_greyScale, PostProcessType.Common);
             }
             _isGreyScale = !_isGreyScale;
+        }
+
+        if (GUILayout.Button(_isGlitch ? "关闭故障" : "开启故障", style, w, h))
+        {
+            if (_isGlitch)
+            {
+                PostProcessMgr.singleton.ReleaseMainCameraPostProcess(_glitch);
+            }
+            else
+            {
+                PostProcessMgr.singleton.AddMainCameraPostProcess(_glitch, PostProcessType.Common);
+            }
+            _isGlitch = !_isGlitch;
         }
 
         GUILayout.EndHorizontal();
