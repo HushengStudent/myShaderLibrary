@@ -41,13 +41,14 @@ namespace Framework
             if (!IsContains(absPostProcessBase.MatPath))
             {
                 _postProcessList.Add(absPostProcessBase);
+                absPostProcessBase.InitializePostProcess(this);
             }
         }
 
         public void RemovePostProcess(AbsPostProcessBase absPostProcessBase)
         {
             _postProcessList.Remove(absPostProcessBase);
-            absPostProcessBase.Release();
+            absPostProcessBase.ReleasePostProcess();
         }
 
         public void RemovePostProcess(string matPath)
@@ -71,19 +72,6 @@ namespace Framework
                 if (target.IsEnabled())
                 {
                     target.OnPreRender();
-                }
-            }
-        }
-
-        //OnPostRender is called after a camera has finished rendering the scene.
-        private void OnPostRender()
-        {
-            for (int i = 0; i < _postProcessList.Count; i++)
-            {
-                var target = _postProcessList[i];
-                if (target.IsEnabled())
-                {
-                    target.OnPostRender();
                 }
             }
         }
@@ -123,6 +111,19 @@ namespace Framework
                 if (target.IsEnabled())
                 {
                     target.OnWillRenderObject();
+                }
+            }
+        }
+
+        //OnPostRender is called after a camera has finished rendering the scene.
+        private void OnPostRender()
+        {
+            for (int i = 0; i < _postProcessList.Count; i++)
+            {
+                var target = _postProcessList[i];
+                if (target.IsEnabled())
+                {
+                    target.OnPostRender();
                 }
             }
         }

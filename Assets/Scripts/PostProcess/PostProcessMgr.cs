@@ -90,14 +90,13 @@ namespace Framework
                 switch (type)
                 {
                     case PostProcessType.Common:
-                        target = new PostProcessCommon();
+                        target = new PostProcessCommon(matPath);
                         break;
                     default:
                         break;
                 }
                 if (target != null)
                 {
-                    target.OnInitialize(postProcessCamera, matPath);
                     postProcessCamera.AddPostProcess(target);
                 }
             }

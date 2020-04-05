@@ -7,6 +7,7 @@ namespace Framework
     public abstract class AbsPostProcessBase
     {
         private readonly HashSet<int> _rtHashSet = new HashSet<int>();
+        private bool _isDirty = false;
 
         protected PostProcessCamera _postProcessCamera;
         protected CommandBuffer _commandBuffer;
@@ -19,77 +20,183 @@ namespace Framework
         public bool IsActive { get; private set; }
         public bool Deprecated { get; private set; }
 
-        public virtual void OnPreRender() { }
-        public virtual void OnPostRender() { }
-        public virtual void OnPreCull() { }
-        public virtual void OnRenderObject() { }
-        public virtual void OnWillRenderObject() { }
-        public virtual void OnUpdate() { }
-        public virtual void OnMatLoadFinish() { }
+        public void OnPreRender()
+        {
+            if (IsEnabled())
+            {
+                if (_isDirty)
+                {
+                    BuildCommandBuffer();
+                }
+                OnPreRenderInternal();
+            }
+        }
+        public void OnPreCull()
+        {
+            if (IsEnabled())
+            {
+                OnPreCullInternal();
+            }
+        }
+        public void OnRenderObject()
+        {
+            if (IsEnabled())
+            {
+                OnRenderObjectInternal();
+            }
+        }
+        public void OnWillRenderObject()
+        {
+            if (IsEnabled())
+            {
+                OnWillRenderObjectInternal();
+            }
+        }
+        public void OnPostRender()
+        {
+            if (IsEnabled())
+            {
+                OnPostRenderInternal();
+            }
+        }
+        public void OnUpdate()
+        {
+            if (IsEnabled())
+            {
+                OnUpdateInternal();
+            }
+        }
+
+        protected virtual void OnPreRenderInternal() { }
+        protected virtual void OnPreCullInternal() { }
+        protected virtual void OnRenderObjectInternal() { }
+        protected virtual void OnWillRenderObjectInternal() { }
+        protected virtual void OnPostRenderInternal() { }
+        protected virtual void OnUpdateInternal() { }
+        protected virtual void BuildCommandBufferInternal() { }
+        protected virtual void ReleaseCommandBufferInternal() { }
+        protected virtual void ReleasePostProcessInternal() { }
+
 
         public bool IsEnabled()
         {
             return !Deprecated && IsActive;
         }
 
-        public void OnInitialize(PostProcessCamera postProcessCamera, string matPath)
+        protected void ReBuildCommandBuffer()
+        {
+            _isDirty = true;
+        }
+
+        public AbsPostProcessBase(string matPath)
+        {
+            MatPath = matPath;
+        }
+
+        public void InitializePostProcess(PostProcessCamera postProcessCamera)
         {
             Deprecated = false;
             IsActive = false;
-            MatPath = matPath;
             _postProcessCamera = postProcessCamera;
-            if (!postProcessCamera.Camera)
+            if (!postProcessCamera.Camera || string.IsNullOrWhiteSpace(MatPath))
             {
                 Deprecated = true;
                 return;
             }
-            var request = Resources.LoadAsync<Material>(matPath);
+
+            _commandBuffer = new CommandBuffer { name = MatPath };
+            AddCommandBuffer();
+
+            var request = Resources.LoadAsync<Material>(MatPath);
             request.completed += (async) =>
             {
                 _mat = request.asset as Material;
-                MatLoadFinish();
+                BuildCommandBuffer();
             };
         }
 
-        private void MatLoadFinish()
+        private void BuildCommandBuffer()
         {
+            ReleaseCommandBuffer();
             if (!_mat || Deprecated)
             {
-                Release();
+                ReleasePostProcess();
                 return;
             }
-            _commandBuffer = new CommandBuffer { name = MatPath };
-            _commandBuffer.Clear();
-            _postProcessCamera.Camera.AddCommandBuffer(_cameraEvent, _commandBuffer);
+
+            _commandBuffer.Clear(); //Clear all commands in the buffer.
+
             GetTemporaryRT(ShaderIDs.MainTex);
             _commandBuffer.Blit(BuiltinRenderTextureType.CameraTarget, ShaderIDs.MainTex);
+
+            BuildCommandBufferInternal();
+
             var mesh = PostProcessMgr.singleton.FullscreenTriangle;
             _commandBuffer.DrawMesh(mesh, Matrix4x4.identity, _mat);
             ReleaseTemporaryRT(ShaderIDs.MainTex);
-            OnMatLoadFinish();
             IsActive = true;
+            _isDirty = true;
         }
 
-        public void Release()
+        private void ReleaseCommandBuffer()
+        {
+            if (_commandBuffer != null)
+            {
+                ReleaseAllTemporaryRT();
+                _commandBuffer.Clear();
+            }
+            ReleaseCommandBufferInternal();
+        }
+
+        public void ReleasePostProcess()
         {
             Deprecated = true;
             IsActive = false;
             MatPath = null;
-            if (_commandBuffer != null)
-            {
-                _postProcessCamera.Camera.RemoveCommandBuffer(_cameraEvent, _commandBuffer);
-                foreach (var nameID in _rtHashSet)
-                {
-                    _commandBuffer.ReleaseTemporaryRT(nameID);
-                }
-                _commandBuffer.Release();
-            }
+            ReleaseCommandBuffer();
+            RemoveCommandBuffer();
+            ReleasePostProcessInternal();
+            _commandBuffer.Release();
+            _commandBuffer = null;
             _postProcessCamera = null;
             if (_mat)
             {
                 Resources.UnloadAsset(_mat);
             }
             _mat = null;
+        }
+
+        private void AddCommandBuffer()
+        {
+            if (_commandBuffer == null || !_postProcessCamera || !_postProcessCamera.Camera)
+            {
+                return;
+            }
+            var allCommandBuffer = _postProcessCamera.Camera.GetCommandBuffers(_cameraEvent);
+            foreach (var temp in allCommandBuffer)
+            {
+                if (temp == _commandBuffer)
+                {
+                    return;
+                }
+            }
+            _postProcessCamera.Camera.AddCommandBuffer(_cameraEvent, _commandBuffer);
+        }
+
+        private void RemoveCommandBuffer()
+        {
+            if (_commandBuffer == null || !_postProcessCamera || !_postProcessCamera.Camera)
+            {
+                return;
+            }
+            var allCommandBuffer = _postProcessCamera.Camera.GetCommandBuffers(_cameraEvent);
+            foreach (var temp in allCommandBuffer)
+            {
+                if (temp == _commandBuffer)
+                {
+                    _postProcessCamera.Camera.RemoveCommandBuffer(_cameraEvent, _commandBuffer);
+                }
+            }
         }
 
         protected void GetTemporaryRT(int nameID, float scale = 1f)
@@ -107,6 +214,15 @@ namespace Framework
             int h = (int)(camera.pixelHeight * scale);
             _commandBuffer.GetTemporaryRT(nameID, w, h);
             _rtHashSet.Add(nameID);
+        }
+
+        protected void ReleaseAllTemporaryRT()
+        {
+            foreach (var nameID in _rtHashSet)
+            {
+                ReleaseTemporaryRT(nameID);
+            }
+            _rtHashSet.Clear();
         }
 
         protected void ReleaseTemporaryRT(int nameID)

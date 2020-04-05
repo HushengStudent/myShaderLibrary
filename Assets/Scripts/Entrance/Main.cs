@@ -20,6 +20,17 @@ public class Main : MonoBehaviour
     private void Awake()
     {
         PostProcessMgr.singleton.Launch();
+
+#if UNITY_EDITOR
+        UnityEditor.EditorApplication.update += () =>
+        {
+            if (UnityEditor.EditorApplication.isPlaying && UnityEditor.EditorApplication.isCompiling)
+            {
+                LogHelper.PrintError("script update.");
+                UnityEditor.EditorApplication.isPlaying = false;
+            }
+        };
+#endif
     }
 
     private void Update()
