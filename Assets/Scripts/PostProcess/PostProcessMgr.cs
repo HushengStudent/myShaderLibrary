@@ -10,9 +10,10 @@ namespace Framework
 
     public class PostProcessMgr : MonoSingleton<PostProcessMgr>
     {
+        private readonly string _mainCameraTag = "MainCamera";
         private List<PostProcessCamera> _postProcessCameraList;
-        private Mesh _fullscreenTriangle;
 
+        private Mesh _fullscreenTriangle;
         public Mesh FullscreenTriangle
         {
             get
@@ -34,9 +35,13 @@ namespace Framework
             }
         }
 
+        public Camera MainCamera { get; private set; }
+
         protected override void OnInitialize()
         {
             base.OnInitialize();
+            var go = GameObject.FindWithTag(_mainCameraTag);
+            MainCamera = go.GetComponent<Camera>();
             _postProcessCameraList = new List<PostProcessCamera>();
         }
 
@@ -51,6 +56,11 @@ namespace Framework
                     target.OnUpdate(interval);
                 }
             }
+        }
+
+        public void AddMainCameraPostProcess(string matPath, PostProcessType type = PostProcessType.Common)
+        {
+            AddPostProcess(MainCamera, matPath, type);
         }
 
         public void AddPostProcess(Camera camera, string matPath, PostProcessType type = PostProcessType.Common)
@@ -91,6 +101,11 @@ namespace Framework
                     postProcessCamera.AddPostProcess(target);
                 }
             }
+        }
+
+        public void ReleaseMainCameraPostProcess(string matPath)
+        {
+            ReleasePostProcess(MainCamera, matPath);
         }
 
         public void ReleasePostProcess(Camera camera, string matPath)

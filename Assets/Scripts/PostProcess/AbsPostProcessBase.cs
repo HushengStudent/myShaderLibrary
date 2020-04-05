@@ -44,16 +44,13 @@ namespace Framework
             request.completed += (async) =>
             {
                 _mat = request.asset as Material;
-                if (_mat)
-                {
-                    MatLoadFinish();
-                }
+                MatLoadFinish();
             };
         }
 
         private void MatLoadFinish()
         {
-            if (Deprecated)
+            if (!_mat || Deprecated)
             {
                 Release();
                 return;
@@ -63,6 +60,8 @@ namespace Framework
             _postProcessCamera.Camera.AddCommandBuffer(_cameraEvent, _commandBuffer);
             GetTemporaryRT(ShaderIDs.MainTex);
             _commandBuffer.Blit(BuiltinRenderTextureType.CameraTarget, ShaderIDs.MainTex);
+            var mesh = PostProcessMgr.singleton.FullscreenTriangle;
+            _commandBuffer.DrawMesh(mesh, Matrix4x4.identity, _mat);
             ReleaseTemporaryRT(ShaderIDs.MainTex);
             OnMatLoadFinish();
             IsActive = true;

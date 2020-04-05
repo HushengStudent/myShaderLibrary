@@ -56,7 +56,7 @@ namespace Framework
             {
                 if (post.MatPath == matPath)
                 {
-                    RemovePostProcess(matPath);
+                    RemovePostProcess(post);
                     return;
                 }
             }

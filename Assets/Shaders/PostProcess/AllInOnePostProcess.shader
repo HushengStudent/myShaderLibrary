@@ -2,7 +2,7 @@
 {
     Properties
     {
-        _MainTex ("Texture", 2D) = "white" {}
+        //_MainTex ("Texture", 2D) = "white" {}
 
         _GrayScaleLuminosity ("Gray Scale Luminosity", Range(0,1)) = 0.2
 
@@ -15,6 +15,9 @@
 
         Pass
         {
+
+            ZTest Always Cull Off ZWrite Off
+
             CGPROGRAM
             #pragma vertex vert
             #pragma fragment frag
@@ -43,7 +46,7 @@
             };
 
             sampler2D _MainTex;
-            float4 _MainTex_ST;
+            float4 _MainTex_TexelSize;
 
             #ifdef GREYSCALE_ON
             float _GrayScaleLuminosity;
@@ -56,9 +59,14 @@
             v2f vert (appdata v)
             {
                 v2f o;
-                o.vertex = UnityObjectToClipPos(v.vertex);
-                o.uv = TRANSFORM_TEX(v.uv, _MainTex);
+                o.vertex = v.vertex;
+                o.uv = ComputeScreenPos(o.vertex);
                 //UNITY_TRANSFER_FOG(o,o.vertex);
+                
+                #if UNITY_UV_STARTS_AT_TOP
+                o.uv = o.uv * float2(1.0, -1.0) + float2(0.0, 1.0);
+                #endif
+
                 return o;
             }
 

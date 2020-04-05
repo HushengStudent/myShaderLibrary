@@ -2,7 +2,7 @@
 {
     protected override void OnGUIEx()
     {
-        ShaderProperty("_MainTex");
+        //ShaderProperty("_MainTex");
         _matEditor.RenderQueueField();
         _matEditor.DoubleSidedGIField();
 
