@@ -67,14 +67,27 @@ namespace Framework
             }
         }
 
+        /// <summary>
+        /// 执行渲染前.可更新CommandBuffer参数;
+        /// </summary>
         protected virtual void OnPreRenderInternal() { }
         protected virtual void OnPreCullInternal() { }
         protected virtual void OnRenderObjectInternal() { }
         protected virtual void OnWillRenderObjectInternal() { }
         protected virtual void OnPostRenderInternal() { }
         protected virtual void OnUpdateInternal() { }
+
+        /// <summary>
+        /// 构建CommandBuffer;
+        /// </summary>
         protected virtual void BuildCommandBufferInternal() { }
+        /// <summary>
+        /// 释放CommandBuffer;
+        /// </summary>
         protected virtual void ReleaseCommandBufferInternal() { }
+        /// <summary>
+        /// 释放该后处理并卸载相关资源;
+        /// </summary>
         protected virtual void ReleasePostProcessInternal() { }
 
 
@@ -175,7 +188,7 @@ namespace Framework
             var allCommandBuffer = _postProcessCamera.Camera.GetCommandBuffers(_cameraEvent);
             foreach (var temp in allCommandBuffer)
             {
-                if (temp == _commandBuffer)
+                if (temp.name == _commandBuffer.name)
                 {
                     return;
                 }
@@ -192,9 +205,10 @@ namespace Framework
             var allCommandBuffer = _postProcessCamera.Camera.GetCommandBuffers(_cameraEvent);
             foreach (var temp in allCommandBuffer)
             {
-                if (temp == _commandBuffer)
+                if (temp.name == _commandBuffer.name)
                 {
                     _postProcessCamera.Camera.RemoveCommandBuffer(_cameraEvent, _commandBuffer);
+                    return;
                 }
             }
         }

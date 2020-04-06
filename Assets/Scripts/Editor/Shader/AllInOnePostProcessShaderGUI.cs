@@ -13,5 +13,6 @@
             "_VerticalJumpRange", "_VerticalJumpSpeed",
             "_HorizontalShake",
             "_ColorDrift");
+        ShaderFeature("GLOW_ON", "GLOW_ON(发光)", "发光", "_GlowColor", "_GlowIntensity");
     }
 }

@@ -13,6 +13,9 @@
         _VerticalJumpSpeed("Vertical Jump Speed", Range(-10,10)) = -5
         _HorizontalShake("Horizontal Shake", Range(0,1)) = 0.02
         _ColorDrift("Color Drift", Range(0,1)) = 0.1
+
+        _GlowColor("Glow Color", Color) = (1,1,1,1)
+		_GlowIntensity("Glow Intensity", Range(0,100)) = 10
     }
     SubShader
     {
@@ -39,6 +42,8 @@
             #pragma shader_feature BLUR_ON
             //故障
             #pragma shader_feature Glitch_ON
+            //发光
+            #pragma shader_feature GLOW_ON
 
             struct appdata
             {
@@ -70,6 +75,11 @@
             float _VerticalJumpSpeed;
             float _HorizontalShake;
             float _ColorDrift;
+            #endif
+
+            #ifdef GLOW_ON
+            float4 _GlowColor;
+            float _GlowIntensity;
             #endif
 
             v2f vert (appdata v)
@@ -109,6 +119,11 @@
                 half4 src1 = tex2D(_MainTex, frac(float2(u + jitter + shake, jump)));
                 half4 src2 = tex2D(_MainTex, frac(float2(u + jitter + shake + drift, jump)));
                 col = half4(src1.r, src2.g, src1.b, col.a);
+                col.a *= step(0.1, src1.a)*step(0.1, src2.a);
+                #endif
+                
+                #ifdef GLOW_ON
+                col.rgb += col.a * _GlowIntensity * _GlowColor;
                 #endif
 
                 #ifdef BLUR_ON
