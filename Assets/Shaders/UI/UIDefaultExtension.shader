@@ -29,6 +29,13 @@ Shader "myShaderLibrary/UI/UIDefaultExtension"
 
         _GlowColor("Glow Color", Color) = (1,1,1,1)
 		_GlowIntensity("Glow Intensity", Range(0,100)) = 10
+
+        _MeltNoiseTex("Melt Noise Texture", 2D) = "white" {}
+        _MeltStrength ("Melt Strength", Range(0,1)) = 0
+        _MeltAddColor ("Melt Add Color", Color) = (1,1,1,1)
+        _MeltAddColorStrength ("Melt Add Color Strength", Range(1,20)) = 1
+        _MeltAddColorLength ("Melt Add Color Length", Range(0,1)) = 0
+        _MeltAdditionalTex("Melt Additional Texture", 2D) = "white" {}
     }
 
     SubShader
@@ -83,6 +90,9 @@ Shader "myShaderLibrary/UI/UIDefaultExtension"
             #pragma shader_feature Glitch_ON
             //发光
             #pragma shader_feature GLOW_ON
+            //消融
+            #pragma shader_feature MELT_ON
+            #pragma shader_feature MELT_TEX_ON
 
             struct appdata_t
             {
@@ -98,6 +108,12 @@ Shader "myShaderLibrary/UI/UIDefaultExtension"
                 fixed4 color    : COLOR;
                 float2 texcoord  : TEXCOORD0;
                 float4 worldPosition : TEXCOORD1;
+
+                #ifdef MELT_ON
+                float2 meltNoiseUV  : TEXCOORD2;
+                float2 additionalUV  : TEXCOORD3;
+                #endif
+
                 UNITY_VERTEX_OUTPUT_STEREO
             };
 
@@ -129,6 +145,17 @@ Shader "myShaderLibrary/UI/UIDefaultExtension"
             float _GlowIntensity;
             #endif
 
+            #ifdef MELT_ON
+            sampler2D _MeltNoiseTex;
+            float4 _MeltNoiseTex_ST;
+            float _MeltStrength;
+            fixed4 _MeltAddColor;
+            float _MeltAddColorStrength;
+            float _MeltAddColorLength;
+            sampler2D _MeltAdditionalTex;
+            float4 _MeltAdditionalTex_ST;
+            #endif
+
             v2f vert(appdata_t v)
             {
                 v2f OUT;
@@ -140,6 +167,12 @@ Shader "myShaderLibrary/UI/UIDefaultExtension"
                 OUT.texcoord = TRANSFORM_TEX(v.texcoord, _MainTex);
 
                 OUT.color = v.color * _Color;
+
+                #ifdef MELT_ON
+                OUT.meltNoiseUV = TRANSFORM_TEX(v.texcoord, _MeltNoiseTex);
+                OUT.additionalUV = TRANSFORM_TEX(v.texcoord, _MeltAdditionalTex);
+                #endif
+
                 return OUT;
             }
 
@@ -188,6 +221,21 @@ Shader "myShaderLibrary/UI/UIDefaultExtension"
                 color.rgb = saturate((color.r + color.g + color.b) * _GrayScaleLuminosity);
                 #endif
 
+                #ifdef MELT_ON
+                float melt = tex2D(_MeltNoiseTex, IN.meltNoiseUV).a;
+                float value = melt - _MeltStrength;
+                float clip = step(0.01, value);
+                color.rgb *= clip;
+                float length = saturate(value + _MeltAddColorLength);
+                color.a *= step(0.01, length);
+                float degrees = saturate(_MeltAddColorStrength * length * (1 -clip));
+                half4 additional = tex2D(_MeltAdditionalTex, IN.additionalUV);
+                #ifdef MELT_TEX_ON
+				color.rgb = lerp(color.rgb, additional , degrees);
+                #else
+				color.rgb = lerp(color.rgb, _MeltAddColor , degrees);
+                #endif
+                #endif
                 return color;
             }
         ENDCG
