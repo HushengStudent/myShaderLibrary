@@ -8,6 +8,7 @@ namespace Framework
     {
         private readonly HashSet<int> _rtHashSet = new HashSet<int>();
         private bool _isDirty = false;
+        private MaterialPropertyBlock _materialPropertyBlock = new MaterialPropertyBlock();
 
         protected PostProcessCamera _postProcessCamera;
         protected CommandBuffer _commandBuffer;

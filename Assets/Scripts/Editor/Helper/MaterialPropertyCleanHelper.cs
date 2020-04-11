@@ -6,12 +6,12 @@ public class MaterialPropertyCleanHelper
     [MenuItem("Assets/myShaderLibrary/Helper/Clean MaterialProperty", false, 1)]
     public static void MaterialPropertyClean()
     {
-        var materials = UnityEditorHelper.GetSelectObjects("mat");
-        if (materials.Length > 0)
+        var matList = UnityEditorHelper.GetSelectObjects<Material>("mat");
+        if (matList.Count > 0)
         {
-            for (int i = 0; i < materials.Length; i++)
+            for (int i = 0; i < matList.Count; i++)
             {
-                var mat = materials[i] as Material;
+                var mat = matList[i] as Material;
                 if (!mat)
                 {
                     continue;

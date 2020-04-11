@@ -80,8 +80,8 @@ public class Main : MonoBehaviour
         {
             fontSize = 30,
         };
-        var w = GUILayout.Width(250);
-        var h = GUILayout.Height(75);
+        var w = GUILayout.Width(150);
+        var h = GUILayout.Height(50);
 
         if (GUILayout.Button(state ? $"关闭{effectName}" : $"开启{effectName}", btnStyle, w, h))
         {

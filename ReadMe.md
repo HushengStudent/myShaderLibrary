@@ -38,3 +38,6 @@ software：Unity2018.4.19/visual studio2017.
 		
 #### PBR：
     (1)
+	
+	Reference：
+    (1)texture_maker：(https://github.com/M-Fatah/texture_maker).
