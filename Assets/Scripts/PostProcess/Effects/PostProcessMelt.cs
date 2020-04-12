@@ -20,7 +20,14 @@
                 _meltStrength = _minValue;
             }
             _meltStrength = _meltStrength + 0.01f;
-            _commandBuffer.SetGlobalFloat(ShaderIDs.MeltStrength, _meltStrength);
+            ReBuildCommandBuffer();
+        }
+
+        protected override void OnBuildCommandBuffer()
+        {
+            base.OnBuildCommandBuffer();
+            //_commandBuffer.SetGlobalFloat(ShaderIDs.MeltStrength, _meltStrength);
+            _materialPropertyBlock.SetFloat(ShaderIDs.MeltStrength, _meltStrength);
         }
     }
 }
