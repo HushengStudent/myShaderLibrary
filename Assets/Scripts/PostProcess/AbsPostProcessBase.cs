@@ -8,11 +8,11 @@ namespace Framework
     {
         private readonly HashSet<int> _rtHashSet = new HashSet<int>();
         private bool _isDirty = false;
-        private MaterialPropertyBlock _materialPropertyBlock = new MaterialPropertyBlock();
 
-        protected PostProcessCamera _postProcessCamera;
-        protected CommandBuffer _commandBuffer;
-        protected Material _mat;
+        protected PostProcessCamera _postProcessCamera { get; private set; }
+        protected CommandBuffer _commandBuffer { get; private set; }
+        protected Material _mat { get; private set; }
+        protected MaterialPropertyBlock _materialPropertyBlock { get; private set; }
 
         protected virtual CameraEvent _cameraEvent { get; set; } = CameraEvent.AfterEverything;
 
@@ -80,15 +80,15 @@ namespace Framework
         /// <summary>
         /// 构建CommandBuffer;
         /// </summary>
-        protected virtual void BuildCommandBufferInternal() { }
+        protected virtual void OnBuildCommandBuffer() { }
         /// <summary>
         /// 释放CommandBuffer;
         /// </summary>
-        protected virtual void ReleaseCommandBufferInternal() { }
+        protected virtual void OnReleaseCommandBuffer() { }
         /// <summary>
         /// 释放该后处理并卸载相关资源;
         /// </summary>
-        protected virtual void ReleasePostProcessInternal() { }
+        protected virtual void OnReleasePostProcess() { }
 
 
         public bool IsEnabled()
@@ -116,14 +116,14 @@ namespace Framework
                 Deprecated = true;
                 return;
             }
-
+            _materialPropertyBlock = new MaterialPropertyBlock();
             _commandBuffer = new CommandBuffer { name = MatPath };
+            AddCommandBuffer();
 
             var request = Resources.LoadAsync<Material>(MatPath);
             request.completed += (async) =>
             {
                 _mat = request.asset as Material;
-                AddCommandBuffer();
                 BuildCommandBuffer();
             };
         }
@@ -142,7 +142,7 @@ namespace Framework
             GetTemporaryRT(ShaderIDs.MainTex);
             _commandBuffer.Blit(BuiltinRenderTextureType.CameraTarget, ShaderIDs.MainTex);
 
-            BuildCommandBufferInternal();
+            OnBuildCommandBuffer();//Command be execute every frame.
 
             var mesh = PostProcessMgr.singleton.FullscreenTriangle;
             _commandBuffer.DrawMesh(mesh, Matrix4x4.identity, _mat);
@@ -158,7 +158,7 @@ namespace Framework
                 ReleaseAllTemporaryRT();
                 _commandBuffer.Clear();
             }
-            ReleaseCommandBufferInternal();
+            OnReleaseCommandBuffer();
         }
 
         public void ReleasePostProcess()
@@ -168,7 +168,7 @@ namespace Framework
             MatPath = null;
             ReleaseCommandBuffer();
             RemoveCommandBuffer();
-            ReleasePostProcessInternal();
+            OnReleasePostProcess();
             _commandBuffer.Release();
             _commandBuffer = null;
             _postProcessCamera = null;
