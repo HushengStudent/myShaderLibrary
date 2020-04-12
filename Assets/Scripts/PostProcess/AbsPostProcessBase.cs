@@ -24,11 +24,11 @@ namespace Framework
         {
             if (IsEnabled())
             {
+                OnPreRenderInternal();
                 if (_isDirty)
                 {
                     BuildCommandBuffer();
                 }
-                OnPreRenderInternal();
             }
         }
         public void OnPreCull()
@@ -145,7 +145,9 @@ namespace Framework
             OnBuildCommandBuffer();//Command be execute every frame.
 
             var mesh = PostProcessMgr.singleton.FullscreenTriangle;
-            _commandBuffer.DrawMesh(mesh, Matrix4x4.identity, _mat);
+            //_commandBuffer.DrawMesh(mesh, Matrix4x4.identity, _mat);
+            _commandBuffer.DrawMesh(mesh, Matrix4x4.identity, _mat, 0, -1, _materialPropertyBlock);
+            _materialPropertyBlock.Clear();
             ReleaseTemporaryRT(ShaderIDs.MainTex);
             IsActive = true;
             _isDirty = false;
@@ -169,7 +171,10 @@ namespace Framework
             ReleaseCommandBuffer();
             RemoveCommandBuffer();
             OnReleasePostProcess();
-            _commandBuffer.Release();
+            if (_commandBuffer != null)
+            {
+                _commandBuffer.Release();
+            }
             _commandBuffer = null;
             _postProcessCamera = null;
             if (_mat)
