@@ -44,6 +44,7 @@ public class Main : MonoBehaviour
     private bool _isGreyScale = false;
     private bool _isGlitch = false;
     private bool _isGlow = false;
+    private bool _isMelt = false;
 
     private void OnGUI()
     {
@@ -64,17 +65,17 @@ public class Main : MonoBehaviour
 
         GUILayout.BeginHorizontal();
 
-        ShowButton("模糊", "Blur", ref _isBlur);
-        ShowButton("置灰", "GreyScale", ref _isGreyScale);
-        ShowButton("故障", "Glitch", ref _isGlitch);
-        ShowButton("发光", "Glow", ref _isGlow);
+        ShowButton<PostProcessCommon>("模糊", "Blur", ref _isBlur);
+        ShowButton<PostProcessCommon>("置灰", "GreyScale", ref _isGreyScale);
+        ShowButton<PostProcessCommon>("故障", "Glitch", ref _isGlitch);
+        ShowButton<PostProcessCommon>("发光", "Glow", ref _isGlow);
+        ShowButton<PostProcessMelt>("消融", "Melt", ref _isMelt);
 
         GUILayout.EndHorizontal();
         GUILayout.EndVertical();
     }
 
-    private void ShowButton(string effectName, string matPath, ref bool state
-        , PostProcessType postProcessType = PostProcessType.Common)
+    private void ShowButton<T>(string effectName, string matPath, ref bool state) where T : AbsPostProcessBase
     {
         GUIStyle btnStyle = new GUIStyle(GUI.skin.button)
         {
@@ -92,7 +93,7 @@ public class Main : MonoBehaviour
             }
             else
             {
-                PostProcessMgr.singleton.AddMainCameraPostProcess(path, postProcessType);
+                PostProcessMgr.singleton.AddMainCameraPostProcess<T>(path);
             }
             state = !state;
         }

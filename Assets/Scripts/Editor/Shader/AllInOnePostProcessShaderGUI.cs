@@ -34,5 +34,20 @@
                 "_GlowColor",
                 "_GlowIntensity"
             });
+
+        ShaderFeature("MELT_ON", "MELT_ON(消融)", "消融",
+            new string[]
+            {
+                "_MeltNoiseTex",
+                //"_MeltStrength",
+                "_MeltAddColor",
+                "_MeltAddColorStrength",
+                "_MeltAddColorLength",
+                "_MeltAdditionalTex"
+            },
+            new string[]
+            {
+                "MELT_TEX_ON",
+            });
     }
 }

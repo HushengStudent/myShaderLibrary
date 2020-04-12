@@ -15,7 +15,6 @@ namespace Framework
         protected Material _mat;
 
         protected virtual CameraEvent _cameraEvent { get; set; } = CameraEvent.AfterEverything;
-        protected abstract PostProcessType _postProcessType { get; }
 
         public string MatPath { get; private set; }
         public bool IsActive { get; private set; }
@@ -119,12 +118,12 @@ namespace Framework
             }
 
             _commandBuffer = new CommandBuffer { name = MatPath };
-            AddCommandBuffer();
 
             var request = Resources.LoadAsync<Material>(MatPath);
             request.completed += (async) =>
             {
                 _mat = request.asset as Material;
+                AddCommandBuffer();
                 BuildCommandBuffer();
             };
         }
@@ -149,7 +148,7 @@ namespace Framework
             _commandBuffer.DrawMesh(mesh, Matrix4x4.identity, _mat);
             ReleaseTemporaryRT(ShaderIDs.MainTex);
             IsActive = true;
-            _isDirty = true;
+            _isDirty = false;
         }
 
         private void ReleaseCommandBuffer()

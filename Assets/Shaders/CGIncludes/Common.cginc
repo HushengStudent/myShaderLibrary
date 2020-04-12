@@ -3,6 +3,13 @@
 
 #include "UnityCG.cginc"
 
+float2 UVStartAtTop(float2 uv){
+    #if UNITY_UV_STARTS_AT_TOP
+    uv = uv * float2(1.0, -1.0) + float2(0.0, 1.0);
+    #endif
+    return uv;
+}
+
 fixed rand(fixed2 seed) {
 	return frac(sin(dot(seed, fixed2(12.9898, 78.233))) * 43758.5453);
 }

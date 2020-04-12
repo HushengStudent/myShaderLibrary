@@ -1,13 +1,9 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using UnityEngine;
 
 namespace Framework
 {
-    public enum PostProcessType : int
-    {
-        Common = 0,
-    }
-
     public class PostProcessMgr : MonoSingleton<PostProcessMgr>
     {
         private readonly string _mainCameraTag = "MainCamera";
@@ -58,12 +54,12 @@ namespace Framework
             }
         }
 
-        public void AddMainCameraPostProcess(string matPath, PostProcessType type = PostProcessType.Common)
+        public void AddMainCameraPostProcess<T>(string matPath) where T : AbsPostProcessBase
         {
-            AddPostProcess(MainCamera, matPath, type);
+            AddPostProcess<T>(MainCamera, matPath);
         }
 
-        public void AddPostProcess(Camera camera, string matPath, PostProcessType type = PostProcessType.Common)
+        public void AddPostProcess<T>(Camera camera, string matPath) where T : AbsPostProcessBase
         {
             if (string.IsNullOrWhiteSpace(matPath) || !camera)
             {
@@ -86,15 +82,7 @@ namespace Framework
             }
             if (!postProcessCamera.IsContains(matPath))
             {
-                AbsPostProcessBase target = null;
-                switch (type)
-                {
-                    case PostProcessType.Common:
-                        target = new PostProcessCommon(matPath);
-                        break;
-                    default:
-                        break;
-                }
+                var target = Activator.CreateInstance(typeof(T), matPath) as AbsPostProcessBase;
                 if (target != null)
                 {
                     postProcessCamera.AddPostProcess(target);

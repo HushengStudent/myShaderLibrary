@@ -16,6 +16,20 @@
 
         _GlowColor("Glow Color", Color) = (1,1,1,1)
 		_GlowIntensity("Glow Intensity", Range(0,100)) = 10
+
+/*
+According to the reference, Shader.setGlobal functions would only work on variables 
+that are not exposed as a property in the property block. So what you have to do is 
+remove the _test("_test",Float) = 0.0 line to make it work. Be sure to remake a new 
+material, since unity will save the properties you have set on a material even when 
+you are using a shader that doesn't have that property.
+*/
+        _MeltNoiseTex("Melt Noise Texture", 2D) = "white" {}
+        //_MeltStrength ("Melt Strength", Range(0,1)) = 0
+        _MeltAddColor ("Melt Add Color", Color) = (1,1,1,1)
+        _MeltAddColorStrength ("Melt Add Color Strength", Range(1,20)) = 1
+        _MeltAddColorLength ("Melt Add Color Length", Range(0,1)) = 0
+        _MeltAdditionalTex("Melt Additional Texture", 2D) = "white" {}
     }
     SubShader
     {
@@ -44,6 +58,9 @@
             #pragma shader_feature Glitch_ON
             //发光
             #pragma shader_feature GLOW_ON
+            //消融
+            #pragma shader_feature MELT_ON
+            #pragma shader_feature MELT_TEX_ON
 
             struct appdata
             {
@@ -56,6 +73,10 @@
                 float2 uv : TEXCOORD0;
                 //UNITY_FOG_COORDS(1)
                 float4 vertex : SV_POSITION;
+                #ifdef MELT_ON
+                float2 meltNoiseUV  : TEXCOORD1;
+                float2 additionalUV  : TEXCOORD2;
+                #endif
             };
 
             sampler2D _MainTex;
@@ -82,6 +103,17 @@
             float _GlowIntensity;
             #endif
 
+            #ifdef MELT_ON
+            sampler2D _MeltNoiseTex;
+            float4 _MeltNoiseTex_TexelSize;
+            float _MeltStrength;
+            fixed4 _MeltAddColor;
+            float _MeltAddColorStrength;
+            float _MeltAddColorLength;
+            sampler2D _MeltAdditionalTex;
+            float4 _MeltAdditionalTex_TexelSize;;
+            #endif
+
             v2f vert (appdata v)
             {
                 v2f o;
@@ -89,8 +121,14 @@
                 o.uv = ComputeScreenPos(o.vertex);
                 //UNITY_TRANSFER_FOG(o,o.vertex);
                 
-                #if UNITY_UV_STARTS_AT_TOP
-                o.uv = o.uv * float2(1.0, -1.0) + float2(0.0, 1.0);
+                o.uv = UVStartAtTop(o.uv);
+                
+                #ifdef MELT_ON
+                o.meltNoiseUV = ComputeScreenPos(o.vertex);
+                o.additionalUV = ComputeScreenPos(o.vertex);
+
+                o.meltNoiseUV = UVStartAtTop(o.meltNoiseUV);
+                o.additionalUV = UVStartAtTop(o.additionalUV);
                 #endif
 
                 return o;
@@ -134,6 +172,21 @@
                 col.rgb = saturate((col.r + col.g + col.b) * _GrayScaleLuminosity);
                 #endif
 
+                #ifdef MELT_ON
+                float melt = tex2D(_MeltNoiseTex, i.meltNoiseUV).a;
+                float value = melt - _MeltStrength;
+                float clip = step(0.01, value);
+                col.rgb *= clip;
+                float length = saturate(value + _MeltAddColorLength);
+                col.a *= step(0.01, length);
+                float degrees = saturate(_MeltAddColorStrength * length * (1 -clip));
+                half4 additional = tex2D(_MeltAdditionalTex, i.additionalUV);
+                #ifdef MELT_TEX_ON
+				col.rgb = lerp(col.rgb, additional , degrees);
+                #else
+				col.rgb = lerp(col.rgb, _MeltAddColor , degrees);
+                #endif
+                #endif
                 return col;
             }
 
