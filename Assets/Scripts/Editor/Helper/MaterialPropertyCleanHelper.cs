@@ -17,11 +17,11 @@ public class MaterialPropertyCleanHelper
                     continue;
                 }
 
-                SerializedObject serializedObject = new SerializedObject(mat);
-                SerializedProperty savedProperties = serializedObject.FindProperty("m_SavedProperties");
-                SerializedProperty texEnvs = savedProperties.FindPropertyRelative("m_TexEnvs");
-                SerializedProperty floats = savedProperties.FindPropertyRelative("m_Floats");
-                SerializedProperty colors = savedProperties.FindPropertyRelative("m_Colors");
+                var serializedObject = new SerializedObject(mat);
+                var savedProperties = serializedObject.FindProperty("m_SavedProperties");
+                var texEnvs = savedProperties.FindPropertyRelative("m_TexEnvs");
+                var floats = savedProperties.FindPropertyRelative("m_Floats");
+                var colors = savedProperties.FindPropertyRelative("m_Colors");
 
                 if (CleanSerializedProperty(texEnvs, mat) || CleanSerializedProperty(floats, mat)
                     || CleanSerializedProperty(colors, mat))
