@@ -45,6 +45,7 @@ public class Main : MonoBehaviour
     private bool _isGlitch = false;
     private bool _isGlow = false;
     private bool _isMelt = false;
+    private bool _isNegative = false;
 
     private void OnGUI()
     {
@@ -70,6 +71,7 @@ public class Main : MonoBehaviour
         ShowButton<PostProcessCommon>("故障", "Glitch", ref _isGlitch);
         ShowButton<PostProcessCommon>("发光", "Glow", ref _isGlow);
         ShowButton<PostProcessMelt>("消融", "Melt", ref _isMelt);
+        ShowButton<PostProcessCommon>("负片", "Negative", ref _isNegative);
 
         GUILayout.EndHorizontal();
         GUILayout.EndVertical();

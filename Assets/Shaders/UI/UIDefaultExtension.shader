@@ -93,6 +93,8 @@ Shader "myShaderLibrary/UI/UIDefaultExtension"
             //消融
             #pragma shader_feature MELT_ON
             #pragma shader_feature MELT_TEX_ON
+            //负片
+            #pragma shader_feature NEGATIVE_ON
 
             struct appdata_t
             {
@@ -236,6 +238,11 @@ Shader "myShaderLibrary/UI/UIDefaultExtension"
 				color.rgb = lerp(color.rgb, _MeltAddColor , degrees);
                 #endif
                 #endif
+
+                #ifdef NEGATIVE_ON
+                color.rgb = 1 - color.rgb;
+                #endif
+
                 return color;
             }
         ENDCG

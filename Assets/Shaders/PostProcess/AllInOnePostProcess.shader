@@ -61,6 +61,8 @@ you are using a shader that doesn't have that property.
             //消融
             #pragma shader_feature MELT_ON
             #pragma shader_feature MELT_TEX_ON
+            //负片
+            #pragma shader_feature NEGATIVE_ON
 
             struct appdata
             {
@@ -187,6 +189,11 @@ you are using a shader that doesn't have that property.
 				col.rgb = lerp(col.rgb, _MeltAddColor , degrees);
                 #endif
                 #endif
+
+                #ifdef NEGATIVE_ON
+                col.rgb = 1 - col.rgb;
+                #endif
+
                 return col;
             }
 

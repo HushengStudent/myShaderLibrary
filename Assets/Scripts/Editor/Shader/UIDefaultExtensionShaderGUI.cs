@@ -37,5 +37,7 @@
         ShaderFeature("GLOW_ON", "GLOW_ON(发光)", "发光", _glowKeys);
 
         ShaderFeature("MELT_ON", "MELT_ON(消融)", "消融", _meltKeys, _meltTexKeys);
+
+        ShaderFeature("NEGATIVE_ON", "NEGATIVE_ON(负片)", "负片", null);
     }
 }
