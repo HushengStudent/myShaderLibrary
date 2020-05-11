@@ -30,6 +30,8 @@ you are using a shader that doesn't have that property.
         _MeltAddColorStrength ("Melt Add Color Strength", Range(1,20)) = 1
         _MeltAddColorLength ("Melt Add Color Length", Range(0,1)) = 0
         _MeltAdditionalTex("Melt Additional Texture", 2D) = "white" {}
+
+        _PixelateIntensity("Pixelate Intensity", Range(1,200)) = 10
     }
     SubShader
     {
@@ -63,6 +65,8 @@ you are using a shader that doesn't have that property.
             #pragma shader_feature MELT_TEX_ON
             //负片
             #pragma shader_feature NEGATIVE_ON
+            //像素
+            #pragma shader_feature PIXELATE_ON
 
             struct appdata
             {
@@ -116,6 +120,10 @@ you are using a shader that doesn't have that property.
             float4 _MeltAdditionalTex_TexelSize;;
             #endif
 
+            #ifdef PIXELATE_ON
+            float _PixelateIntensity;
+            #endif
+
             v2f vert (appdata v)
             {
                 v2f o;
@@ -138,6 +146,10 @@ you are using a shader that doesn't have that property.
 
             fixed4 frag (v2f i) : SV_Target
             {
+                #ifdef PIXELATE_ON
+                i.uv = floor(i.uv * _PixelateIntensity) / _PixelateIntensity;
+                #endif
+
                 // sample the texture
                 fixed4 col = tex2D(_MainTex, i.uv);
                 // apply fog

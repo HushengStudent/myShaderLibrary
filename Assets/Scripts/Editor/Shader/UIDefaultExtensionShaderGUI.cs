@@ -14,6 +14,8 @@
 
     private readonly string[] _meltTexKeys = new string[] { "MELT_TEX_ON" };
 
+    private readonly string[] _pixelateKeys = new string[] { "_PixelateIntensity" };
+
     protected override void OnGUIEx()
     {
         ShaderProperty("_Color");
@@ -39,5 +41,7 @@
         ShaderFeature("MELT_ON", "MELT_ON(消融)", "消融", _meltKeys, _meltTexKeys);
 
         ShaderFeature("NEGATIVE_ON", "NEGATIVE_ON(负片)", "负片", null);
+
+        ShaderFeature("PIXELATE_ON", "PIXELATE_ON(像素)", "像素", _pixelateKeys);
     }
 }

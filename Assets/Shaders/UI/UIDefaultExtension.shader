@@ -36,6 +36,8 @@ Shader "myShaderLibrary/UI/UIDefaultExtension"
         _MeltAddColorStrength ("Melt Add Color Strength", Range(1,20)) = 1
         _MeltAddColorLength ("Melt Add Color Length", Range(0,1)) = 0
         _MeltAdditionalTex("Melt Additional Texture", 2D) = "white" {}
+
+        _PixelateIntensity("Pixelate Intensity", Range(1,200)) = 10
     }
 
     SubShader
@@ -95,6 +97,8 @@ Shader "myShaderLibrary/UI/UIDefaultExtension"
             #pragma shader_feature MELT_TEX_ON
             //负片
             #pragma shader_feature NEGATIVE_ON
+            //像素
+            #pragma shader_feature PIXELATE_ON
 
             struct appdata_t
             {
@@ -158,6 +162,10 @@ Shader "myShaderLibrary/UI/UIDefaultExtension"
             float4 _MeltAdditionalTex_ST;
             #endif
 
+            #ifdef PIXELATE_ON
+            float _PixelateIntensity;
+            #endif
+
             v2f vert(appdata_t v)
             {
                 v2f OUT;
@@ -180,6 +188,10 @@ Shader "myShaderLibrary/UI/UIDefaultExtension"
 
             fixed4 frag(v2f IN) : SV_Target
             {
+                #ifdef PIXELATE_ON
+                IN.texcoord = floor(IN.texcoord * _PixelateIntensity) / _PixelateIntensity;
+                #endif
+
                 half4 color = (tex2D(_MainTex, IN.texcoord) + _TextureSampleAdd) * IN.color;
 
                 #ifdef UI_CLIP_RECT_ON
