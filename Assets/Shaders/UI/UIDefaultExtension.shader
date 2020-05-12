@@ -38,6 +38,9 @@ Shader "myShaderLibrary/UI/UIDefaultExtension"
         _MeltAdditionalTex("Melt Additional Texture", 2D) = "white" {}
 
         _PixelateIntensity("Pixelate Intensity", Range(1,200)) = 10
+
+        _AberrationAmount("Aberration Amount", Range(0, 1)) = 1
+		_AberrationAlpha("Aberration Alpha", Range(0, 1)) = 0.4
     }
 
     SubShader
@@ -99,6 +102,8 @@ Shader "myShaderLibrary/UI/UIDefaultExtension"
             #pragma shader_feature NEGATIVE_ON
             //像素
             #pragma shader_feature PIXELATE_ON
+            //色差
+            #pragma shader_feature ABERRATION_ON
 
             struct appdata_t
             {
@@ -165,6 +170,10 @@ Shader "myShaderLibrary/UI/UIDefaultExtension"
             #ifdef PIXELATE_ON
             float _PixelateIntensity;
             #endif
+
+            #if ABERRATION_ON
+			fixed _AberrationAmount, _AberrationAlpha;
+			#endif
 
             v2f vert(appdata_t v)
             {
@@ -254,6 +263,16 @@ Shader "myShaderLibrary/UI/UIDefaultExtension"
                 #ifdef NEGATIVE_ON
                 color.rgb = 1 - color.rgb;
                 #endif
+
+                #if ABERRATION_ON
+                fixed4 c = IN.color * _Color;
+				fixed4 r = tex2D(_MainTex, IN.texcoord + fixed2(_AberrationAmount/10, 0)) * c;
+                fixed4 g = tex2D(_MainTex, IN.texcoord + fixed2(-_AberrationAmount/10, 0)) * c;
+				fixed4 b = tex2D(_MainTex, IN.texcoord + fixed2(0,-_AberrationAmount/10)) * c;
+				fixed4 a = tex2D(_MainTex, IN.texcoord + fixed2(0,_AberrationAmount/10)) * c;
+                fixed alpha = (r.a + g.a + b.a + a.a)/4;
+                color = fixed4(r.r , g.g, b.b , max(alpha * _AberrationAlpha, color.a));
+				#endif
 
                 return color;
             }

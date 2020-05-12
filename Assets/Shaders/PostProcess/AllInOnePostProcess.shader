@@ -32,6 +32,11 @@ you are using a shader that doesn't have that property.
         _MeltAdditionalTex("Melt Additional Texture", 2D) = "white" {}
 
         _PixelateIntensity("Pixelate Intensity", Range(1,200)) = 10
+
+        _AberrationColor("Aberration Color", Color) = (1,1,1,1)
+        _AberrationAmount("Aberration Amount", Range(0, 1)) = 1
+		_AberrationAlpha("Aberration Alpha", Range(0, 1)) = 0.4
+
     }
     SubShader
     {
@@ -67,6 +72,8 @@ you are using a shader that doesn't have that property.
             #pragma shader_feature NEGATIVE_ON
             //像素
             #pragma shader_feature PIXELATE_ON
+            //色差
+            #pragma shader_feature ABERRATION_ON
 
             struct appdata
             {
@@ -123,6 +130,11 @@ you are using a shader that doesn't have that property.
             #ifdef PIXELATE_ON
             float _PixelateIntensity;
             #endif
+
+            #if ABERRATION_ON
+            float4 _AberrationColor;
+			fixed _AberrationAmount, _AberrationAlpha;
+			#endif
 
             v2f vert (appdata v)
             {
@@ -205,6 +217,15 @@ you are using a shader that doesn't have that property.
                 #ifdef NEGATIVE_ON
                 col.rgb = 1 - col.rgb;
                 #endif
+
+                #if ABERRATION_ON
+				fixed4 r = tex2D(_MainTex, i.uv + fixed2(_AberrationAmount/10, 0)) * _AberrationColor;
+                fixed4 g = tex2D(_MainTex, i.uv + fixed2(-_AberrationAmount/10, 0)) * _AberrationColor;
+				fixed4 b = tex2D(_MainTex, i.uv + fixed2(0,-_AberrationAmount/10)) * _AberrationColor;
+				fixed4 a = tex2D(_MainTex, i.uv + fixed2(0,_AberrationAmount/10)) * _AberrationColor;
+                fixed alpha = (r.a + g.a + b.a + a.a)/4;
+                col = fixed4(r.r , g.g, b.b , max(alpha * _AberrationAlpha, col.a));
+				#endif
 
                 return col;
             }

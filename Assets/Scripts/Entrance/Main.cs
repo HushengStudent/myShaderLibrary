@@ -47,6 +47,7 @@ public class Main : MonoBehaviour
     private bool _isMelt = false;
     private bool _isNegative = false;
     private bool _isPixelate = false;
+    private bool _isAberration = false;
 
     private void OnGUI()
     {
@@ -74,6 +75,12 @@ public class Main : MonoBehaviour
         ShowButton<PostProcessMelt>("消融", "Melt", ref _isMelt);
         ShowButton<PostProcessCommon>("负片", "Negative", ref _isNegative);
         ShowButton<PostProcessCommon>("像素", "Pixelate", ref _isPixelate);
+        ShowButton<PostProcessCommon>("色差", "Aberration", ref _isAberration);
+
+        GUILayout.EndHorizontal();
+        GUILayout.Space(10);
+        GUILayout.BeginHorizontal();
+
 
         GUILayout.EndHorizontal();
         GUILayout.EndVertical();

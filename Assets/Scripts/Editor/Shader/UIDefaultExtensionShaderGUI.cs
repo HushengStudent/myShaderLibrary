@@ -16,6 +16,8 @@
 
     private readonly string[] _pixelateKeys = new string[] { "_PixelateIntensity" };
 
+    private readonly string[] _aberrationKeys = new string[] { "_AberrationAmount", "_AberrationAlpha" };
+
     protected override void OnGUIEx()
     {
         ShaderProperty("_Color");
@@ -43,5 +45,7 @@
         ShaderFeature("NEGATIVE_ON", "NEGATIVE_ON(负片)", "负片", null);
 
         ShaderFeature("PIXELATE_ON", "PIXELATE_ON(像素)", "像素", _pixelateKeys);
+
+        ShaderFeature("ABERRATION_ON", "ABERRATION_ON(色差)", "色差", _aberrationKeys);
     }
 }
