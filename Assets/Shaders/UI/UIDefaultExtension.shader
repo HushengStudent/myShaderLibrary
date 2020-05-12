@@ -41,6 +41,9 @@ Shader "myShaderLibrary/UI/UIDefaultExtension"
 
         _AberrationAmount("Aberration Amount", Range(0, 1)) = 1
 		_AberrationAlpha("Aberration Alpha", Range(0, 1)) = 0.4
+
+        _ShadowLength("Shadow Length", Range(-0.1, 0.1)) = 0.1
+        _ShadowStrength("Shadow Strength", Range(0, 3)) = 1
     }
 
     SubShader
@@ -104,6 +107,8 @@ Shader "myShaderLibrary/UI/UIDefaultExtension"
             #pragma shader_feature PIXELATE_ON
             //色差
             #pragma shader_feature ABERRATION_ON
+            //阴影
+            #pragma shader_feature SHADOW_ON
 
             struct appdata_t
             {
@@ -173,6 +178,10 @@ Shader "myShaderLibrary/UI/UIDefaultExtension"
 
             #if ABERRATION_ON
 			fixed _AberrationAmount, _AberrationAlpha;
+			#endif
+
+            #if SHADOW_ON
+			fixed _ShadowLength, _ShadowStrength;
 			#endif
 
             v2f vert(appdata_t v)
@@ -273,6 +282,14 @@ Shader "myShaderLibrary/UI/UIDefaultExtension"
                 fixed alpha = (r.a + g.a + b.a + a.a)/4;
                 color = fixed4(r.r , g.g, b.b , max(alpha * _AberrationAlpha, color.a));
 				#endif
+
+                #if SHADOW_ON
+			    fixed4 shadow = tex2D(_MainTex, IN.texcoord + fixed2(_ShadowLength, 0));
+                shadow.a = step(0.01,shadow.a);
+                shadow.rgb = fixed3(0,0,0);
+                shadow.a = saturate(shadow.a * _ShadowStrength);
+                color = AddMask(shadow,color);
+			    #endif
 
                 return color;
             }

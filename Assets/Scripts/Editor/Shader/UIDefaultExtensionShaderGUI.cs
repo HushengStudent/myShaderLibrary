@@ -18,6 +18,8 @@
 
     private readonly string[] _aberrationKeys = new string[] { "_AberrationAmount", "_AberrationAlpha" };
 
+    private readonly string[] _shadowKeys = new string[] { "_ShadowLength", "_ShadowStrength" };
+
     protected override void OnGUIEx()
     {
         ShaderProperty("_Color");
@@ -47,5 +49,7 @@
         ShaderFeature("PIXELATE_ON", "PIXELATE_ON(像素)", "像素", _pixelateKeys);
 
         ShaderFeature("ABERRATION_ON", "ABERRATION_ON(色差)", "色差", _aberrationKeys);
+
+        ShaderFeature("SHADOW_ON", "SHADOW_ON(阴影)", "阴影", _shadowKeys);
     }
 }

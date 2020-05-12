@@ -3,7 +3,14 @@
 
 #include "UnityCG.cginc"
 
-float2 UVStartAtTop(float2 uv){
+fixed4 AddMask(fixed4 color,fixed4 maskColor) 
+{
+    color *= step(0.01, 1-maskColor.a);  
+    return color + maskColor;  
+}
+
+float2 UVStartAtTop(float2 uv)
+{
     #if UNITY_UV_STARTS_AT_TOP
     uv = uv * float2(1.0, -1.0) + float2(0.0, 1.0);
     #endif
