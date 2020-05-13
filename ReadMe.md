@@ -21,7 +21,15 @@ software：Unity2018.4.19/visual studio2017.
 #### UI：
     (1)深度遮罩.(ZTestMask)
     (2)模板遮罩.(StencilTestMask)
-    (3)UI置灰.(GrayScale)
+    (3)置灰.(GrayScale)
+    (4)模糊.(Blur)
+    (5)故障效果.(Glitch)
+    (6)发光.(Glow)
+    (7)消融.(Melt)
+    (8)负片.(Negative)
+    (9)像素化.(Pixelate)
+    (10)色差.(Aberration)
+    (11)阴影.(Shadow)
 	
 #### 特效：
     (1)
@@ -29,6 +37,14 @@ software：Unity2018.4.19/visual studio2017.
 #### 后处理：
     (1)PostProcessing.
     (2)CommandBuffer.
+    (3)置灰.(GrayScale)
+    (4)模糊.(Blur)
+    (5)故障效果.(Glitch)
+    (6)发光.(Glow)
+    (7)消融.(Melt)
+    (8)负片.(Negative)
+    (9)像素化.(Pixelate)
+    (10)色差.(Aberration)
 	
 #### 模型：
     (1)

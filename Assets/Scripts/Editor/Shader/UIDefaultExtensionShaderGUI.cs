@@ -38,7 +38,7 @@
 
         ShaderFeature("BLUR_ON", "BLUR_ON(模糊)", "模糊", _blurKeys);
 
-        ShaderFeature("Glitch_ON", "Glitch_ON(故障)", "故障", _glitchKeys);
+        ShaderFeature("GLITCH_ON", "GLITCH_ON(故障)", "故障", _glitchKeys);
 
         ShaderFeature("GLOW_ON", "GLOW_ON(发光)", "发光", _glowKeys);
 

@@ -95,7 +95,7 @@ Shader "myShaderLibrary/UI/UIDefaultExtension"
             //模糊
             #pragma shader_feature BLUR_ON
             //故障
-            #pragma shader_feature Glitch_ON
+            #pragma shader_feature GLITCH_ON
             //发光
             #pragma shader_feature GLOW_ON
             //消融
@@ -148,7 +148,7 @@ Shader "myShaderLibrary/UI/UIDefaultExtension"
             float _BlurStrength;
             #endif
 
-            #ifdef Glitch_ON
+            #ifdef GLITCH_ON
             float _ScanLineJitter;
             float _VerticalJumpRange;
             float _VerticalJumpSpeed;
@@ -222,7 +222,7 @@ Shader "myShaderLibrary/UI/UIDefaultExtension"
                 #endif
                 */
                 
-                #ifdef Glitch_ON
+                #ifdef GLITCH_ON
                 float u = IN.texcoord.x;
                 float v = IN.texcoord.y;
 

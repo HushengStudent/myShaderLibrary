@@ -62,7 +62,7 @@ you are using a shader that doesn't have that property.
             //模糊
             #pragma shader_feature BLUR_ON
             //故障
-            #pragma shader_feature Glitch_ON
+            #pragma shader_feature GLITCH_ON
             //发光
             #pragma shader_feature GLOW_ON
             //消融
@@ -103,7 +103,7 @@ you are using a shader that doesn't have that property.
             float _BlurStrength;
             #endif
 
-            #ifdef Glitch_ON
+            #ifdef GLITCH_ON
             float _ScanLineJitter;
             float _VerticalJumpRange;
             float _VerticalJumpSpeed;
@@ -167,7 +167,7 @@ you are using a shader that doesn't have that property.
                 // apply fog
                 //UNITY_APPLY_FOG(i.fogCoord, col);
 
-                #ifdef Glitch_ON
+                #ifdef GLITCH_ON
                 float u = i.uv.x;
                 float v = i.uv.y;
 
