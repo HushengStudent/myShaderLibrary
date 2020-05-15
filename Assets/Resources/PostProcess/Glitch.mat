@@ -39,7 +39,6 @@ Material:
     - _MeltAddColorStrength: 1
     - _PixelateIntensity: 10
     - _ScanLineJitter: 0.2
-    - _VerticalJump: 0.02
     - _VerticalJumpRange: 0.02
     - _VerticalJumpSpeed: -5
     m_Colors:
