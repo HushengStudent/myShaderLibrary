@@ -22,7 +22,8 @@ public class UIDefaultExtensionShaderGUI : AbsShaderGUI
 
         ["GLOW_ON"] = new string[] {
             "_GlowColor",
-            "_GlowIntensity" },
+            "_GlowIntensity"
+        },
 
         ["MELT_ON"] = new string[] {
             "_MeltNoiseTex",
