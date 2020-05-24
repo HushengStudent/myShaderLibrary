@@ -44,6 +44,12 @@ Shader "myShaderLibrary/UI/UIDefaultExtension"
 
         _ShadowLength("Shadow Length", Range(-0.1, 0.1)) = 0.1
         _ShadowStrength("Shadow Strength", Range(0, 3)) = 1
+
+        _TorsionStrength("Torsion Strength", Range(1, 30)) = 1
+        _TorsionSpeed("Torsion Speed", Range(20, 500)) = 20
+
+        _ShakeStrength("Shake Strength", Range(0, 1)) = 0.1
+        _ShakeSpeed("Shake Speed", Range(1, 10)) = 1
     }
 
     SubShader
@@ -109,6 +115,11 @@ Shader "myShaderLibrary/UI/UIDefaultExtension"
             #pragma shader_feature ABERRATION_ON
             //阴影
             #pragma shader_feature SHADOW_ON
+
+            //扭曲
+            #pragma shader_feature TORSION_ON
+            //摇晃
+            #pragma shader_feature SHAKE_ON
 
             struct appdata_t
             {
@@ -184,6 +195,14 @@ Shader "myShaderLibrary/UI/UIDefaultExtension"
 			fixed _ShadowLength, _ShadowStrength;
 			#endif
 
+            #if TORSION_ON
+			fixed _TorsionStrength, _TorsionSpeed;
+			#endif
+
+            #if SHAKE_ON
+			fixed _ShakeStrength, _ShakeSpeed;
+			#endif
+
             v2f vert(appdata_t v)
             {
                 v2f OUT;
@@ -204,12 +223,31 @@ Shader "myShaderLibrary/UI/UIDefaultExtension"
                 return OUT;
             }
 
-            fixed4 frag(v2f IN) : SV_Target
+            float2 processuv(float2 uv)
             {
                 #ifdef PIXELATE_ON
-                IN.texcoord = floor(IN.texcoord * _PixelateIntensity) / _PixelateIntensity;
+                uv = floor(uv * _PixelateIntensity) / _PixelateIntensity;
+                #endif
+                
+                #if TORSION_ON
+                _TorsionSpeed = floor(_Time * _TorsionSpeed);
+                fixed torsionX = saturate(sin(uv.x * _TorsionStrength + _TorsionSpeed));
+                fixed torsionY = saturate(cos(uv.y * _TorsionStrength + _TorsionSpeed));
+                float2 torsionUV = float2(torsionX,torsionY);
+				uv = lerp(uv, uv + torsionUV, 0.0005 * _TorsionStrength);
+			    #endif
+
+                #ifdef SHAKE_ON
+                uv.x = fmod(lerp(uv.x, uv.x + _ShakeStrength * sin(_Time * _ShakeSpeed * 10), uv.y),1);
                 #endif
 
+                return uv;
+            }
+
+            fixed4 frag(v2f IN) : SV_Target
+            {
+                IN.texcoord = processuv(IN.texcoord);
+                
                 half4 color = (tex2D(_MainTex, IN.texcoord) + _TextureSampleAdd) * IN.color;
 
                 #ifdef UI_CLIP_RECT_ON
