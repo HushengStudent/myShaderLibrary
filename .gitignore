@@ -17,3 +17,11 @@ Assembly-CSharp-Editor-firstpass.csproj
 Assembly-CSharp-firstpass.csproj
 /Assembly-CSharp-Editor.csproj
 Library
+Temp
+Assembly-CSharp.csproj
+Assembly-CSharp-Editor.csproj
+BuildIn.sln
+obj
+.vs
+/Project/HDRP/HDRP.sln
+/Project/URP/URP.sln
