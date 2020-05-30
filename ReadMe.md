@@ -30,6 +30,9 @@ software：Unity2019.3.14/visual studio2017.
     (9)像素化.(Pixelate)
     (10)色差.(Aberration)
     (11)阴影.(Shadow)
+    (12)扭曲.(Torsion)
+    (13)摇晃.(Shake)
+    (14)变形.(Distort)
 	
 #### 特效：
     (1)
@@ -45,6 +48,7 @@ software：Unity2019.3.14/visual studio2017.
     (8)负片.(Negative)
     (9)像素化.(Pixelate)
     (10)色差.(Aberration)
+    (11)变形.(Distort)
 	
 #### 模型：
     (1)

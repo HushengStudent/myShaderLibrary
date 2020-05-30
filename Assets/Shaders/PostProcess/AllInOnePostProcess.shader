@@ -37,7 +37,12 @@ you are using a shader that doesn't have that property.
         _AberrationAmount("Aberration Amount", Range(0, 1)) = 1
 		_AberrationAlpha("Aberration Alpha", Range(0, 1)) = 0.4
 
+        _DistortNoiseTex ("Distort Noise Tex", 2D) = "white" {}
+        _DistortSpeedX ("Distort SpeedX", Range(1,10)) = 1
+        _DistortSpeedY ("Distort SpeedY", Range(1,10)) = 1
+        _DistortStrength ("Distort Strength", Range(0,1)) = 1
     }
+
     SubShader
     {
         Tags { "RenderType"="Opaque" }
@@ -74,6 +79,8 @@ you are using a shader that doesn't have that property.
             #pragma shader_feature PIXELATE_ON
             //色差
             #pragma shader_feature ABERRATION_ON
+            //变形
+            #pragma shader_feature DISTORT_ON
 
             struct appdata
             {
@@ -89,6 +96,10 @@ you are using a shader that doesn't have that property.
                 #ifdef MELT_ON
                 float2 meltNoiseUV  : TEXCOORD1;
                 float2 additionalUV  : TEXCOORD2;
+                #endif
+
+                #ifdef DISTORT_ON
+                float2 distortNoiseUV  : TEXCOORD1;
                 #endif
             };
 
@@ -136,6 +147,12 @@ you are using a shader that doesn't have that property.
 			fixed _AberrationAmount, _AberrationAlpha;
 			#endif
 
+            #if DISTORT_ON
+            sampler2D _DistortNoiseTex;
+            float4 _DistortNoiseTex_TexelSize;
+			fixed _DistortSpeedX, _DistortSpeedY,_DistortStrength;
+			#endif
+
             v2f vert (appdata v)
             {
                 v2f o;
@@ -152,6 +169,11 @@ you are using a shader that doesn't have that property.
                 o.meltNoiseUV = UVStartAtTop(o.meltNoiseUV);
                 o.additionalUV = UVStartAtTop(o.additionalUV);
                 #endif
+                
+                #ifdef DISTORT_ON
+                o.distortNoiseUV = ComputeScreenPos(o.vertex);
+                o.distortNoiseUV = UVStartAtTop(o.distortNoiseUV);
+                #endif
 
                 return o;
             }
@@ -160,6 +182,15 @@ you are using a shader that doesn't have that property.
             {
                 #ifdef PIXELATE_ON
                 i.uv = floor(i.uv * _PixelateIntensity) / _PixelateIntensity;
+                #endif
+                
+                #ifdef DISTORT_ON
+                i.distortNoiseUV.x += (_Time * _DistortSpeedX) % 1;
+				i.distortNoiseUV.y += (_Time * _DistortSpeedY) % 1;
+                fixed distortNoise = tex2D(_DistortNoiseTex, i.distortNoiseUV).a * _DistortStrength;
+                fixed distortOffset = distortNoise - (_DistortStrength/2);          
+                i.uv.x += distortOffset;
+                i.uv.y += distortOffset;
                 #endif
 
                 // sample the texture

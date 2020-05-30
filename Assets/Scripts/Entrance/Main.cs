@@ -48,6 +48,7 @@ public class Main : MonoBehaviour
     private bool _isNegative = false;
     private bool _isPixelate = false;
     private bool _isAberration = false;
+    private bool _isDistort = false;
 
     private void OnGUI()
     {
@@ -80,6 +81,7 @@ public class Main : MonoBehaviour
         GUILayout.EndHorizontal();
         GUILayout.Space(10);
         GUILayout.BeginHorizontal();
+        ShowButton<PostProcessCommon>("变形", "Distort", ref _isDistort);
 
 
         GUILayout.EndHorizontal();

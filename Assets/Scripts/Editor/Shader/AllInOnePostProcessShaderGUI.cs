@@ -45,6 +45,13 @@ public class AllInOnePostProcessShaderGUI : AbsShaderGUI
             "_AberrationAmount",
             "_AberrationAlpha"
         },
+
+        ["DISTORT_ON"] = new string[] {
+            "_DistortNoiseTex",
+            "_DistortSpeedX",
+            "_DistortSpeedY",
+            "_DistortStrength"
+        },
     };
 
     protected override void OnGUIEx()
@@ -68,5 +75,7 @@ public class AllInOnePostProcessShaderGUI : AbsShaderGUI
         ShaderFeature("PIXELATE_ON", "PIXELATE_ON(像素)", "像素", _keysDict["PIXELATE_ON"]);
 
         ShaderFeature("ABERRATION_ON", "ABERRATION_ON(色差)", "色差", _keysDict["ABERRATION_ON"]);
+
+        ShaderFeature("DISTORT_ON", "DISTORT_ON(变形)", "变形", _keysDict["DISTORT_ON"]);
     }
 }
