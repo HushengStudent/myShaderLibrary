@@ -48,7 +48,7 @@ Material:
     - _ShadowLength: 0.1
     - _ShadowStrength: 1
     - _ShakeSpeed: 5
-    - _ShakeStrength: 0.26
+    - _ShakeStrength: 0.05
     - _Stencil: 0
     - _StencilComp: 8
     - _StencilOp: 0
