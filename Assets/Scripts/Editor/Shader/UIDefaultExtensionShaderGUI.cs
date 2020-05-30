@@ -60,6 +60,13 @@ public class UIDefaultExtensionShaderGUI : AbsShaderGUI
             "_ShakeStrength",
             "_ShakeSpeed"
         },
+
+        ["DISTORT_ON"] = new string[] {
+            "_DistortNoiseTex",
+            "_DistortSpeedX",
+            "_DistortSpeedY",
+            "_DistortStrength"
+        },
     };
 
     protected override void OnGUIEx()
@@ -97,5 +104,7 @@ public class UIDefaultExtensionShaderGUI : AbsShaderGUI
         ShaderFeature("TORSION_ON", "TORSION_ON(扭曲)", "扭曲", _keysDict["TORSION_ON"]);
 
         ShaderFeature("SHAKE_ON", "SHAKE_ON(摇晃)", "摇晃", _keysDict["SHAKE_ON"]);
+
+        ShaderFeature("DISTORT_ON", "DISTORT_ON(变形)", "变形", _keysDict["DISTORT_ON"]);
     }
 }

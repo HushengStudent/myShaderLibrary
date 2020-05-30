@@ -50,6 +50,11 @@ Shader "myShaderLibrary/UI/UIDefaultExtension"
 
         _ShakeStrength("Shake Strength", Range(0, 1)) = 0.1
         _ShakeSpeed("Shake Speed", Range(1, 10)) = 1
+
+        _DistortNoiseTex ("Distort Noise Tex", 2D) = "white" {}
+        _DistortSpeedX ("Distort SpeedX", Range(1,10)) = 1
+        _DistortSpeedY ("Distort SpeedY", Range(1,10)) = 1
+        _DistortStrength ("Distort Strength", Range(0,1)) = 1
     }
 
     SubShader
@@ -120,6 +125,8 @@ Shader "myShaderLibrary/UI/UIDefaultExtension"
             #pragma shader_feature TORSION_ON
             //摇晃
             #pragma shader_feature SHAKE_ON
+            //变形
+            #pragma shader_feature DISTORT_ON
 
             struct appdata_t
             {
@@ -139,6 +146,10 @@ Shader "myShaderLibrary/UI/UIDefaultExtension"
                 #ifdef MELT_ON
                 float2 meltNoiseUV  : TEXCOORD2;
                 float2 additionalUV  : TEXCOORD3;
+                #endif
+
+                #ifdef DISTORT_ON
+                float2 distortNoiseUV  : TEXCOORD2;
                 #endif
 
                 UNITY_VERTEX_OUTPUT_STEREO
@@ -203,6 +214,12 @@ Shader "myShaderLibrary/UI/UIDefaultExtension"
 			fixed _ShakeStrength, _ShakeSpeed;
 			#endif
 
+            #if DISTORT_ON
+            sampler2D _DistortNoiseTex;
+            float4 _DistortNoiseTex_ST;
+			fixed _DistortSpeedX, _DistortSpeedY,_DistortStrength;
+			#endif
+
             v2f vert(appdata_t v)
             {
                 v2f OUT;
@@ -218,6 +235,10 @@ Shader "myShaderLibrary/UI/UIDefaultExtension"
                 #ifdef MELT_ON
                 OUT.meltNoiseUV = TRANSFORM_TEX(v.texcoord, _MeltNoiseTex);
                 OUT.additionalUV = TRANSFORM_TEX(v.texcoord, _MeltAdditionalTex);
+                #endif
+
+                #ifdef DISTORT_ON
+                OUT.distortNoiseUV = TRANSFORM_TEX(v.texcoord, _DistortNoiseTex);
                 #endif
 
                 return OUT;
@@ -240,13 +261,22 @@ Shader "myShaderLibrary/UI/UIDefaultExtension"
                 #ifdef SHAKE_ON
                 uv.x = fmod(lerp(uv.x, uv.x + _ShakeStrength * sin(_Time * _ShakeSpeed * 10), uv.y),1);
                 #endif
-
+                
                 return uv;
             }
 
             fixed4 frag(v2f IN) : SV_Target
             {
                 IN.texcoord = processuv(IN.texcoord);
+                
+                #ifdef DISTORT_ON
+                IN.distortNoiseUV.x += (_Time * _DistortSpeedX) % 1;
+				IN.distortNoiseUV.y += (_Time * _DistortSpeedY) % 1;
+                fixed distortNoise = tex2D(_DistortNoiseTex, IN.distortNoiseUV).a * _DistortStrength;
+                fixed distortOffset = distortNoise - (_DistortStrength/2);          
+                IN.texcoord.x += distortOffset;
+                IN.texcoord.y += distortOffset;
+                #endif
                 
                 half4 color = (tex2D(_MainTex, IN.texcoord) + _TextureSampleAdd) * IN.color;
 
