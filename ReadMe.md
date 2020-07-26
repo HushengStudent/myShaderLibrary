@@ -1,7 +1,7 @@
 ### myShaderLibrary
 #### My Unity Shader Library.
 
-software：Unity2019.3.14/visual studio2017.
+software：Unity2019.3.15/Visual Studio 2017.
 
 #### 基础：
     (1)顶点与片段着色器.
@@ -61,3 +61,6 @@ software：Unity2019.3.14/visual studio2017.
 	
 	Reference：
     (1)texture_maker：(https://github.com/M-Fatah/texture_maker).
+	
+	Asset Store：
+    (1)RPG Poly Pack - Lite.

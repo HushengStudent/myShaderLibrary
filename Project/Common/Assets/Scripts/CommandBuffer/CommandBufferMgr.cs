@@ -14,7 +14,7 @@ namespace Framework
     {
         private CommandBuffer _commandBuffer;
         private Camera _camera;
-        private HashSet<Renderer> _rendererHashSet;
+        private List<Renderer> _rendererList;
 
         protected override void OnInitialize()
         {
@@ -34,7 +34,7 @@ namespace Framework
             _camera.allowHDR = false;
             _camera.allowMSAA = false;
             _camera.enabled = false;
-            _rendererHashSet = new HashSet<Renderer>();
+            _rendererList = new List<Renderer>();
         }
 
         protected override void OnUninitialize()
@@ -50,8 +50,14 @@ namespace Framework
                 Destroy(_camera.gameObject);
                 _camera = null;
             }
-            _rendererHashSet.Clear();
-            _rendererHashSet = null;
+            _rendererList.Clear();
+            _rendererList = null;
+        }
+
+        protected override void UpdateEx(float interval)
+        {
+            base.UpdateEx(interval);
+            //多次调用的在这执行;
         }
 
         /// <summary>
@@ -73,16 +79,15 @@ namespace Framework
             {
                 return null;
             }
-            _rendererHashSet.Clear();
-            _rendererHashSet.Add(target.GetComponent<Renderer>());
-            foreach (var r in target.GetComponentsInChildren<Renderer>(true))
-            {
-                _rendererHashSet.Add(r);
-            }
-            if (_rendererHashSet.Count < 1)
+            _rendererList.Clear();
+            _rendererList.Add(target.GetComponent<Renderer>());
+            _rendererList.AddRange(target.GetComponentsInChildren<Renderer>(true));
+            if (_rendererList.Count < 1)
             {
                 return null;
             }
+
+            _rendererList.Sort((r1, r2) => { return r1.rendererPriority > r2.rendererPriority ? 0 : 1; });
 
             var x = width / camWidth / camScale.x;
             var y = high / camHigh / camScale.y;
@@ -96,12 +101,15 @@ namespace Framework
             _commandBuffer.ClearRenderTarget(true, true, Color.clear);
             _commandBuffer.SetViewProjectionMatrices(_camera.worldToCameraMatrix, _camera.projectionMatrix);
 
-            foreach (var r in _rendererHashSet)
+            foreach (var r in _rendererList)
             {
                 var targetMat = mat ?? (r.sharedMaterial ?? r.material);
-                _commandBuffer.DrawRenderer(r, targetMat);
+                if (targetMat && r && r.gameObject.activeSelf)
+                {
+                    _commandBuffer.DrawRenderer(r, targetMat);
+                }
             }
-            _rendererHashSet.Clear();
+            _rendererList.Clear();
 
             Graphics.ExecuteCommandBuffer(_commandBuffer);
 

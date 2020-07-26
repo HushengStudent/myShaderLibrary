@@ -52,7 +52,7 @@ public class Main : MonoBehaviour
 
     private void OnGUI()
     {
-        GUIStyle redTextStyle = new GUIStyle()
+        var redTextStyle = new GUIStyle()
         {
             fontSize = 30,
         };
@@ -69,32 +69,33 @@ public class Main : MonoBehaviour
 
         GUILayout.BeginHorizontal();
 
-        ShowButton<PostProcessCommon>("模糊", "Blur", ref _isBlur);
-        ShowButton<PostProcessCommon>("置灰", "GreyScale", ref _isGreyScale);
-        ShowButton<PostProcessCommon>("故障", "Glitch", ref _isGlitch);
-        ShowButton<PostProcessCommon>("发光", "Glow", ref _isGlow);
+        ShowButton<PostProcessCommon>("全屏模糊", "Blur", ref _isBlur);
+        ShowButton<PostProcessCommon>("全屏置灰", "GreyScale", ref _isGreyScale);
+        ShowButton<PostProcessCommon>("全屏故障", "Glitch", ref _isGlitch);
+        ShowButton<PostProcessCommon>("全屏发光", "Glow", ref _isGlow);
         ShowButton<PostProcessMelt>("消融", "Melt", ref _isMelt);
-        ShowButton<PostProcessCommon>("负片", "Negative", ref _isNegative);
-        ShowButton<PostProcessCommon>("像素", "Pixelate", ref _isPixelate);
-        ShowButton<PostProcessCommon>("色差", "Aberration", ref _isAberration);
-
+        
         GUILayout.EndHorizontal();
+
         GUILayout.Space(10);
         GUILayout.BeginHorizontal();
+        ShowButton<PostProcessCommon>("全屏负片", "Negative", ref _isNegative);
+        ShowButton<PostProcessCommon>("像素化", "Pixelate", ref _isPixelate);
+        ShowButton<PostProcessCommon>("色差", "Aberration", ref _isAberration);
         ShowButton<PostProcessCommon>("变形", "Distort", ref _isDistort);
 
-
         GUILayout.EndHorizontal();
+
         GUILayout.EndVertical();
     }
 
     private void ShowButton<T>(string effectName, string matPath, ref bool state) where T : AbsPostProcessBase
     {
-        GUIStyle btnStyle = new GUIStyle(GUI.skin.button)
+        var btnStyle = new GUIStyle(GUI.skin.button)
         {
             fontSize = 30,
         };
-        var w = GUILayout.Width(150);
+        var w = GUILayout.Width(300);
         var h = GUILayout.Height(50);
 
         if (GUILayout.Button(state ? $"关闭{effectName}" : $"开启{effectName}", btnStyle, w, h))
