@@ -44,7 +44,7 @@ namespace Framework
         protected override void UpdateEx(float interval)
         {
             base.UpdateEx(interval);
-            for (int i = 0; i < _postProcessCameraList.Count; i++)
+            for (var i = 0; i < _postProcessCameraList.Count; i++)
             {
                 var target = _postProcessCameraList[i];
                 if (target)
@@ -66,7 +66,7 @@ namespace Framework
                 return;
             }
             PostProcessCamera postProcessCamera = null;
-            for (int i = 0; i < _postProcessCameraList.Count; i++)
+            for (var i = 0; i < _postProcessCameraList.Count; i++)
             {
                 var target = _postProcessCameraList[i];
                 if (target.Camera == camera)
@@ -97,7 +97,7 @@ namespace Framework
 
         public void ReleasePostProcess(Camera camera, string matPath)
         {
-            for (int i = 0; i < _postProcessCameraList.Count; i++)
+            for (var i = 0; i < _postProcessCameraList.Count; i++)
             {
                 var target = _postProcessCameraList[i];
                 if (target.Camera == camera)
