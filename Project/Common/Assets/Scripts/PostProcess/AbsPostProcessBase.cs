@@ -139,16 +139,29 @@ namespace Framework
 
             _commandBuffer.Clear(); //Clear all commands in the buffer.
 
+            var cameraTarget = new RenderTargetIdentifier(BuiltinRenderTextureType.CameraTarget);
+            var currentActive = new RenderTargetIdentifier(BuiltinRenderTextureType.CurrentActive);
+
             GetTemporaryRT(ShaderIDs.MainTex);
-            _commandBuffer.Blit(BuiltinRenderTextureType.CameraTarget, ShaderIDs.MainTex);
+
+            //RequiresInitialBlit
+            //_commandBuffer.SetRenderTarget(ShaderIDs.MainTex, RenderBufferLoadAction.DontCare, RenderBufferStoreAction.Store);
+            //_commandBuffer.Blit(cameraTarget, currentActive, RuntimeUtilities.copyStdMaterial, 0);
+
+            _commandBuffer.Blit(cameraTarget, ShaderIDs.MainTex);
+
+            //_commandBuffer.SetRenderTarget(cameraTarget, RenderBufferLoadAction.DontCare, RenderBufferStoreAction.Store);
+            _commandBuffer.SetRenderTarget(cameraTarget);
 
             OnBuildCommandBuffer();//Command be execute every frame.
 
             var mesh = PostProcessMgr.singleton.FullscreenTriangle;
             //_commandBuffer.DrawMesh(mesh, Matrix4x4.identity, _mat);
             _commandBuffer.DrawMesh(mesh, Matrix4x4.identity, _mat, 0, -1, _materialPropertyBlock);
+
             _materialPropertyBlock.Clear();
             ReleaseTemporaryRT(ShaderIDs.MainTex);
+
             IsActive = true;
             _isDirty = false;
         }
