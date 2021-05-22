@@ -14,7 +14,7 @@ namespace Framework
         protected Material _mat { get; private set; }
         protected MaterialPropertyBlock _materialPropertyBlock { get; private set; }
 
-        protected virtual CameraEvent _cameraEvent { get; set; } = CameraEvent.AfterEverything;
+        protected virtual CameraEvent _cameraEvent { get; set; } = CameraEvent.BeforeImageEffects;
 
         public string MatPath { get; private set; }
         public bool IsActive { get; private set; }

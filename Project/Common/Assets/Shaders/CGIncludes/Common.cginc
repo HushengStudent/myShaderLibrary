@@ -9,6 +9,12 @@ fixed4 AddMask(fixed4 color,fixed4 maskColor)
     return color + maskColor;  
 }
 
+float2 TransformTriangleVertexToUV(float2 vertex)
+{
+    float2 uv = (vertex + 1.0) * 0.5;
+    return uv;
+}
+
 float2 UVStartAtTop(float2 uv)
 {
     #if UNITY_UV_STARTS_AT_TOP

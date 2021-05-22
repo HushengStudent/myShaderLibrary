@@ -156,6 +156,7 @@ you are using a shader that doesn't have that property.
             v2f vert (appdata v)
             {
                 v2f o;
+                /*
                 o.vertex = v.vertex;
                 o.uv = ComputeScreenPos(o.vertex);
                 //UNITY_TRANSFER_FOG(o,o.vertex);
@@ -172,6 +173,26 @@ you are using a shader that doesn't have that property.
                 
                 #ifdef DISTORT_ON
                 o.distortNoiseUV = ComputeScreenPos(o.vertex);
+                o.distortNoiseUV = UVStartAtTop(o.distortNoiseUV);
+                #endif
+                */
+
+                o.vertex = float4(v.vertex.xy, 0.0, 1.0);
+                o.uv = TransformTriangleVertexToUV(v.vertex.xy);
+                //UNITY_TRANSFER_FOG(o,o.vertex);
+                
+                o.uv = UVStartAtTop(o.uv);
+                
+                #ifdef MELT_ON
+                o.meltNoiseUV = TransformTriangleVertexToUV(v.vertex.xy);
+                o.additionalUV = TransformTriangleVertexToUV(v.vertex.xy);
+
+                o.meltNoiseUV = UVStartAtTop(o.meltNoiseUV);
+                o.additionalUV = UVStartAtTop(o.additionalUV);
+                #endif
+                
+                #ifdef DISTORT_ON
+                o.distortNoiseUV = TransformTriangleVertexToUV(v.vertex.xy);
                 o.distortNoiseUV = UVStartAtTop(o.distortNoiseUV);
                 #endif
 
