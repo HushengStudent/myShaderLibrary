@@ -111,7 +111,8 @@ namespace Framework
             Deprecated = false;
             IsActive = false;
             _postProcessCamera = postProcessCamera;
-            if (!postProcessCamera.Camera || string.IsNullOrWhiteSpace(MatPath))
+            if (!postProcessCamera.Camera || !PostProcessMgr.singleton.PostProcessResource
+                || string.IsNullOrWhiteSpace(MatPath))
             {
                 Deprecated = true;
                 return;
@@ -120,12 +121,9 @@ namespace Framework
             _commandBuffer = new CommandBuffer { name = MatPath };
             AddCommandBuffer();
 
-            var request = Resources.LoadAsync<Material>(MatPath);
-            request.completed += (async) =>
-            {
-                _mat = request.asset as Material;
-                BuildCommandBuffer();
-            };
+            _mat = PostProcessMgr.singleton.PostProcessResource.GetMaterial(MatPath);
+
+            BuildCommandBuffer();
         }
 
         private void BuildCommandBuffer()

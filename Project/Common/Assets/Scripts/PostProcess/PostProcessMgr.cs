@@ -33,6 +33,18 @@ namespace Framework
 
         public Camera MainCamera { get; private set; }
 
+        public PostProcessResource PostProcessResource { get; private set; }
+
+        protected override void AwakeEx()
+        {
+            base.AwakeEx();
+            var request = Resources.LoadAsync<PostProcessResource>("PostProcessResource");
+            request.completed += (async) =>
+            {
+                PostProcessResource = request.asset as PostProcessResource;
+            };
+        }
+
         protected override void OnInitialize()
         {
             base.OnInitialize();

@@ -49,6 +49,7 @@ public class Main : MonoBehaviour
     private bool _isPixelate = false;
     private bool _isAberration = false;
     private bool _isDistort = false;
+    private bool _isBloom = false;
 
     private void OnGUI()
     {
@@ -74,7 +75,7 @@ public class Main : MonoBehaviour
         ShowButton<PostProcessCommon>("全屏故障", "Glitch", ref _isGlitch);
         ShowButton<PostProcessCommon>("全屏发光", "Glow", ref _isGlow);
         ShowButton<PostProcessMelt>("消融", "Melt", ref _isMelt);
-        
+
         GUILayout.EndHorizontal();
 
         GUILayout.Space(10);
@@ -83,6 +84,12 @@ public class Main : MonoBehaviour
         ShowButton<PostProcessCommon>("像素化", "Pixelate", ref _isPixelate);
         ShowButton<PostProcessCommon>("色差", "Aberration", ref _isAberration);
         ShowButton<PostProcessCommon>("变形", "Distort", ref _isDistort);
+
+        GUILayout.EndHorizontal();
+
+        GUILayout.Space(10);
+        GUILayout.BeginHorizontal();
+        ShowButton<PostProcessCommon>("Bloom", "Bloom", ref _isBloom);
 
         GUILayout.EndHorizontal();
 
@@ -100,7 +107,7 @@ public class Main : MonoBehaviour
 
         if (GUILayout.Button(state ? $"关闭{effectName}" : $"开启{effectName}", btnStyle, w, h))
         {
-            var path = $"PostProcess/{matPath}";
+            var path = $"{matPath}";
             if (state)
             {
                 PostProcessMgr.singleton.ReleaseMainCameraPostProcess(path);
