@@ -27,7 +27,7 @@
         {
             base.OnBuildCommandBuffer();
             //_commandBuffer.SetGlobalFloat(ShaderIDs.MeltStrength, _meltStrength);
-            _materialPropertyBlock.SetFloat(ShaderIDs.MeltStrength, _meltStrength);
+            _properties.SetFloat(ShaderIDs.MeltStrength, _meltStrength);
         }
     }
 }

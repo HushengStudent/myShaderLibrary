@@ -12,59 +12,52 @@ namespace Framework
         protected PostProcessCamera _postProcessCamera { get; private set; }
         protected CommandBuffer _commandBuffer { get; private set; }
         protected Material _mat { get; private set; }
-        protected MaterialPropertyBlock _materialPropertyBlock { get; private set; }
+        protected MaterialPropertyBlock _properties { get; private set; }
 
         protected virtual CameraEvent _cameraEvent { get; set; } = CameraEvent.BeforeImageEffects;
+
+        protected RenderTargetIdentifier CameraTarget = new RenderTargetIdentifier(BuiltinRenderTextureType.CameraTarget);
+        protected RenderTargetIdentifier CurrentActive = new RenderTargetIdentifier(BuiltinRenderTextureType.CurrentActive);
 
         public string MatPath { get; private set; }
         public bool IsActive { get; private set; }
         public bool Deprecated { get; private set; }
 
+        public bool IsEnabled
+        {
+            get
+            {
+                return !Deprecated && IsActive;
+            }
+        }
+
         public void OnPreRender()
         {
-            if (IsEnabled())
+            OnPreRenderInternal();
+            if (_isDirty)
             {
-                OnPreRenderInternal();
-                if (_isDirty)
-                {
-                    BuildCommandBuffer();
-                }
+                BuildCommandBuffer();
             }
         }
         public void OnPreCull()
         {
-            if (IsEnabled())
-            {
-                OnPreCullInternal();
-            }
+            OnPreCullInternal();
         }
         public void OnRenderObject()
         {
-            if (IsEnabled())
-            {
-                OnRenderObjectInternal();
-            }
+            OnRenderObjectInternal();
         }
         public void OnWillRenderObject()
         {
-            if (IsEnabled())
-            {
-                OnWillRenderObjectInternal();
-            }
+            OnWillRenderObjectInternal();
         }
         public void OnPostRender()
         {
-            if (IsEnabled())
-            {
-                OnPostRenderInternal();
-            }
+            OnPostRenderInternal();
         }
         public void OnUpdate()
         {
-            if (IsEnabled())
-            {
-                OnUpdateInternal();
-            }
+            OnUpdateInternal();
         }
 
         /// <summary>
@@ -77,10 +70,13 @@ namespace Framework
         protected virtual void OnPostRenderInternal() { }
         protected virtual void OnUpdateInternal() { }
 
+        protected virtual void OnAddCommandBuffer() { }
+        protected virtual void OnRemoveCommandBuffer() { }
         /// <summary>
         /// 构建CommandBuffer;
         /// </summary>
         protected virtual void OnBuildCommandBuffer() { }
+
         /// <summary>
         /// 释放CommandBuffer;
         /// </summary>
@@ -89,12 +85,6 @@ namespace Framework
         /// 释放该后处理并卸载相关资源;
         /// </summary>
         protected virtual void OnReleasePostProcess() { }
-
-
-        public bool IsEnabled()
-        {
-            return !Deprecated && IsActive;
-        }
 
         protected void ReBuildCommandBuffer()
         {
@@ -117,12 +107,12 @@ namespace Framework
                 Deprecated = true;
                 return;
             }
-            _materialPropertyBlock = new MaterialPropertyBlock();
+            _properties = new MaterialPropertyBlock();
             _commandBuffer = new CommandBuffer { name = MatPath };
-            AddCommandBuffer();
 
             _mat = PostProcessMgr.singleton.PostProcessResource.GetMaterial(MatPath);
 
+            AddCommandBuffer();
             BuildCommandBuffer();
         }
 
@@ -137,28 +127,17 @@ namespace Framework
 
             _commandBuffer.Clear(); //Clear all commands in the buffer.
 
-            var cameraTarget = new RenderTargetIdentifier(BuiltinRenderTextureType.CameraTarget);
-            var currentActive = new RenderTargetIdentifier(BuiltinRenderTextureType.CurrentActive);
-
-            GetTemporaryRT(ShaderIDs.MainTex);
-
             //RequiresInitialBlit
-            //_commandBuffer.SetRenderTarget(ShaderIDs.MainTex, RenderBufferLoadAction.DontCare, RenderBufferStoreAction.Store);
-            //_commandBuffer.Blit(cameraTarget, currentActive, RuntimeUtilities.copyStdMaterial, 0);
-
-            _commandBuffer.Blit(cameraTarget, ShaderIDs.MainTex);
-
-            //_commandBuffer.SetRenderTarget(cameraTarget, RenderBufferLoadAction.DontCare, RenderBufferStoreAction.Store);
-            _commandBuffer.SetRenderTarget(cameraTarget);
+            GetTemporaryRT(ShaderIDs.MainTex);
+            _commandBuffer.BuiltinBlit(CameraTarget, ShaderIDs.MainTex);
 
             OnBuildCommandBuffer();//Command be execute every frame.
 
-            var mesh = PostProcessMgr.singleton.FullscreenTriangle;
-            //_commandBuffer.DrawMesh(mesh, Matrix4x4.identity, _mat);
-            _commandBuffer.DrawMesh(mesh, Matrix4x4.identity, _mat, 0, -1, _materialPropertyBlock);
+            //BlitFullscreenTriangle
+            _commandBuffer.BlitFullscreenTriangle(ShaderIDs.MainTex, CameraTarget, _mat, 0, _properties);
 
-            _materialPropertyBlock.Clear();
-            ReleaseTemporaryRT(ShaderIDs.MainTex);
+            _properties.Clear();
+            ReleaseAllTemporaryRT();
 
             IsActive = true;
             _isDirty = false;
@@ -197,33 +176,43 @@ namespace Framework
 
         private void AddCommandBuffer()
         {
-            if (_commandBuffer == null || !_postProcessCamera || !_postProcessCamera.Camera)
+            if (_commandBuffer == null || !_postProcessCamera)
             {
                 return;
             }
-            var allCommandBuffer = _postProcessCamera.Camera.GetCommandBuffers(_cameraEvent);
-            foreach (var temp in allCommandBuffer)
+            var camera = _postProcessCamera.Camera;
+            if (!camera)
+            {
+                return;
+            }
+            foreach (var temp in camera.GetCommandBuffers(_cameraEvent))
             {
                 if (temp.name == _commandBuffer.name)
                 {
                     return;
                 }
             }
-            _postProcessCamera.Camera.AddCommandBuffer(_cameraEvent, _commandBuffer);
+            camera.AddCommandBuffer(_cameraEvent, _commandBuffer);
+            OnAddCommandBuffer();
         }
 
         private void RemoveCommandBuffer()
         {
-            if (_commandBuffer == null || !_postProcessCamera || !_postProcessCamera.Camera)
+            if (_commandBuffer == null || !_postProcessCamera)
             {
                 return;
             }
-            var allCommandBuffer = _postProcessCamera.Camera.GetCommandBuffers(_cameraEvent);
-            foreach (var temp in allCommandBuffer)
+            var camera = _postProcessCamera.Camera;
+            if (!camera)
+            {
+                return;
+            }
+            foreach (var temp in camera.GetCommandBuffers(_cameraEvent))
             {
                 if (temp.name == _commandBuffer.name)
                 {
                     _postProcessCamera.Camera.RemoveCommandBuffer(_cameraEvent, _commandBuffer);
+                    RemoveCommandBuffer();
                     return;
                 }
             }
@@ -242,22 +231,29 @@ namespace Framework
             }
             int w = (int)(camera.pixelWidth * scale);
             int h = (int)(camera.pixelHeight * scale);
+            ReleaseTemporaryRT(nameID);
             _commandBuffer.GetTemporaryRT(nameID, w, h);
             _rtHashSet.Add(nameID);
         }
 
         protected void ReleaseAllTemporaryRT()
         {
-            foreach (var nameID in _rtHashSet)
+            var hashSet = new HashSet<int>(_rtHashSet);
+            foreach (var nameID in hashSet)
             {
                 ReleaseTemporaryRT(nameID);
             }
+            hashSet.Clear();
             _rtHashSet.Clear();
         }
 
         protected void ReleaseTemporaryRT(int nameID)
         {
             if (_commandBuffer == null)
+            {
+                return;
+            }
+            if (!_rtHashSet.Contains(nameID))
             {
                 return;
             }

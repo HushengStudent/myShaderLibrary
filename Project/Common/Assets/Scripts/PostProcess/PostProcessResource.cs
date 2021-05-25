@@ -2,21 +2,24 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 
-[Serializable]
-public class PostProcessResource : ScriptableObject
+namespace Framework
 {
-    [SerializeField]
-    public List<Material> MaterialsList = new List<Material>();
-
-    public Material GetMaterial(string matName)
+    [Serializable]
+    public class PostProcessResource : ScriptableObject
     {
-        foreach (var mat in MaterialsList)
+        [SerializeField]
+        public List<Material> MaterialsList = new List<Material>();
+
+        public Material GetMaterial(string matName)
         {
-            if (mat && mat.name == matName)
+            foreach (var mat in MaterialsList)
             {
-                return mat;
+                if (mat && mat.name == matName)
+                {
+                    return mat;
+                }
             }
+            return null;
         }
-        return null;
     }
 }

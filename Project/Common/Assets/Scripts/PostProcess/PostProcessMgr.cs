@@ -9,28 +9,6 @@ namespace Framework
         private readonly string _mainCameraTag = "MainCamera";
         private List<PostProcessCamera> _postProcessCameraList;
 
-        private Mesh _fullscreenTriangle;
-        public Mesh FullscreenTriangle
-        {
-            get
-            {
-                if (_fullscreenTriangle != null)
-                {
-                    return _fullscreenTriangle;
-                }
-                _fullscreenTriangle = new Mesh { name = "Fullscreen Triangle" };
-                _fullscreenTriangle.SetVertices(new List<Vector3>
-                {
-                    new Vector3(-1f, -1f, 0f),
-                    new Vector3(-1f,  3f, 0f),
-                    new Vector3( 3f, -1f, 0f)
-                });
-                _fullscreenTriangle.SetIndices(new[] { 0, 1, 2 }, MeshTopology.Triangles, 0, false);
-                _fullscreenTriangle.UploadMeshData(false);
-                return _fullscreenTriangle;
-            }
-        }
-
         public Camera MainCamera { get; private set; }
 
         public PostProcessResource PostProcessResource { get; private set; }

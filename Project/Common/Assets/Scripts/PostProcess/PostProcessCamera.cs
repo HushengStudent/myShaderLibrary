@@ -6,12 +6,12 @@ namespace Framework
     public class PostProcessCamera : MonoBehaviour
     {
         public Camera Camera { get; private set; }
-        private List<AbsPostProcessBase> _postProcessList;
+        private List<AbsPostProcessBase> _postProcessList = new List<AbsPostProcessBase>();
 
         private void Awake()
         {
             Camera = GetComponent<Camera>();
-            _postProcessList = new List<AbsPostProcessBase>();
+            _postProcessList.Clear();
         }
 
         private void OnDestroy()
@@ -69,7 +69,7 @@ namespace Framework
             for (int i = 0; i < _postProcessList.Count; i++)
             {
                 var target = _postProcessList[i];
-                if (target.IsEnabled())
+                if (target.IsEnabled)
                 {
                     target.OnPreRender();
                 }
@@ -82,7 +82,7 @@ namespace Framework
             for (int i = 0; i < _postProcessList.Count; i++)
             {
                 var target = _postProcessList[i];
-                if (target.IsEnabled())
+                if (target.IsEnabled)
                 {
                     target.OnPreCull();
                 }
@@ -95,7 +95,7 @@ namespace Framework
             for (int i = 0; i < _postProcessList.Count; i++)
             {
                 var target = _postProcessList[i];
-                if (target.IsEnabled())
+                if (target.IsEnabled)
                 {
                     target.OnRenderObject();
                 }
@@ -108,7 +108,7 @@ namespace Framework
             for (int i = 0; i < _postProcessList.Count; i++)
             {
                 var target = _postProcessList[i];
-                if (target.IsEnabled())
+                if (target.IsEnabled)
                 {
                     target.OnWillRenderObject();
                 }
@@ -121,7 +121,7 @@ namespace Framework
             for (int i = 0; i < _postProcessList.Count; i++)
             {
                 var target = _postProcessList[i];
-                if (target.IsEnabled())
+                if (target.IsEnabled)
                 {
                     target.OnPostRender();
                 }
@@ -138,7 +138,7 @@ namespace Framework
                     RemovePostProcess(target);
                     continue;
                 }
-                if (target.IsEnabled())
+                if (target.IsEnabled)
                 {
                     target.OnUpdate();
                 }
