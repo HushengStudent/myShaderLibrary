@@ -10,5 +10,16 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 823c59a89e494f64fb2eb55c0d64b339, type: 3}
-  m_Name: newPostProcessResource1
+  m_Name: PostProcessResource
   m_EditorClassIdentifier: 
+  MaterialsList:
+  - {fileID: 2100000, guid: aa4d419e93eddb346a228f41ff01d045, type: 2}
+  - {fileID: 2100000, guid: 25d5a95fe860cfb438f99759cf75179d, type: 2}
+  - {fileID: 2100000, guid: 061c9a7a80f3b244d9be3cbaeb740db3, type: 2}
+  - {fileID: 2100000, guid: d1b904ed5214d8e42a815af5a3693860, type: 2}
+  - {fileID: 2100000, guid: 59e4c6f370eae954f81e279f7afd594f, type: 2}
+  - {fileID: 2100000, guid: c94d763f8abc48a4ba43a893e9bc7605, type: 2}
+  - {fileID: 2100000, guid: b372ea49cee6d3d4fb1fb3f009b8749f, type: 2}
+  - {fileID: 2100000, guid: 3235faf3cc6c87745abc7226c698a0dd, type: 2}
+  - {fileID: 2100000, guid: 7ca7f497980c4fb40b643a81fb043bb3, type: 2}
+  - {fileID: 2100000, guid: b2b26cb84aaaf2d48b1af820c2f57bdf, type: 2}

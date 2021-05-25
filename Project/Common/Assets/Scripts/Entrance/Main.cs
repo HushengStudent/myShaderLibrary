@@ -89,7 +89,7 @@ public class Main : MonoBehaviour
 
         GUILayout.Space(10);
         GUILayout.BeginHorizontal();
-        ShowButton<PostProcessCommon>("Bloom", "Bloom", ref _isBloom);
+        ShowButton<PostProcessBloom>("Bloom", "Bloom", ref _isBloom);
 
         GUILayout.EndHorizontal();
 
