@@ -9,6 +9,10 @@ public class Main : MonoBehaviour
     private float _accumulator;
     private float _timeLeft;
 
+    [SerializeField]
+    public GameObject Capsule;
+    private bool _direction = false;
+
     private void Awake()
     {
         PostProcessMgr.singleton.Launch();
@@ -38,6 +42,8 @@ public class Main : MonoBehaviour
             _accumulator = 0f;
             _timeLeft += _fpsUpdateInterval;
         }
+
+        Tween();
     }
 
     private bool _isBlur = false;
@@ -118,5 +124,23 @@ public class Main : MonoBehaviour
             }
             state = !state;
         }
+    }
+
+    private void Tween()
+    {
+        if (!Capsule)
+        {
+            return;
+        }
+        var trans = Capsule.transform;
+        var pos = trans.position;
+
+        if ((_direction && pos.z > 58f) || (!_direction && pos.z < 48f))
+        {
+            _direction = !_direction;
+            return;
+        }
+        var dis = 0.05f;
+        trans.position = new Vector3(pos.x, pos.y, pos.z + (_direction ? dis : -dis));
     }
 }
