@@ -57,6 +57,7 @@ public class Main : MonoBehaviour
     private bool _isDistort = false;
     private bool _isBloom = false;
     private bool _isMotionBlur = false;
+    private bool _isEdgeDetection = false;
 
     private void OnGUI()
     {
@@ -97,7 +98,8 @@ public class Main : MonoBehaviour
         GUILayout.Space(10);
         GUILayout.BeginHorizontal();
         ShowButton<PostProcessBloom>("Bloom", "Bloom", ref _isBloom);
-        ShowButton<PostProcessMotionBlur>("MotionBlur", "MotionBlur", ref _isMotionBlur);
+        ShowButton<PostProcessMotionBlur>("运动模糊", "MotionBlur", ref _isMotionBlur);
+        ShowButton<PostProcessCommon>("勾边", "EdgeDetection", ref _isEdgeDetection);
 
         GUILayout.EndHorizontal();
 

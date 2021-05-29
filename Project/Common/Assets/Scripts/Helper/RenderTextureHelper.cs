@@ -20,9 +20,7 @@ namespace Framework
                 rt.name = $"{rtName}_RT_{width}x{high}";
             }
             rt.anisoLevel = 1;
-            rt.autoGenerateMips = false;
             rt.filterMode = FilterMode.Bilinear;
-            rt.useMipMap = false;
             return rt;
         }
 

@@ -2,7 +2,7 @@
 {
     Properties
 	{
-		_BlurAmount ("Blur Amount", Float) = 0.2
+		_BlurAmount ("Blur Amount", Range(0,1)) = 0.2
 	}
 
 	CGINCLUDE
