@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Rendering;
+using UnityObject = UnityEngine.Object;
 
 namespace Framework
 {
@@ -18,6 +19,29 @@ namespace Framework
 
         protected RenderTargetIdentifier CameraTarget = new RenderTargetIdentifier(BuiltinRenderTextureType.CameraTarget);
         protected RenderTargetIdentifier CurrentActive = new RenderTargetIdentifier(BuiltinRenderTextureType.CurrentActive);
+
+        private Material _copyMat;
+        protected Material CopyMat
+        {
+            get
+            {
+                if (!_copyMat)
+                {
+                    /*
+                    var blitCopy = Shader.Find("Hidden/BlitCopy");
+                    _copyMat = new Material(blitCopy)
+                    {
+                        hideFlags = HideFlags.DontSave
+                    };
+                    */
+                    _copyMat = PostProcessMgr.singleton.PostProcessResource.GetMaterial("Copy");
+                }
+                return _copyMat;
+            }
+        }
+
+        protected virtual bool RequiresInitialBlit { get; } = true;
+        protected virtual bool NeedsFinalPass { get; } = true;
 
         public string MatPath { get; private set; }
         public bool IsActive { get; private set; }
@@ -128,13 +152,19 @@ namespace Framework
             _commandBuffer.Clear(); //Clear all commands in the buffer.
 
             //RequiresInitialBlit
-            GetTemporaryRT(ShaderIDs.MainTex);
-            _commandBuffer.BuiltinBlit(CameraTarget, ShaderIDs.MainTex);
+            if (RequiresInitialBlit)
+            {
+                GetTemporaryRT(ShaderIDs.MainTex);
+                _commandBuffer.BuiltinBlit(CameraTarget, ShaderIDs.MainTex);
+            }
 
             OnBuildCommandBuffer();//Command be execute every frame.
 
             //BlitFullscreenTriangle
-            _commandBuffer.BlitFullscreenTriangle(ShaderIDs.MainTex, CameraTarget, _mat, 0, _properties);
+            if (NeedsFinalPass)
+            {
+                _commandBuffer.BlitFullscreenTriangle(ShaderIDs.MainTex, CameraTarget, _mat, 0, _properties);
+            }
 
             _properties.Clear();
             ReleaseAllTemporaryRT();
@@ -212,7 +242,13 @@ namespace Framework
                 if (temp.name == _commandBuffer.name)
                 {
                     _postProcessCamera.Camera.RemoveCommandBuffer(_cameraEvent, _commandBuffer);
-                    RemoveCommandBuffer();
+                    /*
+                    if (_copyMat)
+                    {
+                        UnityObject.Destroy(_copyMat);
+                    }
+                    */
+                    OnRemoveCommandBuffer();
                     return;
                 }
             }
@@ -229,8 +265,8 @@ namespace Framework
             {
                 return;
             }
-            int w = (int)(camera.pixelWidth * scale);
-            int h = (int)(camera.pixelHeight * scale);
+            var w = (int)(camera.pixelWidth * scale);
+            var h = (int)(camera.pixelHeight * scale);
             ReleaseTemporaryRT(nameID);
             _commandBuffer.GetTemporaryRT(nameID, w, h);
             _rtHashSet.Add(nameID);

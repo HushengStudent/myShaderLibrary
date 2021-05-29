@@ -56,6 +56,7 @@ public class Main : MonoBehaviour
     private bool _isAberration = false;
     private bool _isDistort = false;
     private bool _isBloom = false;
+    private bool _isMotionBlur = false;
 
     private void OnGUI()
     {
@@ -96,6 +97,7 @@ public class Main : MonoBehaviour
         GUILayout.Space(10);
         GUILayout.BeginHorizontal();
         ShowButton<PostProcessBloom>("Bloom", "Bloom", ref _isBloom);
+        ShowButton<PostProcessMotionBlur>("MotionBlur", "MotionBlur", ref _isMotionBlur);
 
         GUILayout.EndHorizontal();
 
