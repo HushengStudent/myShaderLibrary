@@ -58,6 +58,7 @@ public class Main : MonoBehaviour
     private bool _isBloom = false;
     private bool _isMotionBlur = false;
     private bool _isEdgeDetection = false;
+    private bool _isRadialBlur = false;
 
     private void OnGUI()
     {
@@ -100,6 +101,7 @@ public class Main : MonoBehaviour
         ShowButton<PostProcessBloom>("Bloom", "Bloom", ref _isBloom);
         ShowButton<PostProcessMotionBlur>("运动模糊", "MotionBlur", ref _isMotionBlur);
         ShowButton<PostProcessCommon>("勾边", "EdgeDetection", ref _isEdgeDetection);
+        ShowButton<PostProcessRadialBlur>("径向模糊", "RadialBlur", ref _isRadialBlur);
 
         GUILayout.EndHorizontal();
 
