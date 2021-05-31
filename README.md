@@ -53,7 +53,8 @@ software：Unity2019.4.26/Visual Studio 2017.
     (13)运动模糊.(MotionBlur)
     (14)勾边.(EdgeDetection)
     (15)径向模糊.(RadialBlur)
-    ![后处理效果图](https://raw.githubusercontent.com/HushengStudent/myShaderLibrary/master/File/Picture/PostProcess.png)
+	
+	![后处理效果图](https://raw.githubusercontent.com/HushengStudent/myShaderLibrary/master/File/Picture/PostProcess.png)
 	
 #### 模型：
     (1)
