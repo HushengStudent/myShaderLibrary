@@ -122,4 +122,9 @@ public abstract class AbsShaderGUI : ShaderGUI
         var property = FindProperty(propertyName, _properties);
         _matEditor.ShaderProperty(property, property.displayName);
     }
+
+    protected MaterialProperty FindProperty(string propertyName)
+    {
+        return FindProperty(propertyName, _properties);
+    }
 }

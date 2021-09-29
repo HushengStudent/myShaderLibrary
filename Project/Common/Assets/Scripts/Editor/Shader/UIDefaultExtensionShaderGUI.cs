@@ -1,4 +1,8 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using UnityEditor;
+using UnityEngine;
+using UnityEngine.Rendering;
 
 public class UIDefaultExtensionShaderGUI : AbsShaderGUI
 {
@@ -77,6 +81,9 @@ public class UIDefaultExtensionShaderGUI : AbsShaderGUI
         ShaderProperty("_StencilOp");
         ShaderProperty("_StencilWriteMask");
         ShaderProperty("_StencilReadMask");
+
+        OnBlendModeGUI();
+
         ShaderProperty("_ColorMask");
         //ShaderProperty("_UseUIAlphaClip");
         ShaderFeature("UI_CLIP_RECT_ON", "UI_CLIP_RECT_ON", "支持RectMask2D");
@@ -106,5 +113,40 @@ public class UIDefaultExtensionShaderGUI : AbsShaderGUI
         ShaderFeature("SHAKE_ON", "SHAKE_ON(摇晃)", "摇晃", _keysDict["SHAKE_ON"]);
 
         ShaderFeature("DISTORT_ON", "DISTORT_ON(变形)", "变形", _keysDict["DISTORT_ON"]);
+    }
+
+    private void OnBlendModeGUI()
+    {
+        var blendModeNames = Enum.GetNames(typeof(BlendMode));
+
+        EditorGUILayout.BeginHorizontal();
+        EditorGUILayout.BeginVertical();
+
+        GUILayout.Label("SrcBlend:");
+        var srcBlendProperty = FindProperty("_SrcBlend");
+        var srcBlendValue = (BlendMode)srcBlendProperty.floatValue;
+        var tempSrcBlendValue = (BlendMode)EditorGUILayout.Popup((int)srcBlendValue, blendModeNames);
+        if (srcBlendValue != tempSrcBlendValue)
+        {
+            srcBlendProperty.floatValue = (float)tempSrcBlendValue;
+            EditorUtility.SetDirty(_targetMat);
+        }
+
+        EditorGUILayout.EndVertical();
+
+        EditorGUILayout.BeginVertical();
+
+        GUILayout.Label("DstBlend:");
+        var dstBlendProperty = FindProperty("_DstBlend");
+        var dstBlendValue = (BlendMode)dstBlendProperty.floatValue;
+        var tempDstBlendValue = (BlendMode)EditorGUILayout.Popup((int)dstBlendValue, blendModeNames);
+        if (dstBlendValue != tempDstBlendValue)
+        {
+            dstBlendProperty.floatValue = (float)tempDstBlendValue;
+            EditorUtility.SetDirty(_targetMat);
+        }
+
+        EditorGUILayout.EndVertical();
+        EditorGUILayout.EndHorizontal();
     }
 }

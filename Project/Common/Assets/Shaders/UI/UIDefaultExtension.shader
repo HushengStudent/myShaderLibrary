@@ -13,6 +13,9 @@ Shader "myShaderLibrary/UI/UIDefaultExtension"
         _StencilWriteMask ("Stencil Write Mask", Float) = 255
         _StencilReadMask ("Stencil Read Mask", Float) = 255
 
+        [HideInInspector] _SrcBlend("__src", Float) = 5.0
+		[HideInInspector] _DstBlend("__dst", Float) = 10.0
+
         _ColorMask ("Color Mask", Float) = 15
 
         //[Toggle(UNITY_UI_ALPHACLIP)] _UseUIAlphaClip ("Use Alpha Clip", Float) = 0
@@ -81,7 +84,8 @@ Shader "myShaderLibrary/UI/UIDefaultExtension"
         Lighting Off
         ZWrite Off
         ZTest [unity_GUIZTestMode]
-        Blend SrcAlpha OneMinusSrcAlpha
+        //Blend SrcAlpha OneMinusSrcAlpha
+        Blend[_SrcBlend][_DstBlend]
         ColorMask [_ColorMask]
 
         Pass
