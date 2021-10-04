@@ -2,6 +2,7 @@
 {
 	Properties
 	{
+        _EdgeWidth("Edge Width", Range(0.05,20)) = 1
 		_EdgeOnly ("Edge Only", Range(0,1)) = 0
 		_EdgeColor ("Edge Color", Color) = (0, 0, 0, 1)
 		_BackgroundColor ("Background Color", Color) = (1, 1, 1, 1)
@@ -13,6 +14,7 @@
 			
 		sampler2D _MainTex;  
 		uniform half4 _MainTex_TexelSize;
+		fixed _EdgeWidth;
 		fixed _EdgeOnly;
 		fixed4 _EdgeColor;
 		fixed4 _BackgroundColor;
@@ -57,11 +59,11 @@
 		half Sobel(v2f i)
 		{
 			const half Gx[9] = {-1,  0,  1,
-									-2,  0,  2,
-									-1,  0,  1};
+                                -2,  0,  2,
+                                -1,  0,  1};
 			const half Gy[9] = {-1, -2, -1,
-									0,  0,  0,
-									1,  2,  1};		
+                                0,  0,  0,
+		                        1,  2,  1};		
 			half texColor;
 			half edgeX = 0;
 			half edgeY = 0;
@@ -71,7 +73,7 @@
 				edgeX += texColor * Gx[it];
 				edgeY += texColor * Gy[it];
 			}
-			half edge = 1 - abs(edgeX) - abs(edgeY);
+			half edge = 1 - (abs(edgeX) + abs(edgeY)) * _EdgeWidth;
 			return edge;
 		}
 			
