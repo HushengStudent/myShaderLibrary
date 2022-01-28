@@ -1,136 +1,46 @@
 
-=== Tue Nov 19 23:00:03 2019
+=== Fri Jan 28 23:30:36 2022
 
 Packages were changed.
-Update Mode: updateDependencies
-
-The following packages were updated:
-  com.unity.package-manager-ui from version 2.0.7 to 2.0.8
-
-=== Sat Mar 14 21:59:56 2020
-
-Packages were changed.
-Update Mode: updateDependencies
-
-The following packages were updated:
-  com.unity.analytics from version 3.2.2 to 3.2.3
-
-=== Wed May 27 23:31:30 2020
-
-Packages were changed.
-Update Mode: updateDependencies
+Update Mode: mergeDefaultDependencies
 
 The following packages were added:
-  com.unity.2d.sprite@1.0.0
-  com.unity.2d.tilemap@1.0.0
-  com.unity.ide.rider@1.1.4
-  com.unity.ide.vscode@1.2.0
-  com.unity.modules.androidjni@1.0.0
-  com.unity.multiplayer-hlapi@1.0.4
-  com.unity.test-framework@1.1.14
-  com.unity.timeline@1.2.6
-  com.unity.ugui@1.0.0
-  com.unity.xr.legacyinputhelpers@2.1.3
-The following packages were updated:
-  com.unity.ads from version 2.0.8 to 3.4.5
-  com.unity.analytics from version 3.2.3 to 3.3.5
-  com.unity.collab-proxy from version 1.2.15 to 1.2.16
-  com.unity.purchasing from version 2.0.3 to 2.0.6
-  com.unity.textmeshpro from version 1.4.1 to 2.0.1
-The following packages were removed:
-  com.unity.package-manager-ui@2.0.8
-
-=== Sat May 30 15:12:02 2020
-
-Packages were changed.
-Update Mode: updateDependencies
-
-The following packages were added:
-  com.unity.2d.sprite@1.0.0
-  com.unity.2d.tilemap@1.0.0
-  com.unity.ide.rider@1.1.4
-  com.unity.ide.vscode@1.2.0
-  com.unity.modules.androidjni@1.0.0
-  com.unity.multiplayer-hlapi@1.0.4
-  com.unity.test-framework@1.1.14
-  com.unity.timeline@1.2.6
-  com.unity.ugui@1.0.0
-  com.unity.xr.legacyinputhelpers@2.1.3
-The following packages were updated:
-  com.unity.ads from version 2.0.8 to 3.4.5
-  com.unity.analytics from version 3.2.3 to 3.3.5
-  com.unity.collab-proxy from version 1.2.15 to 1.2.16
-  com.unity.purchasing from version 2.0.3 to 2.0.6
-  com.unity.textmeshpro from version 1.4.1 to 2.0.1
-The following packages were removed:
-  com.unity.package-manager-ui@2.0.8
-
-=== Sun Jul 26 18:56:16 2020
-
-Packages were changed.
-Update Mode: updateDependencies
-
-The following packages were updated:
-  com.unity.xr.legacyinputhelpers from version 2.1.3 to 2.1.4
-
-=== Sat Sep 26 21:02:43 2020
-
-Packages were changed.
-Update Mode: updateDependencies
-
-The following packages were updated:
-  com.unity.2d.psdimporter from version 2.1.4 to 2.1.5
-  com.unity.addressables from version 1.8.4 to 1.8.5
-  com.unity.ads from version 3.4.5 to 3.4.9
-  com.unity.ide.vscode from version 1.2.0 to 1.2.1
-  com.unity.multiplayer-hlapi from version 1.0.4 to 1.0.6
-  com.unity.purchasing from version 2.0.6 to 2.1.0
-  com.unity.test-framework from version 1.1.14 to 1.1.16
-
-=== Sun Nov  8 13:17:36 2020
-
-Packages were changed.
-Update Mode: updateDependencies
-
-The following packages were updated:
-  com.unity.2d.psdimporter from version 2.1.5 to 2.1.6
-  com.unity.ads from version 3.4.9 to 3.5.0
-  com.unity.ide.vscode from version 1.2.1 to 1.2.2
-  com.unity.mobile.android-logcat from version 1.1.1 to 1.2.0
-  com.unity.purchasing from version 2.1.0 to 2.1.1
-  com.unity.test-framework from version 1.1.16 to 1.1.18
-
-=== Sun May 16 00:05:34 2021
-
-Packages were changed.
-Update Mode: updateDependencies
-
-The following packages were updated:
-  com.unity.addressables from version 1.8.5 to 1.16.16
-  com.unity.ads from version 3.5.0 to 3.7.1
-  com.unity.ide.rider from version 1.1.4 to 1.2.1
-  com.unity.ide.vscode from version 1.2.2 to 1.2.3
-  com.unity.mobile.android-logcat from version 1.2.0 to 1.2.1
-  com.unity.multiplayer-hlapi from version 1.0.6 to 1.0.8
-  com.unity.purchasing from version 2.1.1 to 3.0.2
-  com.unity.test-framework from version 1.1.18 to 1.1.24
-  com.unity.textmeshpro from version 2.0.1 to 2.1.4
-  com.unity.timeline from version 1.2.6 to 1.2.18
-  com.unity.xr.legacyinputhelpers from version 2.1.4 to 2.1.7
-
-=== Fri Jan 28 23:01:17 2022
-
-Packages were changed.
-Update Mode: updateDependencies
-
-The following packages were added:
+  com.unity.collab-proxy@1.3.9
+  com.unity.ide.rider@2.0.7
   com.unity.ide.visualstudio@2.0.7
-The following packages were updated:
-  com.unity.2d.psdimporter from version 2.1.6 to 4.0.2
-  com.unity.analytics from version 3.3.5 to 3.5.3
-  com.unity.collab-proxy from version 1.2.16 to 1.3.9
-  com.unity.ide.rider from version 1.2.1 to 2.0.7
-  com.unity.render-pipelines.core from version 7.3.1 to 10.3.1
-  com.unity.render-pipelines.universal from version 7.3.1 to 10.3.1
-  com.unity.textmeshpro from version 2.1.4 to 3.0.1
-  com.unity.timeline from version 1.2.18 to 1.4.6
+  com.unity.ide.vscode@1.2.3
+  com.unity.modules.ai@1.0.0
+  com.unity.modules.androidjni@1.0.0
+  com.unity.modules.animation@1.0.0
+  com.unity.modules.assetbundle@1.0.0
+  com.unity.modules.audio@1.0.0
+  com.unity.modules.cloth@1.0.0
+  com.unity.modules.director@1.0.0
+  com.unity.modules.imageconversion@1.0.0
+  com.unity.modules.imgui@1.0.0
+  com.unity.modules.jsonserialize@1.0.0
+  com.unity.modules.particlesystem@1.0.0
+  com.unity.modules.physics@1.0.0
+  com.unity.modules.physics2d@1.0.0
+  com.unity.modules.screencapture@1.0.0
+  com.unity.modules.terrain@1.0.0
+  com.unity.modules.terrainphysics@1.0.0
+  com.unity.modules.tilemap@1.0.0
+  com.unity.modules.ui@1.0.0
+  com.unity.modules.uielements@1.0.0
+  com.unity.modules.umbra@1.0.0
+  com.unity.modules.unityanalytics@1.0.0
+  com.unity.modules.unitywebrequest@1.0.0
+  com.unity.modules.unitywebrequestassetbundle@1.0.0
+  com.unity.modules.unitywebrequestaudio@1.0.0
+  com.unity.modules.unitywebrequesttexture@1.0.0
+  com.unity.modules.unitywebrequestwww@1.0.0
+  com.unity.modules.vehicles@1.0.0
+  com.unity.modules.video@1.0.0
+  com.unity.modules.vr@1.0.0
+  com.unity.modules.wind@1.0.0
+  com.unity.modules.xr@1.0.0
+  com.unity.test-framework@1.1.22
+  com.unity.textmeshpro@3.0.1
+  com.unity.timeline@1.4.6
+  com.unity.ugui@1.0.0

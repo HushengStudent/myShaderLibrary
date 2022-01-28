@@ -26,3 +26,5 @@ obj
 /Project/HDRP/HDRP.sln
 /Project/URP/URP.sln
 /Project/Common/Common.sln
+/Project/URP/.vsconfig
+/Project/Common/.vsconfig

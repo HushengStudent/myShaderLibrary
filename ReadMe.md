@@ -1,7 +1,7 @@
 ### myShaderLibrary
-#### My Unity Shader Library.
+#### 着色器
 
-software：Unity2019.4.26/Visual Studio 2017.
+software：2020.2.7f1/Visual Studio 2017.
 
 #### 基础：
     >> 顶点与片段着色器.
