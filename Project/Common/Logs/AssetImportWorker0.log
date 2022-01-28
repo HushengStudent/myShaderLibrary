@@ -135,3 +135,126 @@ Received Import Request.
 Start importing Assets/ArtRes/Scene/RPGPP_LT/Scene/rpgpp_lt_scene_1.0.unity using Guid(d2809ab9b90eea7419d8d90d4c505d35) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '41544675f1d97a3e191b1f5c1e2c1b68') in 0.020907 seconds
   Import took 0.029536 seconds .
 
+========================================================================
+Received Import Request.
+  Time since last request: 203.613900 seconds.
+  path: Assets/Scenes/Demo/Common/02Vertex&FragmentShader.unity
+  artifactKey: Guid(933020fbe22c2904faf4156c0de0322c) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Scenes/Demo/Common/02Vertex&FragmentShader.unity using Guid(933020fbe22c2904faf4156c0de0322c) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: 'de5e0918bbf790bbcb93f52d257a57e3') in 0.004552 seconds
+  Import took 0.013103 seconds .
+
+========================================================================
+Received Import Request.
+  Time since last request: 0.000608 seconds.
+  path: Assets/Scenes/Demo/Common/02Vertex&FragmentShader.unity
+  artifactKey: Guid(933020fbe22c2904faf4156c0de0322c) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Scenes/Demo/Common/02Vertex&FragmentShader.unity using Guid(933020fbe22c2904faf4156c0de0322c) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: 'de5e0918bbf790bbcb93f52d257a57e3') in 0.002923 seconds
+  Import took 0.011343 seconds .
+
+========================================================================
+Received Import Request.
+  Time since last request: 0.978216 seconds.
+  path: Assets/Scenes/Demo/Common/06SpecularVertex.unity
+  artifactKey: Guid(50f860c67cfbd7d4fa3288bcb0418f8f) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Scenes/Demo/Common/06SpecularVertex.unity using Guid(50f860c67cfbd7d4fa3288bcb0418f8f) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '3a58bb13d04c98dfd1a733b5f19376af') in 0.007145 seconds
+  Import took 0.019293 seconds .
+
+========================================================================
+Received Import Request.
+  Time since last request: 0.664703 seconds.
+  path: Assets/Scenes/Demo/Common/11AlphaBlend.unity
+  artifactKey: Guid(0bb6c53a8a63b874dbe010c31c3e969c) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Scenes/Demo/Common/11AlphaBlend.unity using Guid(0bb6c53a8a63b874dbe010c31c3e969c) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '6b1ce3bf38cd58131ea150eeca81faa3') in 0.004018 seconds
+  Import took 0.014267 seconds .
+
+========================================================================
+Received Import Request.
+  Time since last request: 618.160109 seconds.
+  path: Assets/ArtRes/Scene/RPGPP_LT/Scene/New Lighting Settings.lighting
+  artifactKey: Guid(f3a813f2b8d16814fbb9eac67bf10faf) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/ArtRes/Scene/RPGPP_LT/Scene/New Lighting Settings.lighting using Guid(f3a813f2b8d16814fbb9eac67bf10faf) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: 'af4bd079af56615a03579e033f3acc8c') in 0.059846 seconds
+  Import took 0.067062 seconds .
+
+========================================================================
+Received Import Request.
+  Time since last request: 79.384631 seconds.
+  path: Assets/ArtRes/Scene/RPGPP_LT/Scene/rpgpp_lt_scene_1.0.unity
+  artifactKey: Guid(d2809ab9b90eea7419d8d90d4c505d35) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/ArtRes/Scene/RPGPP_LT/Scene/rpgpp_lt_scene_1.0.unity using Guid(d2809ab9b90eea7419d8d90d4c505d35) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '79aaa178228df7ccd45424665af3dbc2') in 0.003263 seconds
+  Import took 0.010266 seconds .
+
+========================================================================
+Received Prepare
+Registering precompiled user dll's ...
+Registered in 0.013325 seconds.
+Begin MonoManager ReloadAssembly
+Symbol file LoadedFromMemory doesn't match image C:\Users\husheng\Desktop\myProject\4GameFramework\myShaderLibrary\Project\Common\Assets\Plugins\LogHelper.dll
+Native extension for WindowsStandalone target not found
+Refreshing native plugins compatible for Editor in 1.13 ms, found 1 plugins.
+Preloading 0 native plugins for Editor in 0.00 ms.
+Invoked RoslynAnalysisRunner static constructor.
+RoslynAnalysisRunner will not be running.
+RoslynAnalysisRunner has terminated.
+Mono: successfully reloaded assembly
+- Completed reload, in  1.307 seconds
+Platform modules already initialized, skipping
+Shader 'Universal Render Pipeline/Particles/Lit': fallback shader 'Universal Render Pipeline/Particles/SimpleLit' not found
+Refreshing native plugins compatible for Editor in 1.05 ms, found 1 plugins.
+Preloading 0 native plugins for Editor in 0.00 ms.
+Unloading 3979 Unused Serialized files (Serialized files now loaded: 0)
+System memory in use before: 163.9 MB.
+System memory in use after: 164.0 MB.
+
+Unloading 55 unused Assets to reduce memory usage. Loaded Objects now: 4519.
+Total: 6.054344 ms (FindLiveObjects: 0.505544 ms CreateObjectMapping: 0.290303 ms MarkObjects: 5.115751 ms  DeleteObjects: 0.141142 ms)
+
+========================================================================
+Received Import Request.
+  Time since last request: 89.832502 seconds.
+  path: Assets/ArtRes/Scene/RPGPP_LT/Scene/rpgpp_lt_scene_1.0Settings.lighting
+  artifactKey: Guid(fcc2786ab9e131041a85ed2c29251169) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/ArtRes/Scene/RPGPP_LT/Scene/rpgpp_lt_scene_1.0Settings.lighting using Guid(fcc2786ab9e131041a85ed2c29251169) Importer(815301076,1909f56bfc062723c751e8b465ee728b) LightingSettings: switching bake backend from 1 to 0.
+ -> (artifact id: '29aa048ac1bd9591d37d60cf36d953c2') in 0.016063 seconds
+  Import took 0.022715 seconds .
+
+========================================================================
+Received Import Request.
+  Time since last request: 0.004251 seconds.
+  path: Assets/ArtRes/Scene/RPGPP_LT/Scene/rpgpp_lt_scene_1.0Settings.lighting
+  artifactKey: Guid(fcc2786ab9e131041a85ed2c29251169) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/ArtRes/Scene/RPGPP_LT/Scene/rpgpp_lt_scene_1.0Settings.lighting using Guid(fcc2786ab9e131041a85ed2c29251169) Importer(815301076,1909f56bfc062723c751e8b465ee728b) LightingSettings: switching bake backend from 1 to 0.
+ -> (artifact id: '29aa048ac1bd9591d37d60cf36d953c2') in 0.004079 seconds
+  Import took 0.011302 seconds .
+
+========================================================================
+Received Import Request.
+  Time since last request: 102.375233 seconds.
+  path: Assets/ArtRes/Scene/RPGPP_LT/Scene/rpgpp_lt_scene_1.0.unity
+  artifactKey: Guid(d2809ab9b90eea7419d8d90d4c505d35) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/ArtRes/Scene/RPGPP_LT/Scene/rpgpp_lt_scene_1.0.unity using Guid(d2809ab9b90eea7419d8d90d4c505d35) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '4d13015ee20dff516b257381e051bfb9') in 0.085362 seconds
+  Import took 1.454159 seconds .
+
+========================================================================
+Received Import Request.
+  Time since last request: 2.314636 seconds.
+  path: Assets/ArtRes/Scene/RPGPP_LT
+  artifactKey: Guid(f98a408d92b182d45b0bd18b78899ebd) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/ArtRes/Scene/RPGPP_LT using Guid(f98a408d92b182d45b0bd18b78899ebd) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: 'f5d28619291d1dfa800ed27cda0c92d9') in 0.002976 seconds
+  Import took 0.320154 seconds .
+
+========================================================================
+Received Import Request.
+  Time since last request: 42.343758 seconds.
+  path: Assets/RPGPP_LT/Scene/rpgpp_lt_scene_1.0.unity
+  artifactKey: Guid(d2809ab9b90eea7419d8d90d4c505d35) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/RPGPP_LT/Scene/rpgpp_lt_scene_1.0.unity using Guid(d2809ab9b90eea7419d8d90d4c505d35) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: 'cbcc769efde2116ba8ef651269459922') in 0.003351 seconds
+  Import took 0.010935 seconds .
+
+========================================================================
+Received Import Request.
+  Time since last request: 0.000348 seconds.
+  path: Assets/RPGPP_LT/Scene/rpgpp_lt_scene_1.0.unity
+  artifactKey: Guid(d2809ab9b90eea7419d8d90d4c505d35) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/RPGPP_LT/Scene/rpgpp_lt_scene_1.0.unity using Guid(d2809ab9b90eea7419d8d90d4c505d35) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: 'cbcc769efde2116ba8ef651269459922') in 0.003619 seconds
+  Import took 0.011571 seconds .
+
