@@ -28,3 +28,5 @@ obj
 /Project/Common/Common.sln
 /Project/URP/.vsconfig
 /Project/Common/.vsconfig
+/Project/Common/Logs
+/Project/URP/Logs
