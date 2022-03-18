@@ -8,6 +8,8 @@
 Shader "Mobile/Bumped Diffuse" {
 Properties {
     _MainTex ("Base (RGB)", 2D) = "white" {}
+
+    //[NoScaleOffset]可以为我们省掉一个变量的分配,如果不需要用到纹理Tiling和Offset,请使用[NoScaleOffset]。
     [NoScaleOffset] _BumpMap ("Normalmap", 2D) = "bump" {}
 }
 
