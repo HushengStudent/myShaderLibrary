@@ -34,9 +34,6 @@ software：2020.2.7f1/Visual Studio 2017.
     >> 摇晃.(Shake)
     >> 变形.(Distort)
 	
-#### 特效：
-    >> 
-	
 #### 后处理：
     >> PostProcessing.
     >> CommandBuffer.
@@ -54,13 +51,13 @@ software：2020.2.7f1/Visual Studio 2017.
     >> 勾边.(EdgeDetection)
     >> 径向模糊.(RadialBlur)
 
-#### 模型：
+#### 角色：
     >> 
 	
 #### 场景：
     >> 
 		
-#### PBR：
+#### 程序化：
     >> 
 	
 #### Reference：
