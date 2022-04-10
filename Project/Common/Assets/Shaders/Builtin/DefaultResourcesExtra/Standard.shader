@@ -9,28 +9,37 @@ Shader "Standard"
 
         _Cutoff("Alpha Cutoff", Range(0.0, 1.0)) = 0.5
 
+        //平滑度;
         _Glossiness("Smoothness", Range(0.0, 1.0)) = 0.5
         _GlossMapScale("Smoothness Scale", Range(0.0, 1.0)) = 1.0
         [Enum(Metallic Alpha,0,Albedo Alpha,1)] _SmoothnessTextureChannel ("Smoothness texture channel", Float) = 0
 
+        //金属;
         [Gamma] _Metallic("Metallic", Range(0.0, 1.0)) = 0.0
         _MetallicGlossMap("Metallic", 2D) = "white" {}
 
+        //镜面高光反射;
         [ToggleOff] _SpecularHighlights("Specular Highlights", Float) = 1.0
+        //光滑反射;
         [ToggleOff] _GlossyReflections("Glossy Reflections", Float) = 1.0
 
+        //法线贴图;
         _BumpScale("Scale", Float) = 1.0
         [Normal] _BumpMap("Normal Map", 2D) = "bump" {}
 
+        //高度图;
         _Parallax ("Height Scale", Range (0.005, 0.08)) = 0.02
         _ParallaxMap ("Height Map", 2D) = "black" {}
 
+        //环境光散射;
         _OcclusionStrength("Strength", Range(0.0, 1.0)) = 1.0
         _OcclusionMap("Occlusion", 2D) = "white" {}
 
+        //自发光;
         _EmissionColor("Color", Color) = (0,0,0)
         _EmissionMap("Emission", 2D) = "white" {}
 
+        //细节遮罩;
         _DetailMask("Detail Mask", 2D) = "white" {}
 
         _DetailAlbedoMap("Detail Albedo x2", 2D) = "grey" {}

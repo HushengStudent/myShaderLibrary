@@ -28,26 +28,33 @@ float4      _MainTex_ST;
 sampler2D   _DetailAlbedoMap;
 float4      _DetailAlbedoMap_ST;
 
+//法线贴图;
 sampler2D   _BumpMap;
 half        _BumpScale;
 
+//细节遮罩;
 sampler2D   _DetailMask;
 sampler2D   _DetailNormalMap;
 half        _DetailNormalMapScale;
 
 sampler2D   _SpecGlossMap;
+//金属;
 sampler2D   _MetallicGlossMap;
 half        _Metallic;
+//平滑度;
 float       _Glossiness;
 float       _GlossMapScale;
 
+//环境光散射;
 sampler2D   _OcclusionMap;
 half        _OcclusionStrength;
 
+//高度图;
 sampler2D   _ParallaxMap;
 half        _Parallax;
 half        _UVSec;
 
+//自发光;
 half4       _EmissionColor;
 sampler2D   _EmissionMap;
 
@@ -195,7 +202,7 @@ half3 Emission(float2 uv)
 #ifndef _EMISSION
     return 0;
 #else
-    return tex2D(_EmissionMap, uv).rgb * _EmissionColor.rgb;
+    return tex2D(_EmissionMap, uv).rgb * _EmissionColor.rgb;//线性叠加;
 #endif
 }
 

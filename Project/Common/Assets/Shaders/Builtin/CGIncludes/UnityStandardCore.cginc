@@ -166,7 +166,7 @@ float3 PerPixelWorldNormal(float4 i_tex, float4 tangentToWorld[3])
 #define FRAGMENT_SETUP_FWDADD(x) FragmentCommonData x = \
     FragmentSetup(i.tex, i.eyeVec.xyz, IN_VIEWDIR4PARALLAX_FWDADD(i), i.tangentToWorldAndLightDir, IN_WORLDPOS_FWDADD(i));
 
-struct FragmentCommonData
+struct FragmentCommonData//片元数据;
 {
     half3 diffColor, specColor;
     // Note: smoothness & oneMinusReflectivity for optimization purposes, mostly for DX9 SM2.0 level.
@@ -190,6 +190,7 @@ struct FragmentCommonData
     #define UNITY_SETUP_BRDF_INPUT SpecularSetup
 #endif
 
+//高光设置;
 inline FragmentCommonData SpecularSetup (float4 i_tex)
 {
     half4 specGloss = SpecularGloss(i_tex.xy);
@@ -207,6 +208,7 @@ inline FragmentCommonData SpecularSetup (float4 i_tex)
     return o;
 }
 
+//粗糙度设置;
 inline FragmentCommonData RoughnessSetup(float4 i_tex)
 {
     half2 metallicGloss = MetallicRough(i_tex.xy);
