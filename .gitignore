@@ -30,3 +30,5 @@ obj
 /Project/Common/.vsconfig
 /Project/Common/Logs
 /Project/URP/Logs
+/Project/URP/*.csproj
+/Project/Common/*.csproj
