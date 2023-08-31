@@ -1,7 +1,7 @@
 ### myShaderLibrary
 #### 着色器
 
-software：2020.2.7f1/Visual Studio 2017.
+software：2020.2.7f1/Visual Studio 2019.
 
 #### 基础：
     >> 顶点与片段着色器.
