@@ -32,3 +32,5 @@ obj
 /Project/URP/Logs
 /Project/URP/*.csproj
 /Project/Common/*.csproj
+/Project/Common/.idea
+/Project/URP/.idea
